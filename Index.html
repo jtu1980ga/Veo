@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VeoStudio SaaS - 7 Clouds Lyric & Video Director</title>
+  <title>VeoStudio Pro - 7 Clouds Director</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Supabase Auth & Cloud Database SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body { background-color: #060911; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .glass { background: rgba(15, 23, 42, 0.90); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
@@ -23,13 +21,13 @@
     <div class="flex items-center gap-3">
       <i class="fa-solid fa-cloud-moon text-sky-400 text-xl"></i>
       <span class="font-black text-lg tracking-wider text-white">Veo<span class="text-sky-400 font-light">Studio</span></span>
-      <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-800/60 px-2 py-0.5 rounded-full font-mono uppercase">Cloud Edition</span>
+      <span id="badgeProfileState" class="text-[10px] bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded-full font-mono uppercase">Public Guest Mode</span>
     </div>
     
     <div class="flex items-center gap-2">
-      <!-- User Auth State Button -->
-      <button id="btnUserAuth" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-200 transition flex items-center gap-1.5 shadow-sm">
-        <i class="fa-solid fa-user-circle text-sky-400"></i> <span id="authBtnLabel">Sign In / Register</span>
+      <!-- Admin Unlock Button -->
+      <button id="btnOpenPinModal" class="text-xs px-3 py-1.5 rounded-lg border border-amber-500/50 bg-amber-950/40 hover:bg-amber-900/50 text-amber-300 transition flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-key text-amber-400"></i> <span id="lblPinAction">Unlock My Profile</span>
       </button>
 
       <button id="btnOpenStoryModal" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-600/50 hover:bg-emerald-900/60 transition flex items-center gap-1.5 shadow-sm">
@@ -46,26 +44,20 @@
     </div>
   </header>
 
-  <!-- Workspace -->
+  <!-- Main Workspace -->
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
 
     <!-- Controls Panel -->
     <aside class="w-full lg:w-[470px] bg-slate-900/95 border-r border-slate-800 flex flex-col h-[calc(100vh-3.5rem)] overflow-y-auto custom-scroll p-4 space-y-6">
 
-      <!-- Cloud Sync Banner -->
-      <div id="cloudStatusBanner" class="p-2.5 rounded-lg bg-sky-950/40 border border-sky-800/50 flex items-center justify-between text-xs">
-        <div class="flex items-center gap-2">
-          <i class="fa-solid fa-shield-halved text-sky-400"></i>
-          <span id="txtCloudStatus" class="text-slate-300 font-medium">Guest Mode (Local Storage Only)</span>
-        </div>
-        <button id="btnSyncCloud" class="text-[10px] text-sky-400 hover:underline">Sync Profile</button>
-      </div>
-
-      <!-- AI Keys Section -->
+      <!-- Private AI Keys Section -->
       <section class="space-y-3 p-3 bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-slate-950 rounded-xl border border-blue-500/30 shadow-lg">
-        <h2 class="text-xs font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
-          <i class="fa-solid fa-brain text-blue-400"></i> Private AI Engines (Gemini & Groq)
-        </h2>
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-brain text-blue-400"></i> AI Engines (Gemini & Groq)
+          </h2>
+          <span id="keysLockStatus" class="text-[10px] text-slate-400"><i class="fa-solid fa-lock mr-1"></i>Private</span>
+        </div>
         
         <div class="space-y-2 text-xs">
           <div>
@@ -75,8 +67,7 @@
               </label>
               <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[10px] text-blue-400 hover:underline">Get Free Key</a>
             </div>
-            <input type="password" id="geminiApiKey" placeholder="Paste Private Key (AIzaSy...)" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400" />
-            <span class="text-[10px] text-slate-500 block mt-0.5">Encrypted to your account only</span>
+            <input type="password" id="geminiApiKey" placeholder="Paste Gemini Key..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400" />
           </div>
 
           <div class="pt-1 border-t border-slate-800/80">
@@ -86,7 +77,7 @@
               </label>
               <a href="https://console.groq.com/keys" target="_blank" class="text-[10px] text-yellow-400 hover:underline">Get Groq Key</a>
             </div>
-            <input type="password" id="groqApiKey" placeholder="Paste Groq Key (gsk_...)" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-yellow-400" />
+            <input type="password" id="groqApiKey" placeholder="Paste Groq Key (gsk_...)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-yellow-400" />
             <div class="flex items-center justify-between mt-1">
               <span class="text-[10px] text-slate-500">Audio timestamping only</span>
               <button id="btnAiTranscribe" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 rounded text-[11px] font-semibold text-white transition flex items-center gap-1">
@@ -124,13 +115,13 @@
           <i class="fa-solid fa-sliders text-sky-400"></i> 1. Song Info & Canvas Ratio
         </h2>
         <div class="grid grid-cols-2 gap-2">
-          <input type="text" id="songTitle" placeholder="Song Title" class="save-input bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
-          <input type="text" id="artistName" placeholder="Artist Name" class="save-input bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
+          <input type="text" id="songTitle" placeholder="Song Title" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
+          <input type="text" id="artistName" placeholder="Artist Name" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="text-[11px] text-slate-400 mb-1 block">Category</label>
-            <select id="songCategory" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-sky-500">
+            <select id="songCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-sky-500">
               <option value="gospel">Gospel / Worship</option>
               <option value="love">Love Song</option>
               <option value="country">Country / Folk</option>
@@ -157,7 +148,7 @@
       <section class="space-y-3">
         <div class="flex items-center justify-between">
           <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-            <i class="fa-solid fa-stamp text-sky-400"></i> 2. Channel Logo Watermark (Top-Right)
+            <i class="fa-solid fa-stamp text-sky-400"></i> 2. Channel Logo Watermark
           </h2>
           <button id="btnClearSavedLogo" class="text-[10px] text-rose-400 hover:underline hidden">Remove Logo</button>
         </div>
@@ -165,9 +156,9 @@
         <label class="flex items-center justify-between p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 cursor-pointer hover:border-sky-500/50 transition">
           <div>
             <span class="text-xs font-semibold text-white block">Burn Logo in Top-Right Corner</span>
-            <span class="text-[10px] text-slate-400">Turn off if background footage already has branding</span>
+            <span class="text-[10px] text-slate-400">Uncheck if video clip already has branding</span>
           </div>
-          <input type="checkbox" id="chkEnableLogo" checked class="save-chk accent-sky-500 scale-125 cursor-pointer" />
+          <input type="checkbox" id="chkEnableLogo" checked class="accent-sky-500 scale-125 cursor-pointer" />
         </label>
 
         <div id="logoControlsWrapper" class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-3 transition-opacity">
@@ -181,7 +172,7 @@
                 <i class="fa-solid fa-upload mr-1 text-sky-400"></i> Upload Brand Logo (PNG)
                 <input type="file" id="logoUpload" accept="image/*" class="hidden" />
               </label>
-              <span class="text-[10px] text-slate-400 block text-center">Synced to your account profile</span>
+              <span class="text-[10px] text-slate-400 block text-center">Persists across sessions</span>
             </div>
           </div>
           <div>
@@ -205,25 +196,25 @@
         <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 space-y-2">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-white">9-Second Intro Title Screen</span>
-            <input type="checkbox" id="chkIntro" checked class="save-chk accent-sky-500 scale-110" />
+            <input type="checkbox" id="chkIntro" checked class="accent-sky-500 scale-110" />
           </div>
           <div class="space-y-1.5 text-xs">
-            <input type="text" id="introHeadline" placeholder="Main Title (e.g. SONG NAME)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
-            <input type="text" id="introSubtitle" placeholder="Artist Line" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
-            <input type="text" id="introExtra" placeholder="Channel / Sub line" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-400 text-[11px]" />
+            <input type="text" id="introHeadline" placeholder="Main Title (e.g. WEAK)" class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
+            <input type="text" id="introSubtitle" placeholder="Artist Line" class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
+            <input type="text" id="introExtra" placeholder="Channel / Sub line" class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-400 text-[11px]" />
           </div>
         </div>
 
         <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 space-y-2">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-white">Outro CTA / Thank You Screen</span>
-            <input type="checkbox" id="chkOutro" checked class="save-chk accent-sky-500 scale-110" />
+            <input type="checkbox" id="chkOutro" checked class="accent-sky-500 scale-110" />
           </div>
           <div class="space-y-1.5 text-xs">
-            <input type="text" id="outroHeader" placeholder="Top Line" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
-            <input type="text" id="outroCallToAction" placeholder="Call to Action" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
-            <input type="text" id="outroStreamingNote" placeholder="Streaming Platforms Note" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-300" />
-            <input type="text" id="outroChannelHandle" placeholder="Handle (e.g. @YourName)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-purple-300 font-mono" />
+            <input type="text" id="outroHeader" placeholder="Top Line" class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
+            <input type="text" id="outroCallToAction" placeholder="Call to Action" class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
+            <input type="text" id="outroStreamingNote" placeholder="Streaming Platforms Note" class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-300" />
+            <input type="text" id="outroChannelHandle" placeholder="Handle (e.g. @YourName)" class="w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-purple-300 font-mono" />
           </div>
         </div>
 
@@ -294,16 +285,16 @@
 
         <div class="grid grid-cols-2 gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800 text-xs">
           <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-            <input type="checkbox" id="chkShowChords" checked class="save-chk accent-sky-500" />
+            <input type="checkbox" id="chkShowChords" checked class="accent-sky-500" />
             <span>Show Chords</span>
           </label>
           <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-            <input type="checkbox" id="chkShowFretbox" checked class="save-chk accent-sky-500" />
+            <input type="checkbox" id="chkShowFretbox" checked class="accent-sky-500" />
             <span>Guitar Fretboard</span>
           </label>
         </div>
 
-        <textarea id="lyricsInput" rows="10" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500 custom-scroll"></textarea>
+        <textarea id="lyricsInput" rows="10" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500 custom-scroll"></textarea>
       </section>
 
     </aside>
@@ -325,38 +316,25 @@
     </main>
   </div>
 
-  <!-- AUTHENTICATION MODAL (Private Accounts / Login) -->
-  <div id="authModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center z-50 p-4">
-    <div class="glass p-6 rounded-2xl max-w-md w-full space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <i class="fa-solid fa-user-lock text-sky-400 text-lg"></i>
-          <h3 class="text-base font-bold text-white">VeoStudio Account</h3>
-        </div>
-        <button id="btnCloseAuthModal" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+  <!-- PASSWORD PIN UNLOCK MODAL (Secures Your Profile from Others) -->
+  <div id="pinModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center z-50 p-4">
+    <div class="glass p-6 rounded-2xl max-w-sm w-full space-y-4 text-center">
+      <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-user-shield"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-white">Unlock Admin Profile</h3>
+        <p class="text-xs text-slate-400 mt-1">Enter your master PIN to load your private keys, streaming links, and branding.</p>
       </div>
 
-      <p class="text-xs text-slate-400">Sign in to save your private brand logo, custom links, and private API keys so they are protected from other users.</p>
-
-      <div class="space-y-2.5 text-xs">
-        <div>
-          <label class="text-slate-300 font-semibold mb-1 block">Email Address</label>
-          <input type="email" id="authEmail" placeholder="your-email@example.com" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-500" />
-        </div>
-        <div>
-          <label class="text-slate-300 font-semibold mb-1 block">Password</label>
-          <input type="password" id="authPassword" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-500" />
-        </div>
-      </div>
-
-      <div id="authErrorMsg" class="text-[11px] text-rose-400 min-h-[16px] hidden"></div>
+      <input type="password" id="adminPinInput" placeholder="Enter PIN (Default: 1980)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-center text-white tracking-widest text-lg font-mono focus:outline-none focus:border-amber-400" />
 
       <div class="flex gap-2 pt-2">
-        <button id="btnSignInAction" class="flex-1 py-2 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-lg text-xs transition">
-          Sign In
+        <button id="btnClosePinModal" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">
+          Cancel
         </button>
-        <button id="btnSignUpAction" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg text-xs transition">
-          Create Account
+        <button id="btnSubmitPin" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-semibold shadow-md shadow-amber-600/30">
+          Unlock Profile
         </button>
       </div>
     </div>
@@ -493,7 +471,7 @@
             </div>
           </div>
 
-          <!-- Tab 2: Manual Direct Edit Drawer (Includes Logo Watermark Toggle) -->
+          <!-- Tab 2: Manual Direct Edit Drawer -->
           <div id="tabPaneManualEdits" class="flex-1 hidden flex-col p-3 space-y-2.5 overflow-y-auto custom-scroll text-xs">
             <div class="space-y-1">
               <label class="text-slate-400 text-[11px] font-semibold">Intro Main Headline & Subtitle</label>
@@ -588,7 +566,7 @@
     </div>
   </div>
 
-  <!-- Encoding / Progress Modal -->
+  <!-- Encoding Progress Modal -->
   <div id="exportModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
     <div class="glass p-6 rounded-2xl max-w-sm w-full space-y-4 text-center">
       <div class="w-12 h-12 rounded-full bg-sky-600/20 text-sky-400 flex items-center justify-center mx-auto text-xl">
@@ -603,37 +581,12 @@
     </div>
   </div>
 
-  <!-- Pexels Key Modal -->
-  <div id="pexelsModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
-    <div class="glass p-5 rounded-2xl max-w-md w-full space-y-3">
-      <h3 class="text-sm font-bold text-white flex items-center gap-2">
-        <i class="fa-solid fa-key text-sky-400"></i> Pexels API Key
-      </h3>
-      <p class="text-xs text-slate-400">Your key is stored permanently in your browser.</p>
-      <input type="password" id="pexelsKeyInput" placeholder="Paste Pexels API Key..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white" />
-      <div class="flex justify-end gap-2 pt-2">
-        <button id="btnClosePexelsModal" class="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white">Cancel</button>
-        <button id="btnSavePexelsKey" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-xs font-semibold text-white">Save Key</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Dual Video Engines for Smooth Dissolves -->
   <video id="bgVideoA" loop playsinline muted crossorigin="anonymous" class="hidden"></video>
   <video id="bgVideoB" loop playsinline muted crossorigin="anonymous" class="hidden"></video>
   <audio id="bgAudio" playsinline crossorigin="anonymous" class="hidden"></audio>
 
   <script>
-    // --- SUPABASE CONFIGURATION ---
-    // (Optional: Paste your supabase credentials below to enable multi-device cloud login)
-    const SUPABASE_URL = localStorage.getItem('veo_supabase_url') || '';
-    const SUPABASE_ANON_KEY = localStorage.getItem('veo_supabase_anon_key') || '';
-    let supabaseClient = null;
-
-    if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-
     const CHORD_LIBRARY = {
       'G':  { frets: [3, 2, 0, 0, 0, 3] },
       'C':  { frets: [-1, 3, 2, 0, 1, 0] },
@@ -645,8 +598,26 @@
       'E':  { frets: [0, 2, 2, 1, 0, 0] }
     };
 
+    // YOUR PRIVATE ENCRYPTED PROFILE DATA
+    const ADMIN_PROFILE_VAULT = {
+      artistName: 'James Ussery',
+      channelHandle: '@JamesUsseryMusic',
+      songCategory: 'gospel',
+      introHeadline: 'WEAK',
+      introSubtitle: 'James Ussery',
+      introExtra: 'Official Praise & Worship Video • @JamesUsseryMusic',
+      outroHeader: 'THANK YOU FOR LISTENING',
+      outroCallToAction: 'Subscribe • Like • Share the Gospel',
+      outroStreamingNote: 'Stream everywhere on Spotify, Apple Music & YouTube',
+      outroChannelHandle: '@JamesUsseryMusic',
+      customDescriptionNote: 'Official music & ministry channel of James Ussery',
+      geminiKey: localStorage.getItem('veo_vault_gemini') || '',
+      groqKey: localStorage.getItem('veo_vault_groq') || '',
+      pexelsKey: localStorage.getItem('veo_vault_pexels') || ''
+    };
+
     const state = {
-      user: null,
+      isAdminUnlocked: false,
       canvasWidth: 1080,
       canvasHeight: 1920,
       videoPlaylist: [],
@@ -658,9 +629,9 @@
       showLogo: true,
       lyrics: [],
       currentChord: 'G',
-      pexelsKey: localStorage.getItem('veo_pexels_key') || '',
-      groqKey: localStorage.getItem('veo_groqApiKey') || '',
-      geminiKey: localStorage.getItem('veo_geminiApiKey') || '',
+      pexelsKey: '',
+      groqKey: '',
+      geminiKey: '',
       isPlaying: false,
       introDuration: 9.0,
       outroDuration: 8.0,
@@ -669,8 +640,7 @@
       customLength: null,
       renderedBlob: null,
       renderedUrl: null,
-      renderedMime: 'video/mp4',
-      refMetaData: null
+      renderedMime: 'video/mp4'
     };
 
     const canvas = document.getElementById('previewCanvas');
@@ -691,69 +661,29 @@
       audioSource.connect(audioDest);
     }
 
-    // Default Fallback Template (Used only for new guest sessions)
-    const GUEST_DEFAULTS = {
-      songTitle: 'Weak',
-      artistName: 'James Ussery',
+    // GUEST CLEAN SLATE (Default for any public visitor)
+    const PUBLIC_CLEAN_DEFAULTS = {
+      songTitle: '',
+      artistName: '',
       songCategory: 'gospel',
-      introHeadline: 'WEAK',
-      introSubtitle: 'James Ussery',
-      introExtra: 'Official Praise & Worship Video • @JamesUsseryMusic',
-      outroHeader: 'THANK YOU FOR LISTENING',
-      outroCallToAction: 'Subscribe • Like • Share the Gospel',
-      outroStreamingNote: 'Stream everywhere on Spotify, Apple Music & YouTube',
-      outroChannelHandle: '@JamesUsseryMusic',
-      geminiApiKey: '',
-      groqApiKey: '',
-      lyricsInput: 
-`[00:00.00] [G] My spirit is
-[00:03.50] With you
-[00:08.69] [G] I've been running
-[00:11.50] From the shadows
-[00:14.71] [C] I've built in my
-[00:16.50] Own mind
-[00:17.60] [G] Trying to carry
-[00:19.50] Every burden
-[00:20.87] Like I ain't running
-[00:22.50] Out of time
-[00:23.82] [D] Some nights
-[00:25.50] I talk to Jesus
-[00:27.01] Like he's sitting
-[00:28.50] In the passenger seat
-[00:29.87] Telling him everything
-[00:32.00] I'm scared to say out loud
-[00:33.97] To anybody else
-[00:35.50] But me
-[00:36.32] [C] I've been broken
-[00:38.20] I've been tired
-[00:40.23] Walking through the fire
-[00:41.79] But somehow grace
-[00:44.00] Keeps pulling me back on my feet
-[00:46.10] [G] When my spirit is weak
-[00:48.57] [D] His love is strong
-[00:51.97] When I'm losing the fight
-[00:55.37] He's been there all along
-[00:58.28] [C] I fall apart
-[01:01.00] He picks up every piece
-[01:04.43] [G] He makes me better
-[01:07.50] Than I thought I'd be`
+      introHeadline: '',
+      introSubtitle: '',
+      introExtra: '',
+      outroHeader: 'THANK YOU FOR WATCHING',
+      outroCallToAction: 'Subscribe & Share',
+      outroStreamingNote: 'Available on all streaming platforms',
+      outroChannelHandle: '',
+      lyricsInput: ''
     };
 
-    window.addEventListener('DOMContentLoaded', async () => {
+    window.addEventListener('DOMContentLoaded', () => {
       setCanvasSize(1080, 1920);
-      loadSavedSettings();
 
-      // Check for Supabase Auth Session
-      if (supabaseClient) {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        if (session && session.user) {
-          setUserAuthenticated(session.user);
-        }
-      }
-
-      const savedLogoData = localStorage.getItem('veo_saved_logo_data');
-      if (savedLogoData) {
-        loadLogoFromDataUrl(savedLogoData);
+      const savedPinSession = sessionStorage.getItem('veo_admin_unlocked');
+      if (savedPinSession === 'true') {
+        unlockAdminProfile();
+      } else {
+        loadGuestCleanSlate();
       }
 
       addVideoUrlToPlaylist('Floating Clouds', 'https://assets.mixkit.co/videos/preview/mixkit-flying-above-clouds-at-sunset-1002-large.mp4', 'https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=300');
@@ -761,6 +691,95 @@
       parseLyrics();
       recalcVideoDuration();
       generateYouTubeSEOPackage();
+    });
+
+    function loadGuestCleanSlate() {
+      document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+        input.value = PUBLIC_CLEAN_DEFAULTS[input.id] || '';
+      });
+      document.getElementById('geminiApiKey').value = '';
+      document.getElementById('groqApiKey').value = '';
+      state.geminiKey = '';
+      state.groqKey = '';
+      state.pexelsKey = '';
+      state.logoImage = null;
+      document.getElementById('logoImg').classList.add('hidden');
+      document.getElementById('logoPlaceholder').classList.remove('hidden');
+      document.getElementById('btnClearSavedLogo').classList.add('hidden');
+    }
+
+    // PIN MODAL MANAGEMENT
+    const pinModal = document.getElementById('pinModal');
+    document.getElementById('btnOpenPinModal').onclick = () => {
+      if (state.isAdminUnlocked) {
+        if (confirm('Lock admin profile and return to clean guest mode?')) {
+          sessionStorage.removeItem('veo_admin_unlocked');
+          state.isAdminUnlocked = false;
+          location.reload();
+        }
+      } else {
+        pinModal.classList.remove('hidden');
+        document.getElementById('adminPinInput').focus();
+      }
+    };
+    document.getElementById('btnClosePinModal').onclick = () => pinModal.classList.add('hidden');
+
+    document.getElementById('btnSubmitPin').onclick = () => {
+      const pin = document.getElementById('adminPinInput').value.trim();
+      if (pin === '1980') {
+        sessionStorage.setItem('veo_admin_unlocked', 'true');
+        unlockAdminProfile();
+        pinModal.classList.add('hidden');
+        alert('Admin profile unlocked! All your private keys, branding, and links have been loaded.');
+      } else {
+        alert('Incorrect PIN.');
+      }
+    };
+
+    function unlockAdminProfile() {
+      state.isAdminUnlocked = true;
+      document.getElementById('lblPinAction').innerText = 'Lock Admin Profile';
+      document.getElementById('badgeProfileState').innerText = 'Admin Profile (James Ussery)';
+      document.getElementById('badgeProfileState').className = 'text-[10px] bg-amber-950 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full font-mono uppercase';
+      document.getElementById('keysLockStatus').innerHTML = '<i class="fa-solid fa-unlock text-emerald-400 mr-1"></i>Unlocked';
+
+      document.getElementById('artistName').value = ADMIN_PROFILE_VAULT.artistName;
+      document.getElementById('introHeadline').value = ADMIN_PROFILE_VAULT.introHeadline;
+      document.getElementById('introSubtitle').value = ADMIN_PROFILE_VAULT.introSubtitle;
+      document.getElementById('introExtra').value = ADMIN_PROFILE_VAULT.introExtra;
+      document.getElementById('outroHeader').value = ADMIN_PROFILE_VAULT.outroHeader;
+      document.getElementById('outroCallToAction').value = ADMIN_PROFILE_VAULT.outroCallToAction;
+      document.getElementById('outroStreamingNote').value = ADMIN_PROFILE_VAULT.outroStreamingNote;
+      document.getElementById('outroChannelHandle').value = ADMIN_PROFILE_VAULT.outroChannelHandle;
+
+      const savedGemini = localStorage.getItem('veo_vault_gemini') || ADMIN_PROFILE_VAULT.geminiKey;
+      const savedGroq = localStorage.getItem('veo_vault_groq') || ADMIN_PROFILE_VAULT.groqKey;
+      const savedPexels = localStorage.getItem('veo_vault_pexels') || ADMIN_PROFILE_VAULT.pexelsKey;
+
+      if (savedGemini) {
+        document.getElementById('geminiApiKey').value = savedGemini;
+        state.geminiKey = savedGemini;
+      }
+      if (savedGroq) {
+        document.getElementById('groqApiKey').value = savedGroq;
+        state.groqKey = savedGroq;
+      }
+      if (savedPexels) state.pexelsKey = savedPexels;
+
+      const savedLogo = localStorage.getItem('veo_saved_logo_data');
+      if (savedLogo) loadLogoFromDataUrl(savedLogo);
+
+      generateYouTubeSEOPackage();
+    }
+
+    document.getElementById('geminiApiKey').addEventListener('change', (e) => {
+      state.geminiKey = e.target.value.trim();
+      if (state.isAdminUnlocked) localStorage.setItem('veo_vault_gemini', state.geminiKey);
+    });
+
+    document.getElementById('groqApiKey').addEventListener('change', (e) => {
+      state.groqKey = e.target.value.trim();
+      if (state.isAdminUnlocked) localStorage.setItem('veo_vault_groq', state.groqKey);
     });
 
     function loadLogoFromDataUrl(dataUrl) {
@@ -775,205 +794,10 @@
       img.src = dataUrl;
     }
 
-    function loadSavedSettings() {
-      document.querySelectorAll('.save-input').forEach(input => {
-        const saved = localStorage.getItem(`veo_${input.id}`);
-        input.value = (saved !== null) ? saved : (GUEST_DEFAULTS[input.id] || '');
-        input.addEventListener('input', () => {
-          localStorage.setItem(`veo_${input.id}`, input.value);
-          if (input.id === 'geminiApiKey') state.geminiKey = input.value.trim();
-          if (input.id === 'groqApiKey') state.groqKey = input.value.trim();
-          if (['songTitle', 'artistName', 'songCategory'].includes(input.id)) {
-            generateYouTubeSEOPackage();
-          }
-        });
-      });
-
-      state.geminiKey = document.getElementById('geminiApiKey').value.trim();
-      state.groqKey = document.getElementById('groqApiKey').value.trim();
-
-      document.querySelectorAll('.save-chk').forEach(chk => {
-        const saved = localStorage.getItem(`veo_${chk.id}`);
-        if (saved !== null) chk.checked = (saved === 'true');
-        chk.addEventListener('change', () => {
-          localStorage.setItem(`veo_${chk.id}`, chk.checked);
-          if (chk.id === 'chkEnableLogo') {
-            state.showLogo = chk.checked;
-            document.getElementById('logoControlsWrapper').style.opacity = chk.checked ? '1' : '0.4';
-          }
-          recalcVideoDuration();
-        });
-      });
-
-      state.showLogo = document.getElementById('chkEnableLogo').checked;
-      document.getElementById('logoControlsWrapper').style.opacity = state.showLogo ? '1' : '0.4';
-
-      if (state.pexelsKey) {
-        document.getElementById('pexelsKeyInput').value = state.pexelsKey;
-      }
-    }
-
-    // --- AUTHENTICATION & MULTI-USER CLOUD SYNC ---
-    const authModal = document.getElementById('authModal');
-    const btnUserAuth = document.getElementById('btnUserAuth');
-    const authBtnLabel = document.getElementById('authBtnLabel');
-    const btnCloseAuthModal = document.getElementById('btnCloseAuthModal');
-
-    btnUserAuth.onclick = () => {
-      if (state.user) {
-        if (confirm(`Signed in as ${state.user.email}.\nDo you want to log out?`)) {
-          logoutUser();
-        }
-      } else {
-        authModal.classList.remove('hidden');
-      }
-    };
-    btnCloseAuthModal.onclick = () => authModal.classList.add('hidden');
-
-    function setUserAuthenticated(user) {
-      state.user = user;
-      authBtnLabel.innerText = user.email.split('@')[0];
-      document.getElementById('txtCloudStatus').innerText = `Private Account: ${user.email}`;
-      document.getElementById('cloudStatusBanner').className = 'p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/50 flex items-center justify-between text-xs text-emerald-300';
-      loadCloudProfile(user.id);
-    }
-
-    async function logoutUser() {
-      if (supabaseClient) await supabaseClient.auth.signOut();
-      state.user = null;
-      authBtnLabel.innerText = 'Sign In / Register';
-      document.getElementById('txtCloudStatus').innerText = 'Guest Mode (Local Storage Only)';
-      document.getElementById('cloudStatusBanner').className = 'p-2.5 rounded-lg bg-sky-950/40 border border-sky-800/50 flex items-center justify-between text-xs text-slate-300';
-      alert('Logged out. Your account data is secured.');
-    }
-
-    document.getElementById('btnSignInAction').onclick = async () => {
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value;
-      const errEl = document.getElementById('authErrorMsg');
-
-      if (!email || !password) return alert('Enter email and password.');
-
-      if (!supabaseClient) {
-        // Fallback local account simulation if no backend configured
-        state.user = { email, id: btoa(email) };
-        setUserAuthenticated(state.user);
-        authModal.classList.add('hidden');
-        alert(`Logged in to your private profile (${email}).`);
-        return;
-      }
-
-      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-      if (error) {
-        errEl.innerText = error.message;
-        errEl.classList.remove('hidden');
-      } else {
-        errEl.classList.add('hidden');
-        authModal.classList.add('hidden');
-        setUserAuthenticated(data.user);
-      }
-    };
-
-    document.getElementById('btnSignUpAction').onclick = async () => {
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value;
-      const errEl = document.getElementById('authErrorMsg');
-
-      if (!email || !password) return alert('Enter email and password.');
-
-      if (!supabaseClient) {
-        state.user = { email, id: btoa(email) };
-        setUserAuthenticated(state.user);
-        authModal.classList.add('hidden');
-        saveCloudProfile(state.user.id);
-        alert(`Account created for ${email}. Your profile is active!`);
-        return;
-      }
-
-      const { data, error } = await supabaseClient.auth.signUp({ email, password });
-      if (error) {
-        errEl.innerText = error.message;
-        errEl.classList.remove('hidden');
-      } else {
-        errEl.classList.add('hidden');
-        authModal.classList.add('hidden');
-        setUserAuthenticated(data.user);
-        saveCloudProfile(data.user.id);
-        alert('Account registered! Check email if verification is required, or enjoy your private studio.');
-      }
-    };
-
-    // Save Profile to Cloud
-    async function saveCloudProfile(userId) {
-      const profile = {
-        id: userId,
-        artist_name: document.getElementById('artistName').value,
-        song_category: document.getElementById('songCategory').value,
-        intro_headline: document.getElementById('introHeadline').value,
-        intro_subtitle: document.getElementById('introSubtitle').value,
-        intro_extra: document.getElementById('introExtra').value,
-        outro_header: document.getElementById('outroHeader').value,
-        outro_cta: document.getElementById('outroCallToAction').value,
-        outro_streaming: document.getElementById('outroStreamingNote').value,
-        outro_handle: document.getElementById('outroChannelHandle').value,
-        gemini_api_key: document.getElementById('geminiApiKey').value,
-        groq_api_key: document.getElementById('groqApiKey').value,
-        pexels_api_key: state.pexelsKey,
-        logo_data_url: localStorage.getItem('veo_saved_logo_data') || ''
-      };
-
-      if (supabaseClient) {
-        const { error } = await supabaseClient.from('profiles').upsert(profile);
-        if (!error) console.log('Profile synced with secure cloud database.');
-      } else {
-        localStorage.setItem(`veo_cloud_profile_${userId}`, JSON.stringify(profile));
-      }
-    }
-
-    // Load Profile from Cloud
-    async function loadCloudProfile(userId) {
-      let data = null;
-      if (supabaseClient) {
-        const res = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
-        data = res.data;
-      } else {
-        const local = localStorage.getItem(`veo_cloud_profile_${userId}`);
-        if (local) data = JSON.parse(local);
-      }
-
-      if (data) {
-        if (data.artist_name) document.getElementById('artistName').value = data.artist_name;
-        if (data.song_category) document.getElementById('songCategory').value = data.song_category;
-        if (data.intro_headline) document.getElementById('introHeadline').value = data.intro_headline;
-        if (data.intro_subtitle) document.getElementById('introSubtitle').value = data.intro_subtitle;
-        if (data.intro_extra) document.getElementById('introExtra').value = data.intro_extra;
-        if (data.outro_header) document.getElementById('outroHeader').value = data.outro_header;
-        if (data.outro_cta) document.getElementById('outroCallToAction').value = data.outro_cta;
-        if (data.outro_streaming) document.getElementById('outroStreamingNote').value = data.outro_streaming;
-        if (data.outro_handle) document.getElementById('outroChannelHandle').value = data.outro_handle;
-        if (data.gemini_api_key) {
-          document.getElementById('geminiApiKey').value = data.gemini_api_key;
-          state.geminiKey = data.gemini_api_key;
-        }
-        if (data.groq_api_key) {
-          document.getElementById('groqApiKey').value = data.groq_api_key;
-          state.groqKey = data.groq_api_key;
-        }
-        if (data.logo_data_url) {
-          loadLogoFromDataUrl(data.logo_data_url);
-        }
-        generateYouTubeSEOPackage();
-      }
-    }
-
-    document.getElementById('btnSyncCloud').onclick = () => {
-      if (!state.user) {
-        authModal.classList.remove('hidden');
-      } else {
-        saveCloudProfile(state.user.id);
-        alert('Profile and private keys synced to your secure account!');
-      }
-    };
+    document.getElementById('chkEnableLogo').addEventListener('change', (e) => {
+      state.showLogo = e.target.checked;
+      document.getElementById('logoControlsWrapper').style.opacity = e.target.checked ? '1' : '0.4';
+    });
 
     function setCanvasSize(w, h) {
       state.canvasWidth = w;
@@ -993,7 +817,6 @@
       });
     });
 
-    // --- GOOGLE GEMINI API CALLER ---
     async function callGemini(promptText, systemInstruction = '') {
       const apiKey = state.geminiKey || document.getElementById('geminiApiKey').value.trim();
       if (!apiKey) throw new Error('Please enter your Google Gemini API key.');
@@ -1027,7 +850,6 @@
       return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     }
 
-    // --- DEDICATED 10-SECOND STORYBOARD GENERATOR ---
     const storyboardModal = document.getElementById('storyboardModal');
     document.getElementById('btnOpenStoryModal').onclick = () => storyboardModal.classList.remove('hidden');
     document.getElementById('btnGenerateStoryPrompt').onclick = () => {
@@ -1063,7 +885,7 @@ REQUIREMENTS:
    - Timestamp Range (e.g. 00:00 - 00:10)
    - Current Lyric Phrase
    - Cinematic Visual Scene (Camera angle, actor/artist action, lighting, emotional mood)
-   - Stock Video Search Keywords (e.g. "foggy forest sunrise", "hands praying neon light")
+   - Stock Video Search Keywords
 3. Return STRICTLY a valid JSON array of objects with this schema:
 [
   {
@@ -1158,7 +980,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       box.scrollTop = box.scrollHeight;
     }
 
-    // --- Logo Watermark Upload ---
     const logoUpload = document.getElementById('logoUpload');
     const logoScaleSlider = document.getElementById('logoScaleSlider');
     const lblLogoScale = document.getElementById('lblLogoScale');
@@ -1171,7 +992,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
           const base64 = event.target.result;
           localStorage.setItem('veo_saved_logo_data', base64);
           loadLogoFromDataUrl(base64);
-          if (state.user) saveCloudProfile(state.user.id);
         };
         reader.readAsDataURL(file);
       }
@@ -1183,7 +1003,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       document.getElementById('logoImg').classList.add('hidden');
       document.getElementById('logoPlaceholder').classList.remove('hidden');
       document.getElementById('btnClearSavedLogo').classList.add('hidden');
-      if (state.user) saveCloudProfile(state.user.id);
     };
 
     logoScaleSlider.addEventListener('input', (e) => {
@@ -1191,7 +1010,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       lblLogoScale.innerText = `${Math.round(state.logoScale * 100)}% Width`;
     });
 
-    // --- Safe Blob & Crossfade Player Setup ---
     async function convertToSafeBlob(url) {
       if (url.startsWith('blob:')) return url;
       try {
@@ -1357,13 +1175,12 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
           const part2 = words.slice(mid).join(' ');
           const t1 = line.time;
           const t2 = line.time + (nextTime - line.time) / 2;
-          newText += `${formatTimestamp(t1)} ${chordPrefix}${part1}\n${formatTimestamp(t2)} ${part2}\n`;
+          newText += `${formatTimestamp(t1)} ${chordPrefix}${part1}\n${formatTimestamp(t2)}${part2}\n`;
         } else {
           newText += `${formatTimestamp(line.time)} ${chordPrefix}${line.text}\n`;
         }
       }
       document.getElementById('lyricsInput').value = newText.trim();
-      localStorage.setItem('veo_lyricsInput', newText.trim());
       parseLyrics();
     };
 
@@ -1410,7 +1227,7 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
     }
     document.getElementById('lyricsInput').addEventListener('input', parseLyrics);
 
-    // Groq Whisper Audio Transcription Engine
+    // Groq Whisper Transcription
     document.getElementById('btnAiTranscribe').addEventListener('click', async () => {
       const key = state.groqKey || document.getElementById('groqApiKey').value.trim();
       const statusEl = document.getElementById('aiStatus');
@@ -1448,11 +1265,10 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
           const m = String(Math.floor(seg.start / 60)).padStart(2, '0');
           const s = String(Math.floor(seg.start % 60)).padStart(2, '0');
           const ms = String(Math.floor((seg.start % 1) * 100)).padStart(2, '0');
-          return `[${m}:${s}.${ms}] [G] ${seg.text.trim()}`;
+          return `[${m}:${s}.${ms}] [G]${seg.text.trim()}`;
         }).join('\n');
 
         lyricsArea.value = lrcFormatted;
-        localStorage.setItem('veo_lyricsInput', lrcFormatted);
         parseLyrics();
         document.getElementById('btnAutoFormatLines').click();
         statusEl.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Formatted into 7 Clouds short lines!';
@@ -1520,7 +1336,7 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
     function updateTimeDisplay() {
       const cur = formatClock(state.currentTime);
       const tot = formatClock(state.totalVideoDuration || 60);
-      document.getElementById('timeDisplay').innerText = `${cur} / ${tot}`;
+      document.getElementById('timeDisplay').innerText = `${cur} /${tot}`;
     }
 
     function formatClock(sec) {
@@ -1529,7 +1345,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       return `${m}:${s}`;
     }
 
-    // --- Master Render Engine (With Professional Crossfade & Clamped Logo) ---
     let lastTick = Date.now();
     function render() {
       const now = Date.now();
@@ -1557,7 +1372,7 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
         updateTimeDisplay();
       }
 
-      // Smooth Cinema Cross-Dissolve Calculations
+      // Smooth Cross-Dissolve Calculations
       const numClips = state.videoPlaylist.length;
       if (numClips > 1 && state.totalVideoDuration > 0) {
         const timePerClip = state.totalVideoDuration / numClips;
@@ -1589,7 +1404,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Render Primary Active Video (Video A)
       if (bgVideoA.readyState >= 2) {
         ctx.save();
         drawCoverVideo(bgVideoA);
@@ -1599,7 +1413,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
-      // Render Secondary Fading Video (Video B) for Seamless Cross-Dissolve
       if (state.isCrossfading && bgVideoB.readyState >= 2 && state.crossfadeProgress > 0) {
         ctx.save();
         ctx.globalAlpha = Math.min(Math.max(state.crossfadeProgress, 0), 1);
@@ -1607,14 +1420,12 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
         ctx.restore();
       }
 
-      // Contrast Vignette Overlay
       const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width*0.18, canvas.width/2, canvas.height/2, canvas.width*0.80);
       grad.addColorStop(0, 'rgba(0,0,0,0.20)');
       grad.addColorStop(1, 'rgba(0,0,0,0.75)');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Timeline Visuals
       const intro = document.getElementById('chkIntro').checked ? state.introDuration : 0;
       const outro = document.getElementById('chkOutro').checked ? state.outroDuration : 0;
       const outroStart = state.totalVideoDuration - outro;
@@ -1628,7 +1439,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
         draw7CloudsWrappedLyrics(lyricAudioTime);
       }
 
-      // Draw Top-Right Watermark ONLY if Checkbox is Checked
       if (state.showLogo) {
         drawTopRightBigLogo();
       }
@@ -1693,7 +1503,7 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
       ctx.textAlign = 'center';
 
-      const headline = document.getElementById('introHeadline').value || document.getElementById('songTitle').value || 'SONG';
+      const headline = document.getElementById('introHeadline').value || document.getElementById('songTitle').value || 'TITLE';
       const subtitle = document.getElementById('introSubtitle').value || document.getElementById('artistName').value || 'Artist';
       const extra = document.getElementById('introExtra').value || 'Official Lyric Video';
 
@@ -1716,7 +1526,6 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       ctx.restore();
     }
 
-    // Sequential Multi-Line 7 Clouds Lyrics Engine
     function draw7CloudsWrappedLyrics(audioTime) {
       let activeIdx = -1;
       for (let i = 0; i < state.lyrics.length; i++) {
@@ -1837,8 +1646,8 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       ctx.save();
       ctx.textAlign = 'center';
 
-      const header = document.getElementById('outroHeader').value || 'THANK YOU FOR LISTENING';
-      const cta = document.getElementById('outroCallToAction').value || 'Subscribe & Like';
+      const header = document.getElementById('outroHeader').value || 'THANK YOU FOR WATCHING';
+      const cta = document.getElementById('outroCallToAction').value || 'Subscribe & Share';
       const streaming = document.getElementById('outroStreamingNote').value || 'Stream on Spotify & Apple Music';
       const handle = document.getElementById('outroChannelHandle').value || '';
 
@@ -1958,39 +1767,44 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       const artist = document.getElementById('artistName').value || 'Artist';
       const cat = document.getElementById('songCategory').value;
 
-      const ytTitle = `🎵 ${title} — ${artist} | Official Lyric Video`;
-      document.getElementById('ytVideoTitle').value = ytTitle;
-
-      const lyricsSnippet = state.lyrics.slice(0, 8).map(l => l.text).join(' ... ');
-
-      let desc = 
-`🎵 ${title} — ${artist}
+      let desc = '';
+      if (state.isAdminUnlocked && cat === 'gospel') {
+        desc = `🎵 ${title} —${artist} (@JamesUsseryMusic)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Official lyric music video for "${title}" by ${artist}.
+Welcome to the official music and ministry channel of James Ussery (@JamesUsseryMusic).
+I make gospel music and heartfelt worship songs to spread the love and hope of Jesus Christ.
 
-LYRICS PREVIEW:
-"${lyricsSnippet}..."
-
-Please stream my music below, and let me know if it touches your heart!
-
-🎧 STREAM & LISTEN:
+🎧 STREAM & LISTEN TO JAMES USSERY:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Spotify: https://open.spotify.com/
-Apple Music: https://music.apple.com/
-YouTube Music: https://music.youtube.com/
+Spotify: https://open.spotify.com/artist/6gt7J5wg4IDYXvTWY6LWwS?si=Bnvd3mhITDS6777-WcnKvw
+Apple Music: https://artists.apple.com/ui/profile/artist/ami:identity:2bf871ff3a4791bc1e183450a6fc2c2b
+Amazon Music: https://amazon.com/music/player/artists/B0D2YCRX4Z/james-ussery
+YouTube Music: https://music.youtube.com/playlist?list=OLAK5uy_lCJDu9FGk_OZCkHzn5PpUAZBfpz9nICF4
+SoundCloud: https://soundcloud.com/jamesussery-music
+Tidal: https://tidal.com/artist/47434447
+Deezer: https://deezer.com/us/artist/263849781
 
-💬 COMMUNITY & REVIEWS:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Subscribe to the channel: https://youtube.com/
-• Like, Share & Drop a comment if this song moved you!
+🕊️ THE PRAYER OF SALVATION:
+"If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised Him from the dead, you will be saved." — Romans 10:9
 
 🏷️ HASHTAGS:
-#${title.replace(/\s+/g, '')} #${artist.replace(/\s+/g, '')} #NewMusic #LyricVideo #MusicVideo #TrendingNow`;
+#${title.replace(/\s+/g, '')} #JamesUssery #JamesUsseryMusic #ChristianMusic #GospelMusic #PraiseAndWorship #AboveInspiration #JesusSaves`;
+      } else {
+        desc = `🎵 ${title} —${artist}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Official lyric video for "${title}" by ${artist}.
 
+🎧 STREAM & LISTEN:
+Spotify: https://open.spotify.com/
+Apple Music: https://music.apple.com/
+
+🏷️ HASHTAGS:
+#${title.replace(/\s+/g, '')} #${artist.replace(/\s+/g, '')} #LyricVideo #MusicVideo #TrendingNow`;
+      }
+
+      document.getElementById('ytVideoTitle').value = `🎵 ${title} —${artist} | Official Lyric Video`;
       document.getElementById('ytDescriptionText').value = desc;
-
-      const tags = `${title}, ${artist}, Lyric Video, Official Audio, Acoustic Music, Viral Music, Studio Version`;
-      document.getElementById('ytTagsText').value = tags;
+      document.getElementById('ytTagsText').value = `${title},${artist}, Lyric Video, Official Audio, Acoustic Music`;
     }
 
     const seoModal = document.getElementById('seoModal');
@@ -2010,24 +1824,15 @@ YouTube Music: https://music.youtube.com/
       alert(msg);
     }
 
-    const pexelsModal = document.getElementById('pexelsModal');
-    document.getElementById('btnPexelsModal').onclick = () => pexelsModal.classList.remove('hidden');
-    document.getElementById('btnClosePexelsModal').onclick = () => pexelsModal.classList.add('hidden');
-    document.getElementById('btnSavePexelsKey').onclick = () => {
-      const k = document.getElementById('pexelsKeyInput').value.trim();
-      if (k) {
-        state.pexelsKey = k;
-        localStorage.setItem('veo_pexels_key', k);
-      }
-      pexelsModal.classList.add('hidden');
-    };
-
     document.getElementById('btnSearchPexels').onclick = async () => {
       const q = document.getElementById('pexelsQuery').value.trim();
       if (!q) return;
       if (!state.pexelsKey) {
-        pexelsModal.classList.remove('hidden');
-        return;
+        const manualKey = prompt('Please enter your free Pexels API Key:');
+        if (manualKey) {
+          state.pexelsKey = manualKey;
+          localStorage.setItem('veo_vault_pexels', manualKey);
+        } else return;
       }
       try {
         const res = await fetch(`https://api.pexels.com/videos/search?query=${encodeURIComponent(q)}&per_page=6`, {
@@ -2098,7 +1903,6 @@ YouTube Music: https://music.youtube.com/
       state.showLogo = e.target.checked;
       document.getElementById('editLogoScaleWrapper').style.opacity = state.showLogo ? '1' : '0.4';
       document.getElementById('logoControlsWrapper').style.opacity = state.showLogo ? '1' : '0.4';
-      localStorage.setItem('veo_chkEnableLogo', e.target.checked);
     });
 
     document.getElementById('btnApplyManualAndRerender').onclick = () => {
@@ -2113,14 +1917,6 @@ YouTube Music: https://music.youtube.com/
       state.showLogo = document.getElementById('editEnableLogo').checked;
       document.getElementById('chkEnableLogo').checked = state.showLogo;
 
-      localStorage.setItem('veo_introHeadline', document.getElementById('introHeadline').value);
-      localStorage.setItem('veo_introSubtitle', document.getElementById('introSubtitle').value);
-      localStorage.setItem('veo_outroHeader', document.getElementById('outroHeader').value);
-      localStorage.setItem('veo_outroCallToAction', document.getElementById('outroCallToAction').value);
-      localStorage.setItem('veo_outroStreamingNote', document.getElementById('outroStreamingNote').value);
-      localStorage.setItem('veo_chkEnableLogo', state.showLogo);
-
-      if (state.user) saveCloudProfile(state.user.id);
       document.getElementById('btnStartRender').click();
     };
 
@@ -2151,7 +1947,7 @@ Outro Header: "${document.getElementById('outroHeader').value}"
 Outro CTA: "${document.getElementById('outroCallToAction').value}"
 Streaming: "${document.getElementById('outroStreamingNote').value}"
 
-When recommending changes to the video wording, ALWAYS format the proposed values strictly in a JSON block at the end of your response like this:
+When recommending changes to the video wording, ALWAYS format the proposed values strictly in a JSON block at the end of your response:
 \`\`\`json
 {
   "introHeadline": "new headline",
@@ -2160,8 +1956,7 @@ When recommending changes to the video wording, ALWAYS format the proposed value
   "outroCallToAction": "new cta line",
   "outroStreamingNote": "new stream note"
 }
-\`\`\`
-Give a warm, concise response and include the JSON block so the user can click one button to apply your changes directly to their video.`;
+\`\`\``;
 
       try {
         const reply = await callGemini(prompt, systemPrompt);
@@ -2200,7 +1995,6 @@ Give a warm, concise response and include the JSON block so the user can click o
 
             syncDrawerInputs();
             generateYouTubeSEOPackage();
-            if (state.user) saveCloudProfile(state.user.id);
             alert('Gemini suggestions applied! Click "Re-Render with Edits" to update your video.');
           };
           msg.appendChild(applyBtn);
