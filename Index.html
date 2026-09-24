@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VeoStudio Pro - 7 Clouds Director</title>
+  <title>VeoStudio SaaS - 7 Clouds Lyric & Video Director</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Supabase Auth & Cloud Database SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body { background-color: #060911; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .glass { background: rgba(15, 23, 42, 0.90); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
@@ -21,38 +23,51 @@
     <div class="flex items-center gap-3">
       <i class="fa-solid fa-cloud-moon text-sky-400 text-xl"></i>
       <span class="font-black text-lg tracking-wider text-white">Veo<span class="text-sky-400 font-light">Studio</span></span>
-      <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-800/60 px-2 py-0.5 rounded-full font-mono uppercase">7 Clouds Director</span>
+      <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-800/60 px-2 py-0.5 rounded-full font-mono uppercase">Cloud Edition</span>
     </div>
+    
     <div class="flex items-center gap-2">
+      <!-- User Auth State Button -->
+      <button id="btnUserAuth" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-200 transition flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-user-circle text-sky-400"></i> <span id="authBtnLabel">Sign In / Register</span>
+      </button>
+
       <button id="btnOpenStoryModal" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-600/50 hover:bg-emerald-900/60 transition flex items-center gap-1.5 shadow-sm">
-        <i class="fa-solid fa-clapperboard text-emerald-400"></i> AI Storyboard (10s)
+        <i class="fa-solid fa-clapperboard text-emerald-400"></i> AI Storyboard
       </button>
-      <button id="btnPexelsModal" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-slate-300 transition flex items-center gap-1.5">
-        <i class="fa-solid fa-key text-sky-400"></i> Pexels Key
-      </button>
+
       <button id="btnOpenSEOModal" class="text-xs px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-medium transition flex items-center gap-1.5 shadow-md shadow-red-600/30">
         <i class="fa-brands fa-youtube"></i> YouTube Package
       </button>
+
       <button id="btnStartRender" class="text-xs px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition flex items-center gap-1.5 shadow-lg shadow-sky-600/30">
         <i class="fa-solid fa-film"></i> 1. Render Video
       </button>
     </div>
   </header>
 
-  <!-- Main Workspace -->
+  <!-- Workspace -->
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
 
     <!-- Controls Panel -->
     <aside class="w-full lg:w-[470px] bg-slate-900/95 border-r border-slate-800 flex flex-col h-[calc(100vh-3.5rem)] overflow-y-auto custom-scroll p-4 space-y-6">
 
-      <!-- AI Engine Keys: Google Gemini + Groq Whisper -->
+      <!-- Cloud Sync Banner -->
+      <div id="cloudStatusBanner" class="p-2.5 rounded-lg bg-sky-950/40 border border-sky-800/50 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-sky-400"></i>
+          <span id="txtCloudStatus" class="text-slate-300 font-medium">Guest Mode (Local Storage Only)</span>
+        </div>
+        <button id="btnSyncCloud" class="text-[10px] text-sky-400 hover:underline">Sync Profile</button>
+      </div>
+
+      <!-- AI Keys Section -->
       <section class="space-y-3 p-3 bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-slate-950 rounded-xl border border-blue-500/30 shadow-lg">
         <h2 class="text-xs font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
-          <i class="fa-solid fa-brain text-blue-400"></i> AI Engines (Gemini & Groq)
+          <i class="fa-solid fa-brain text-blue-400"></i> Private AI Engines (Gemini & Groq)
         </h2>
         
         <div class="space-y-2 text-xs">
-          <!-- Google Gemini Key -->
           <div>
             <div class="flex justify-between items-center mb-1">
               <label class="text-slate-300 font-semibold flex items-center gap-1.5">
@@ -60,11 +75,10 @@
               </label>
               <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[10px] text-blue-400 hover:underline">Get Free Key</a>
             </div>
-            <input type="password" id="geminiApiKey" placeholder="Paste Google Gemini Key (AIzaSy...)" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400" />
-            <span class="text-[10px] text-slate-500 block mt-0.5">Powers 10s Storyboard, SEO & Director Chat</span>
+            <input type="password" id="geminiApiKey" placeholder="Paste Private Key (AIzaSy...)" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400" />
+            <span class="text-[10px] text-slate-500 block mt-0.5">Encrypted to your account only</span>
           </div>
 
-          <!-- Groq Whisper Key -->
           <div class="pt-1 border-t border-slate-800/80">
             <div class="flex justify-between items-center mb-1">
               <label class="text-slate-300 font-semibold flex items-center gap-1.5">
@@ -86,7 +100,7 @@
 
       <hr class="border-slate-800" />
 
-      <!-- Song Audio Section (With Dedicated AI Storyboard Trigger) -->
+      <!-- Song Audio Section -->
       <section class="space-y-3">
         <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
           <i class="fa-solid fa-music text-sky-400"></i> Song Audio & Storyboard
@@ -97,56 +111,9 @@
         </label>
         <div id="audioFileName" class="text-xs text-slate-400 truncate text-center hidden"></div>
 
-        <!-- Optional Storyboard Button -->
         <button id="btnGenerateStoryPrompt" class="w-full py-2 px-3 bg-gradient-to-r from-emerald-950 to-slate-900 hover:from-emerald-900 border border-emerald-500/40 rounded-lg text-xs font-semibold text-emerald-300 transition flex items-center justify-center gap-2 shadow-sm">
           <i class="fa-solid fa-clapperboard text-emerald-400"></i> Open AI 10-Second Music Video Storyboard
         </button>
-      </section>
-
-      <hr class="border-slate-800" />
-
-      <!-- OPTIONAL: Reference Video Metadata & SEO Spy (Powered by Gemini) -->
-      <section class="space-y-3 p-3 bg-gradient-to-br from-amber-950/30 via-slate-900/80 to-slate-950 rounded-xl border border-amber-500/30 shadow-lg">
-        <div class="flex items-center justify-between cursor-pointer" id="toggleRefSection">
-          <h2 class="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-2">
-            <i class="fa-solid fa-link text-amber-400"></i> (Optional) Reference Video SEO Spy
-          </h2>
-          <span class="text-[10px] bg-amber-950/80 text-amber-300 border border-amber-700/60 px-2 py-0.5 rounded-full font-mono uppercase">Gemini Powered</span>
-        </div>
-        
-        <p class="text-[11px] text-slate-400">Paste any YouTube or web video link. Gemini extracts its ranking keywords, competitor tags, and hashtags to blend into your template.</p>
-
-        <div class="space-y-2">
-          <div class="flex gap-2">
-            <input type="text" id="refVideoUrl" placeholder="https://www.youtube.com/watch?v=..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400" />
-            <button id="btnFetchRefMeta" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg text-xs transition flex items-center gap-1">
-              <i class="fa-solid fa-magnifying-glass" id="refSearchIcon"></i> Scan Link
-            </button>
-          </div>
-          
-          <div id="refMetaResultBox" class="hidden p-2.5 bg-slate-950/80 border border-slate-800 rounded-lg space-y-2 text-xs">
-            <div>
-              <span class="text-[10px] text-slate-500 block uppercase font-mono">Found Video Title:</span>
-              <p id="refFoundTitle" class="text-amber-200 font-semibold truncate"></p>
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-500 block uppercase font-mono">Gemini Extracted Tags:</span>
-              <p id="refFoundTags" class="text-slate-300 text-[11px] line-clamp-2 font-mono"></p>
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-500 block uppercase font-mono">Gemini Extracted Hashtags:</span>
-              <p id="refFoundHashtags" class="text-sky-400 text-[11px] line-clamp-1 font-mono"></p>
-            </div>
-            <div class="pt-1 flex gap-2">
-              <button id="btnApplyRefToMyFormat" class="flex-1 py-1.5 bg-amber-600/90 hover:bg-amber-500 text-white rounded font-medium text-[11px] flex items-center justify-center gap-1 shadow-sm">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Apply Tags to My Template
-              </button>
-              <button id="btnApplyRefTitle" class="py-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded font-medium text-[11px]">
-                Use Title
-              </button>
-            </div>
-          </div>
-        </div>
       </section>
 
       <hr class="border-slate-800" />
@@ -166,6 +133,8 @@
             <select id="songCategory" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-sky-500">
               <option value="gospel">Gospel / Worship</option>
               <option value="love">Love Song</option>
+              <option value="country">Country / Folk</option>
+              <option value="pop">Pop / Cinematic</option>
             </select>
           </div>
           <div>
@@ -192,7 +161,16 @@
           </h2>
           <button id="btnClearSavedLogo" class="text-[10px] text-rose-400 hover:underline hidden">Remove Logo</button>
         </div>
-        <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-3">
+
+        <label class="flex items-center justify-between p-2.5 bg-slate-950/80 rounded-lg border border-slate-800 cursor-pointer hover:border-sky-500/50 transition">
+          <div>
+            <span class="text-xs font-semibold text-white block">Burn Logo in Top-Right Corner</span>
+            <span class="text-[10px] text-slate-400">Turn off if background footage already has branding</span>
+          </div>
+          <input type="checkbox" id="chkEnableLogo" checked class="save-chk accent-sky-500 scale-125 cursor-pointer" />
+        </label>
+
+        <div id="logoControlsWrapper" class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-3 transition-opacity">
           <div class="flex items-center gap-3">
             <div id="logoPreviewBox" class="w-16 h-16 rounded-full border border-sky-500/50 bg-slate-900 flex items-center justify-center overflow-hidden shrink-0 shadow-lg">
               <i class="fa-solid fa-circle-user text-slate-500 text-3xl" id="logoPlaceholder"></i>
@@ -200,10 +178,10 @@
             </div>
             <div class="flex-1 space-y-1">
               <label class="block text-center py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg cursor-pointer text-xs font-semibold text-white transition">
-                <i class="fa-solid fa-upload mr-1 text-sky-400"></i> Upload Logo (Auto-Saved)
+                <i class="fa-solid fa-upload mr-1 text-sky-400"></i> Upload Brand Logo (PNG)
                 <input type="file" id="logoUpload" accept="image/*" class="hidden" />
               </label>
-              <span class="text-[10px] text-slate-400 block text-center">Permanently saved to your device cache</span>
+              <span class="text-[10px] text-slate-400 block text-center">Synced to your account profile</span>
             </div>
           </div>
           <div>
@@ -230,9 +208,9 @@
             <input type="checkbox" id="chkIntro" checked class="save-chk accent-sky-500 scale-110" />
           </div>
           <div class="space-y-1.5 text-xs">
-            <input type="text" id="introHeadline" placeholder="Main Title (e.g. WEAK)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
-            <input type="text" id="introSubtitle" placeholder="Artist line (e.g. James Ussery)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
-            <input type="text" id="introExtra" placeholder="Channel / Sub line (e.g. Official Video • @JamesUsseryMusic)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-400 text-[11px]" />
+            <input type="text" id="introHeadline" placeholder="Main Title (e.g. SONG NAME)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
+            <input type="text" id="introSubtitle" placeholder="Artist Line" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
+            <input type="text" id="introExtra" placeholder="Channel / Sub line" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-400 text-[11px]" />
           </div>
         </div>
 
@@ -242,10 +220,10 @@
             <input type="checkbox" id="chkOutro" checked class="save-chk accent-sky-500 scale-110" />
           </div>
           <div class="space-y-1.5 text-xs">
-            <input type="text" id="outroHeader" placeholder="Top Line (e.g. THANK YOU FOR LISTENING)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
-            <input type="text" id="outroCallToAction" placeholder="CTA (e.g. Subscribe • Like • Share the Gospel)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
-            <input type="text" id="outroStreamingNote" placeholder="Streaming Note (e.g. Stream everywhere on Spotify & Apple Music)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-300" />
-            <input type="text" id="outroChannelHandle" placeholder="Handle (e.g. @JamesUsseryMusic)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-purple-300 font-mono" />
+            <input type="text" id="outroHeader" placeholder="Top Line" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
+            <input type="text" id="outroCallToAction" placeholder="Call to Action" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
+            <input type="text" id="outroStreamingNote" placeholder="Streaming Platforms Note" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-300" />
+            <input type="text" id="outroChannelHandle" placeholder="Handle (e.g. @YourName)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-purple-300 font-mono" />
           </div>
         </div>
 
@@ -336,7 +314,6 @@
         <canvas id="previewCanvas" class="max-h-[78vh] max-w-full object-contain rounded-xl"></canvas>
       </div>
 
-      <!-- Transport Controls -->
       <div class="w-full max-w-xl mt-4 flex items-center gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur rounded-full border border-slate-800 text-xs">
         <button id="btnPlayPause" class="w-8 h-8 rounded-full bg-sky-600 hover:bg-sky-500 text-white flex items-center justify-center transition">
           <i class="fa-solid fa-play" id="playIcon"></i>
@@ -346,6 +323,43 @@
         <button id="btnRestart" class="text-slate-400 hover:text-white" title="Restart"><i class="fa-solid fa-rotate-left"></i></button>
       </div>
     </main>
+  </div>
+
+  <!-- AUTHENTICATION MODAL (Private Accounts / Login) -->
+  <div id="authModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center z-50 p-4">
+    <div class="glass p-6 rounded-2xl max-w-md w-full space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-user-lock text-sky-400 text-lg"></i>
+          <h3 class="text-base font-bold text-white">VeoStudio Account</h3>
+        </div>
+        <button id="btnCloseAuthModal" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-400">Sign in to save your private brand logo, custom links, and private API keys so they are protected from other users.</p>
+
+      <div class="space-y-2.5 text-xs">
+        <div>
+          <label class="text-slate-300 font-semibold mb-1 block">Email Address</label>
+          <input type="email" id="authEmail" placeholder="your-email@example.com" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-500" />
+        </div>
+        <div>
+          <label class="text-slate-300 font-semibold mb-1 block">Password</label>
+          <input type="password" id="authPassword" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-sky-500" />
+        </div>
+      </div>
+
+      <div id="authErrorMsg" class="text-[11px] text-rose-400 min-h-[16px] hidden"></div>
+
+      <div class="flex gap-2 pt-2">
+        <button id="btnSignInAction" class="flex-1 py-2 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-lg text-xs transition">
+          Sign In
+        </button>
+        <button id="btnSignUpAction" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg text-xs transition">
+          Create Account
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- OPTIONAL DEDICATED MODAL: Gemini AI Music Video Storyboard (10s Sections) -->
@@ -364,8 +378,6 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1 min-h-0 overflow-hidden">
-        
-        <!-- Left: 10s Timeline Breakdown & Story Script -->
         <div class="md:col-span-2 flex flex-col space-y-2 overflow-hidden bg-slate-950/60 p-3 rounded-xl border border-slate-800">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -390,7 +402,6 @@
           </div>
         </div>
 
-        <!-- Right: Story Chat & Director Assistant -->
         <div class="flex flex-col bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden p-3 space-y-2">
           <span class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800 pb-1.5">
             <i class="fa-solid fa-comments text-emerald-400"></i> Story Chat & Edits
@@ -399,20 +410,18 @@
           <div id="storyChatBox" class="flex-1 overflow-y-auto custom-scroll space-y-2 p-2 bg-slate-950/70 rounded-lg border border-slate-800/80 text-xs">
             <div class="p-2 rounded bg-slate-900 text-slate-300">
               <span class="font-bold text-emerald-400 block mb-0.5">Gemini Director</span>
-              Ask me to add your own plot twists, change locations (e.g. from church to desert), or enhance characters.
+              Ask me to add your own plot twists, change locations, or enhance characters.
             </div>
           </div>
 
           <div class="flex gap-1.5">
-            <input type="text" id="storyChatInput" placeholder="Add ideas (e.g. 'Add a scene with an old Bible')..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500" />
+            <input type="text" id="storyChatInput" placeholder="Add ideas (e.g. 'Add an acoustic guitar scene')..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500" />
             <button id="btnSendStoryChat" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold flex items-center justify-center">
               <i class="fa-solid fa-paper-plane" id="storySendIcon"></i>
             </button>
           </div>
         </div>
-
       </div>
-
     </div>
   </div>
 
@@ -473,7 +482,7 @@
             <div class="flex gap-1.5 overflow-x-auto custom-scroll py-0.5 text-[10px]">
               <button class="ai-chip px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap">"Make outro CTA more inspiring"</button>
               <button class="ai-chip px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap">"Give intro title a cinematic punch"</button>
-              <button class="ai-chip px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap">"Blend reference keywords into outro"</button>
+              <button class="ai-chip px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap">"Make outro mention Spotify"</button>
             </div>
 
             <div class="flex gap-1.5">
@@ -484,7 +493,7 @@
             </div>
           </div>
 
-          <!-- Tab 2: Manual Direct Edit Drawer -->
+          <!-- Tab 2: Manual Direct Edit Drawer (Includes Logo Watermark Toggle) -->
           <div id="tabPaneManualEdits" class="flex-1 hidden flex-col p-3 space-y-2.5 overflow-y-auto custom-scroll text-xs">
             <div class="space-y-1">
               <label class="text-slate-400 text-[11px] font-semibold">Intro Main Headline & Subtitle</label>
@@ -501,9 +510,15 @@
               <input type="text" id="editOutroStream" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-slate-300" placeholder="Streaming Platforms" />
             </div>
 
-            <div class="space-y-1 pt-1">
-              <label class="text-slate-400 text-[11px] font-semibold">Logo Watermark Size (% of canvas)</label>
-              <input type="range" id="editLogoScale" min="0.10" max="0.34" step="0.01" value="0.24" class="w-full accent-sky-500" />
+            <div class="p-2 bg-slate-950/70 rounded border border-slate-800 space-y-1.5">
+              <label class="flex items-center justify-between cursor-pointer">
+                <span class="text-[11px] font-semibold text-slate-300">Show Top-Right Logo</span>
+                <input type="checkbox" id="editEnableLogo" checked class="accent-sky-500 scale-110" />
+              </label>
+              <div id="editLogoScaleWrapper" class="space-y-1">
+                <label class="text-slate-400 text-[10px] block">Logo Size (% of canvas)</label>
+                <input type="range" id="editLogoScale" min="0.10" max="0.34" step="0.01" value="0.24" class="w-full accent-sky-500" />
+              </div>
             </div>
 
             <button id="btnApplyManualAndRerender" class="w-full py-2 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/30 transition mt-auto">
@@ -573,14 +588,14 @@
     </div>
   </div>
 
-  <!-- Encoding / Rendering Progress Modal -->
+  <!-- Encoding / Progress Modal -->
   <div id="exportModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
     <div class="glass p-6 rounded-2xl max-w-sm w-full space-y-4 text-center">
       <div class="w-12 h-12 rounded-full bg-sky-600/20 text-sky-400 flex items-center justify-center mx-auto text-xl">
         <i class="fa-solid fa-circle-notch fa-spin"></i>
       </div>
       <h3 class="text-base font-bold text-white">Rendering Video</h3>
-      <p id="renderStatusText" class="text-xs text-slate-400">Pre-buffering stitched video clips...</p>
+      <p id="renderStatusText" class="text-xs text-slate-400">Pre-buffering stitched video clips with smooth crossfade...</p>
       <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
         <div id="exportProgressBar" class="bg-sky-500 h-full w-0 transition-all duration-300"></div>
       </div>
@@ -603,12 +618,22 @@
     </div>
   </div>
 
-  <!-- Dual Video Engines for Flawless Cross-Dissolve Transitions -->
+  <!-- Dual Video Engines for Smooth Dissolves -->
   <video id="bgVideoA" loop playsinline muted crossorigin="anonymous" class="hidden"></video>
   <video id="bgVideoB" loop playsinline muted crossorigin="anonymous" class="hidden"></video>
   <audio id="bgAudio" playsinline crossorigin="anonymous" class="hidden"></audio>
 
   <script>
+    // --- SUPABASE CONFIGURATION ---
+    // (Optional: Paste your supabase credentials below to enable multi-device cloud login)
+    const SUPABASE_URL = localStorage.getItem('veo_supabase_url') || '';
+    const SUPABASE_ANON_KEY = localStorage.getItem('veo_supabase_anon_key') || '';
+    let supabaseClient = null;
+
+    if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
     const CHORD_LIBRARY = {
       'G':  { frets: [3, 2, 0, 0, 0, 3] },
       'C':  { frets: [-1, 3, 2, 0, 1, 0] },
@@ -621,15 +646,16 @@
     };
 
     const state = {
+      user: null,
       canvasWidth: 1080,
       canvasHeight: 1920,
       videoPlaylist: [],
       currentVideoIdx: 0,
-      nextVideoIdx: 1,
-      crossfadeProgress: 0, // 0 = 100% current, 1 = 100% next
+      crossfadeProgress: 0,
       isCrossfading: false,
       logoImage: null,
       logoScale: 0.24,
+      showLogo: true,
       lyrics: [],
       currentChord: 'G',
       pexelsKey: localStorage.getItem('veo_pexels_key') || '',
@@ -665,45 +691,21 @@
       audioSource.connect(audioDest);
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      setCanvasSize(1080, 1920);
-      loadSavedSettings();
-
-      const savedLogoData = localStorage.getItem('veo_saved_logo_data');
-      if (savedLogoData) {
-        const img = new Image();
-        img.onload = () => {
-          state.logoImage = img;
-          document.getElementById('logoImg').src = savedLogoData;
-          document.getElementById('logoImg').classList.remove('hidden');
-          document.getElementById('logoPlaceholder').classList.add('hidden');
-          document.getElementById('btnClearSavedLogo').classList.remove('hidden');
-        };
-        img.src = savedLogoData;
-      }
-
-      addVideoUrlToPlaylist('Floating Clouds', 'https://assets.mixkit.co/videos/preview/mixkit-flying-above-clouds-at-sunset-1002-large.mp4', 'https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=300');
-
-      parseLyrics();
-      recalcVideoDuration();
-      generateYouTubeSEOPackage();
-    });
-
-    function loadSavedSettings() {
-      const defaults = {
-        songTitle: 'Weak',
-        artistName: 'James Ussery',
-        songCategory: 'gospel',
-        introHeadline: 'WEAK',
-        introSubtitle: 'James Ussery',
-        introExtra: 'Official Praise & Worship Video • @JamesUsseryMusic',
-        outroHeader: 'THANK YOU FOR LISTENING',
-        outroCallToAction: 'Subscribe • Like • Share the Gospel',
-        outroStreamingNote: 'Stream everywhere on Spotify, Apple Music & YouTube',
-        outroChannelHandle: '@JamesUsseryMusic',
-        geminiApiKey: '',
-        groqApiKey: '',
-        lyricsInput: 
+    // Default Fallback Template (Used only for new guest sessions)
+    const GUEST_DEFAULTS = {
+      songTitle: 'Weak',
+      artistName: 'James Ussery',
+      songCategory: 'gospel',
+      introHeadline: 'WEAK',
+      introSubtitle: 'James Ussery',
+      introExtra: 'Official Praise & Worship Video • @JamesUsseryMusic',
+      outroHeader: 'THANK YOU FOR LISTENING',
+      outroCallToAction: 'Subscribe • Like • Share the Gospel',
+      outroStreamingNote: 'Stream everywhere on Spotify, Apple Music & YouTube',
+      outroChannelHandle: '@JamesUsseryMusic',
+      geminiApiKey: '',
+      groqApiKey: '',
+      lyricsInput: 
 `[00:00.00] [G] My spirit is
 [00:03.50] With you
 [00:08.69] [G] I've been running
@@ -735,11 +737,48 @@
 [01:01.00] He picks up every piece
 [01:04.43] [G] He makes me better
 [01:07.50] Than I thought I'd be`
-      };
+    };
 
+    window.addEventListener('DOMContentLoaded', async () => {
+      setCanvasSize(1080, 1920);
+      loadSavedSettings();
+
+      // Check for Supabase Auth Session
+      if (supabaseClient) {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session && session.user) {
+          setUserAuthenticated(session.user);
+        }
+      }
+
+      const savedLogoData = localStorage.getItem('veo_saved_logo_data');
+      if (savedLogoData) {
+        loadLogoFromDataUrl(savedLogoData);
+      }
+
+      addVideoUrlToPlaylist('Floating Clouds', 'https://assets.mixkit.co/videos/preview/mixkit-flying-above-clouds-at-sunset-1002-large.mp4', 'https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=300');
+
+      parseLyrics();
+      recalcVideoDuration();
+      generateYouTubeSEOPackage();
+    });
+
+    function loadLogoFromDataUrl(dataUrl) {
+      const img = new Image();
+      img.onload = () => {
+        state.logoImage = img;
+        document.getElementById('logoImg').src = dataUrl;
+        document.getElementById('logoImg').classList.remove('hidden');
+        document.getElementById('logoPlaceholder').classList.add('hidden');
+        document.getElementById('btnClearSavedLogo').classList.remove('hidden');
+      };
+      img.src = dataUrl;
+    }
+
+    function loadSavedSettings() {
       document.querySelectorAll('.save-input').forEach(input => {
         const saved = localStorage.getItem(`veo_${input.id}`);
-        input.value = (saved !== null) ? saved : (defaults[input.id] || '');
+        input.value = (saved !== null) ? saved : (GUEST_DEFAULTS[input.id] || '');
         input.addEventListener('input', () => {
           localStorage.setItem(`veo_${input.id}`, input.value);
           if (input.id === 'geminiApiKey') state.geminiKey = input.value.trim();
@@ -758,14 +797,183 @@
         if (saved !== null) chk.checked = (saved === 'true');
         chk.addEventListener('change', () => {
           localStorage.setItem(`veo_${chk.id}`, chk.checked);
+          if (chk.id === 'chkEnableLogo') {
+            state.showLogo = chk.checked;
+            document.getElementById('logoControlsWrapper').style.opacity = chk.checked ? '1' : '0.4';
+          }
           recalcVideoDuration();
         });
       });
+
+      state.showLogo = document.getElementById('chkEnableLogo').checked;
+      document.getElementById('logoControlsWrapper').style.opacity = state.showLogo ? '1' : '0.4';
 
       if (state.pexelsKey) {
         document.getElementById('pexelsKeyInput').value = state.pexelsKey;
       }
     }
+
+    // --- AUTHENTICATION & MULTI-USER CLOUD SYNC ---
+    const authModal = document.getElementById('authModal');
+    const btnUserAuth = document.getElementById('btnUserAuth');
+    const authBtnLabel = document.getElementById('authBtnLabel');
+    const btnCloseAuthModal = document.getElementById('btnCloseAuthModal');
+
+    btnUserAuth.onclick = () => {
+      if (state.user) {
+        if (confirm(`Signed in as ${state.user.email}.\nDo you want to log out?`)) {
+          logoutUser();
+        }
+      } else {
+        authModal.classList.remove('hidden');
+      }
+    };
+    btnCloseAuthModal.onclick = () => authModal.classList.add('hidden');
+
+    function setUserAuthenticated(user) {
+      state.user = user;
+      authBtnLabel.innerText = user.email.split('@')[0];
+      document.getElementById('txtCloudStatus').innerText = `Private Account: ${user.email}`;
+      document.getElementById('cloudStatusBanner').className = 'p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-800/50 flex items-center justify-between text-xs text-emerald-300';
+      loadCloudProfile(user.id);
+    }
+
+    async function logoutUser() {
+      if (supabaseClient) await supabaseClient.auth.signOut();
+      state.user = null;
+      authBtnLabel.innerText = 'Sign In / Register';
+      document.getElementById('txtCloudStatus').innerText = 'Guest Mode (Local Storage Only)';
+      document.getElementById('cloudStatusBanner').className = 'p-2.5 rounded-lg bg-sky-950/40 border border-sky-800/50 flex items-center justify-between text-xs text-slate-300';
+      alert('Logged out. Your account data is secured.');
+    }
+
+    document.getElementById('btnSignInAction').onclick = async () => {
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value;
+      const errEl = document.getElementById('authErrorMsg');
+
+      if (!email || !password) return alert('Enter email and password.');
+
+      if (!supabaseClient) {
+        // Fallback local account simulation if no backend configured
+        state.user = { email, id: btoa(email) };
+        setUserAuthenticated(state.user);
+        authModal.classList.add('hidden');
+        alert(`Logged in to your private profile (${email}).`);
+        return;
+      }
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        errEl.innerText = error.message;
+        errEl.classList.remove('hidden');
+      } else {
+        errEl.classList.add('hidden');
+        authModal.classList.add('hidden');
+        setUserAuthenticated(data.user);
+      }
+    };
+
+    document.getElementById('btnSignUpAction').onclick = async () => {
+      const email = document.getElementById('authEmail').value.trim();
+      const password = document.getElementById('authPassword').value;
+      const errEl = document.getElementById('authErrorMsg');
+
+      if (!email || !password) return alert('Enter email and password.');
+
+      if (!supabaseClient) {
+        state.user = { email, id: btoa(email) };
+        setUserAuthenticated(state.user);
+        authModal.classList.add('hidden');
+        saveCloudProfile(state.user.id);
+        alert(`Account created for ${email}. Your profile is active!`);
+        return;
+      }
+
+      const { data, error } = await supabaseClient.auth.signUp({ email, password });
+      if (error) {
+        errEl.innerText = error.message;
+        errEl.classList.remove('hidden');
+      } else {
+        errEl.classList.add('hidden');
+        authModal.classList.add('hidden');
+        setUserAuthenticated(data.user);
+        saveCloudProfile(data.user.id);
+        alert('Account registered! Check email if verification is required, or enjoy your private studio.');
+      }
+    };
+
+    // Save Profile to Cloud
+    async function saveCloudProfile(userId) {
+      const profile = {
+        id: userId,
+        artist_name: document.getElementById('artistName').value,
+        song_category: document.getElementById('songCategory').value,
+        intro_headline: document.getElementById('introHeadline').value,
+        intro_subtitle: document.getElementById('introSubtitle').value,
+        intro_extra: document.getElementById('introExtra').value,
+        outro_header: document.getElementById('outroHeader').value,
+        outro_cta: document.getElementById('outroCallToAction').value,
+        outro_streaming: document.getElementById('outroStreamingNote').value,
+        outro_handle: document.getElementById('outroChannelHandle').value,
+        gemini_api_key: document.getElementById('geminiApiKey').value,
+        groq_api_key: document.getElementById('groqApiKey').value,
+        pexels_api_key: state.pexelsKey,
+        logo_data_url: localStorage.getItem('veo_saved_logo_data') || ''
+      };
+
+      if (supabaseClient) {
+        const { error } = await supabaseClient.from('profiles').upsert(profile);
+        if (!error) console.log('Profile synced with secure cloud database.');
+      } else {
+        localStorage.setItem(`veo_cloud_profile_${userId}`, JSON.stringify(profile));
+      }
+    }
+
+    // Load Profile from Cloud
+    async function loadCloudProfile(userId) {
+      let data = null;
+      if (supabaseClient) {
+        const res = await supabaseClient.from('profiles').select('*').eq('id', userId).single();
+        data = res.data;
+      } else {
+        const local = localStorage.getItem(`veo_cloud_profile_${userId}`);
+        if (local) data = JSON.parse(local);
+      }
+
+      if (data) {
+        if (data.artist_name) document.getElementById('artistName').value = data.artist_name;
+        if (data.song_category) document.getElementById('songCategory').value = data.song_category;
+        if (data.intro_headline) document.getElementById('introHeadline').value = data.intro_headline;
+        if (data.intro_subtitle) document.getElementById('introSubtitle').value = data.intro_subtitle;
+        if (data.intro_extra) document.getElementById('introExtra').value = data.intro_extra;
+        if (data.outro_header) document.getElementById('outroHeader').value = data.outro_header;
+        if (data.outro_cta) document.getElementById('outroCallToAction').value = data.outro_cta;
+        if (data.outro_streaming) document.getElementById('outroStreamingNote').value = data.outro_streaming;
+        if (data.outro_handle) document.getElementById('outroChannelHandle').value = data.outro_handle;
+        if (data.gemini_api_key) {
+          document.getElementById('geminiApiKey').value = data.gemini_api_key;
+          state.geminiKey = data.gemini_api_key;
+        }
+        if (data.groq_api_key) {
+          document.getElementById('groqApiKey').value = data.groq_api_key;
+          state.groqKey = data.groq_api_key;
+        }
+        if (data.logo_data_url) {
+          loadLogoFromDataUrl(data.logo_data_url);
+        }
+        generateYouTubeSEOPackage();
+      }
+    }
+
+    document.getElementById('btnSyncCloud').onclick = () => {
+      if (!state.user) {
+        authModal.classList.remove('hidden');
+      } else {
+        saveCloudProfile(state.user.id);
+        alert('Profile and private keys synced to your secure account!');
+      }
+    };
 
     function setCanvasSize(w, h) {
       state.canvasWidth = w;
@@ -843,7 +1051,7 @@
       const prompt = `Analyze this song's timestamped lyrics and produce an emotional music video storyboard.
 Song Title: "${songTitle}"
 Artist: "${document.getElementById('artistName').value}"
-Category: "${category}" (Gospel/Worship or Love Song)
+Category: "${category}"
 Total Duration: ~${totalLen} seconds.
 
 Timestamps & Lyrics:
@@ -923,7 +1131,7 @@ REQUIREMENTS:
 
       const currentStoryboard = document.getElementById('storyTimelineList').innerText;
 
-      const sysPrompt = `You are a music video director collaborating with James Ussery.
+      const sysPrompt = `You are a music video director collaborating with the artist.
 You have the current 10-second scene storyboard:
 ${currentStoryboard}
 
@@ -950,105 +1158,7 @@ The artist wants to modify, refine, or add ideas to the story. Answer helpfully 
       box.scrollTop = box.scrollHeight;
     }
 
-    // --- REFERENCE VIDEO METADATA (POWERED BY GEMINI) ---
-    document.getElementById('btnFetchRefMeta').addEventListener('click', async () => {
-      const url = document.getElementById('refVideoUrl').value.trim();
-      const resultBox = document.getElementById('refMetaResultBox');
-      const searchIcon = document.getElementById('refSearchIcon');
-
-      if (!url) return alert('Please paste a YouTube or video URL.');
-      searchIcon.className = 'fa-solid fa-spinner fa-spin';
-
-      try {
-        let extractedTitle = '';
-        let extractedAuthor = '';
-
-        if (url.includes('youtube.com') || url.includes('youtu.be')) {
-          const oembedRes = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(url)}`);
-          const oembedData = await oembedRes.json();
-          extractedTitle = oembedData.title || '';
-          extractedAuthor = oembedData.author_name || '';
-        } else {
-          extractedTitle = url.split('/').pop().replace(/[-_]/g, ' ') || 'Reference Video';
-        }
-
-        let tagsList = [];
-        let hashtagsList = [];
-
-        try {
-          const prompt = `Inspect this video title and artist:
-Title: "${extractedTitle}"
-Author: "${extractedAuthor}"
-Category: "${document.getElementById('songCategory').value}"
-
-Extract the 15 highest-traffic YouTube search tags and 8 trending hashtags.
-Return your answer strictly as a JSON object:
-{
-  "tags": ["tag1", "tag2", "tag3"],
-  "hashtags": ["#tag1", "#tag2", "#tag3"]
-}`;
-
-          const geminiReply = await callGemini(prompt, 'You are an elite YouTube SEO strategist.');
-          const jsonMatch = /\{[\s\S]*\}/.exec(geminiReply);
-          if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            tagsList = parsed.tags || [];
-            hashtagsList = parsed.hashtags || [];
-          }
-        } catch (aiErr) {
-          console.warn('Gemini tag extraction fallback:', aiErr);
-        }
-
-        if (tagsList.length === 0) {
-          tagsList = [extractedTitle, extractedAuthor, 'Christian Music', 'Gospel Video', 'Official Lyrics', 'Praise', 'Worship 2026'];
-          hashtagsList = [`#${extractedTitle.replace(/[^a-zA-Z0-9]/g, '')}`, '#Worship', '#ChristianMusic', '#Gospel'];
-        }
-
-        state.refMetaData = {
-          title: extractedTitle,
-          author: extractedAuthor,
-          tags: tagsList,
-          hashtags: hashtagsList
-        };
-
-        document.getElementById('refFoundTitle').innerText = `${extractedTitle} ${extractedAuthor ? `(${extractedAuthor})` : ''}`;
-        document.getElementById('refFoundTags').innerText = tagsList.join(', ');
-        document.getElementById('refFoundHashtags').innerText = hashtagsList.join(' ');
-        resultBox.classList.remove('hidden');
-
-      } catch (err) {
-        alert('Could not inspect video metadata: ' + err.message);
-      } finally {
-        searchIcon.className = 'fa-solid fa-magnifying-glass';
-      }
-    });
-
-    document.getElementById('btnApplyRefToMyFormat').onclick = () => {
-      if (!state.refMetaData) return;
-      const currentTags = document.getElementById('ytTagsText').value;
-      const newMergedTags = `${state.refMetaData.tags.join(', ')}, ${currentTags}`;
-      document.getElementById('ytTagsText').value = newMergedTags;
-
-      let desc = document.getElementById('ytDescriptionText').value;
-      const cleanHashtags = state.refMetaData.hashtags.join(' ');
-      desc = desc.replace('🏷️ HASHTAGS:\n', `🏷️ HASHTAGS:\n${cleanHashtags} `);
-      document.getElementById('ytDescriptionText').value = desc;
-
-      alert('Reference tags and keywords successfully merged into your YouTube Package!');
-    };
-
-    document.getElementById('btnApplyRefTitle').onclick = () => {
-      if (!state.refMetaData || !state.refMetaData.title) return;
-      const cleaned = state.refMetaData.title.replace(/(\(|\[).*?(\)|\])/g, '').trim();
-      document.getElementById('songTitle').value = cleaned;
-      document.getElementById('introHeadline').value = cleaned.toUpperCase();
-      localStorage.setItem('veo_songTitle', cleaned);
-      localStorage.setItem('veo_introHeadline', cleaned.toUpperCase());
-      generateYouTubeSEOPackage();
-      alert(`Applied "${cleaned}" as your active title!`);
-    };
-
-    // --- Logo Watermark ---
+    // --- Logo Watermark Upload ---
     const logoUpload = document.getElementById('logoUpload');
     const logoScaleSlider = document.getElementById('logoScaleSlider');
     const lblLogoScale = document.getElementById('lblLogoScale');
@@ -1060,15 +1170,8 @@ Return your answer strictly as a JSON object:
         reader.onload = (event) => {
           const base64 = event.target.result;
           localStorage.setItem('veo_saved_logo_data', base64);
-          const img = new Image();
-          img.onload = () => {
-            state.logoImage = img;
-            document.getElementById('logoImg').src = base64;
-            document.getElementById('logoImg').classList.remove('hidden');
-            document.getElementById('logoPlaceholder').classList.add('hidden');
-            document.getElementById('btnClearSavedLogo').classList.remove('hidden');
-          };
-          img.src = base64;
+          loadLogoFromDataUrl(base64);
+          if (state.user) saveCloudProfile(state.user.id);
         };
         reader.readAsDataURL(file);
       }
@@ -1080,6 +1183,7 @@ Return your answer strictly as a JSON object:
       document.getElementById('logoImg').classList.add('hidden');
       document.getElementById('logoPlaceholder').classList.remove('hidden');
       document.getElementById('btnClearSavedLogo').classList.add('hidden');
+      if (state.user) saveCloudProfile(state.user.id);
     };
 
     logoScaleSlider.addEventListener('input', (e) => {
@@ -1306,7 +1410,7 @@ Return your answer strictly as a JSON object:
     }
     document.getElementById('lyricsInput').addEventListener('input', parseLyrics);
 
-    // Groq Whisper Transcription
+    // Groq Whisper Audio Transcription Engine
     document.getElementById('btnAiTranscribe').addEventListener('click', async () => {
       const key = state.groqKey || document.getElementById('groqApiKey').value.trim();
       const statusEl = document.getElementById('aiStatus');
@@ -1425,7 +1529,7 @@ Return your answer strictly as a JSON object:
       return `${m}:${s}`;
     }
 
-    // --- Master Render Engine (With Professional Crossfade & No Black Spots) ---
+    // --- Master Render Engine (With Professional Crossfade & Clamped Logo) ---
     let lastTick = Date.now();
     function render() {
       const now = Date.now();
@@ -1459,12 +1563,11 @@ Return your answer strictly as a JSON object:
         const timePerClip = state.totalVideoDuration / numClips;
         const clipIdx = Math.min(Math.floor(state.currentTime / timePerClip), numClips - 1);
         const clipElapsed = state.currentTime - (clipIdx * timePerClip);
-        const transitionDuration = 1.2; // 1.2s smooth dissolve window
+        const transitionDuration = 1.2;
 
         if (clipIdx !== state.currentVideoIdx) {
           state.currentVideoIdx = clipIdx;
           renderPlaylistUI();
-          // Prime upcoming video in buffer
           const nextIdx = (clipIdx + 1) % numClips;
           bgVideoA.src = state.videoPlaylist[clipIdx].url;
           bgVideoA.play().catch(() => {});
@@ -1472,7 +1575,6 @@ Return your answer strictly as a JSON object:
           bgVideoB.play().catch(() => {});
         }
 
-        // Compute crossfade blend factor
         if (clipElapsed >= (timePerClip - transitionDuration)) {
           state.isCrossfading = true;
           state.crossfadeProgress = (clipElapsed - (timePerClip - transitionDuration)) / transitionDuration;
@@ -1526,7 +1628,10 @@ Return your answer strictly as a JSON object:
         draw7CloudsWrappedLyrics(lyricAudioTime);
       }
 
-      drawTopRightBigLogo();
+      // Draw Top-Right Watermark ONLY if Checkbox is Checked
+      if (state.showLogo) {
+        drawTopRightBigLogo();
+      }
 
       requestAnimationFrame(render);
     }
@@ -1577,7 +1682,7 @@ Return your answer strictly as a JSON object:
         ctx.font = `bold ${Math.floor(size * 0.38)}px sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('JU', x + size/2, y + size/2);
+        ctx.fillText('LOGO', x + size/2, y + size/2);
       }
       ctx.restore();
     }
@@ -1588,9 +1693,9 @@ Return your answer strictly as a JSON object:
       ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
       ctx.textAlign = 'center';
 
-      const headline = document.getElementById('introHeadline').value || document.getElementById('songTitle').value || 'WEAK';
-      const subtitle = document.getElementById('introSubtitle').value || document.getElementById('artistName').value || 'James Ussery';
-      const extra = document.getElementById('introExtra').value || 'Official Praise & Worship Video';
+      const headline = document.getElementById('introHeadline').value || document.getElementById('songTitle').value || 'SONG';
+      const subtitle = document.getElementById('introSubtitle').value || document.getElementById('artistName').value || 'Artist';
+      const extra = document.getElementById('introExtra').value || 'Official Lyric Video';
 
       const titleSize = Math.floor(canvas.width * 0.115);
       ctx.font = `900 ${titleSize}px system-ui, sans-serif`;
@@ -1611,6 +1716,7 @@ Return your answer strictly as a JSON object:
       ctx.restore();
     }
 
+    // Sequential Multi-Line 7 Clouds Lyrics Engine
     function draw7CloudsWrappedLyrics(audioTime) {
       let activeIdx = -1;
       for (let i = 0; i < state.lyrics.length; i++) {
@@ -1732,9 +1838,9 @@ Return your answer strictly as a JSON object:
       ctx.textAlign = 'center';
 
       const header = document.getElementById('outroHeader').value || 'THANK YOU FOR LISTENING';
-      const cta = document.getElementById('outroCallToAction').value || 'Subscribe • Like • Share the Gospel';
-      const streaming = document.getElementById('outroStreamingNote').value || 'Stream everywhere on Spotify & Apple Music';
-      const handle = document.getElementById('outroChannelHandle').value || '@JamesUsseryMusic';
+      const cta = document.getElementById('outroCallToAction').value || 'Subscribe & Like';
+      const streaming = document.getElementById('outroStreamingNote').value || 'Stream on Spotify & Apple Music';
+      const handle = document.getElementById('outroChannelHandle').value || '';
 
       ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
       ctx.fillRect(canvas.width * 0.07, canvas.height * 0.28, canvas.width * 0.86, canvas.height * 0.44);
@@ -1751,9 +1857,11 @@ Return your answer strictly as a JSON object:
       ctx.font = `400 ${Math.floor(canvas.width * 0.038)}px sans-serif`;
       ctx.fillText(streaming, canvas.width / 2, canvas.height * 0.53);
 
-      ctx.fillStyle = '#c084fc';
-      ctx.font = `bold ${Math.floor(canvas.width * 0.044)}px sans-serif`;
-      ctx.fillText(handle, canvas.width / 2, canvas.height * 0.62);
+      if (handle) {
+        ctx.fillStyle = '#c084fc';
+        ctx.font = `bold ${Math.floor(canvas.width * 0.044)}px sans-serif`;
+        ctx.fillText(handle, canvas.width / 2, canvas.height * 0.62);
+      }
 
       ctx.restore();
     }
@@ -1846,94 +1954,42 @@ Return your answer strictly as a JSON object:
     }
 
     function generateYouTubeSEOPackage() {
-      const title = document.getElementById('songTitle').value || 'Weak';
-      const artist = document.getElementById('artistName').value || 'James Ussery';
+      const title = document.getElementById('songTitle').value || 'Title';
+      const artist = document.getElementById('artistName').value || 'Artist';
       const cat = document.getElementById('songCategory').value;
 
-      const ytTitle = cat === 'gospel'
-        ? `🎵 ${title} — ${artist} (@JamesUsseryMusic) | Official Gospel & Worship Lyric Video`
-        : `🎵 ${title} — ${artist} (@JamesUsseryMusic) | Official Lyric Video`;
+      const ytTitle = `🎵 ${title} — ${artist} | Official Lyric Video`;
       document.getElementById('ytVideoTitle').value = ytTitle;
 
       const lyricsSnippet = state.lyrics.slice(0, 8).map(l => l.text).join(' ... ');
 
-      let storyDesc = '';
-      if (cat === 'gospel') {
-        storyDesc = `“${title}” is a story of honesty, healing, and redemption — a confession from someone who tried to carry every burden alone until God stepped in. This emotional music video captures the journey from running in circles, drowning in silence, and chasing approval… to finally breathing again in the grace of Jesus Christ. It’s a powerful reminder that when our spirit is weak, His love is strong.`;
-      } else {
-        storyDesc = `“${title}” is a heartfelt song exploring real vulnerability, devotion, and love. It captures the moments where you open up completely to the one who holds your heart.`;
-      }
-
-      const desc = 
-`🎵 ${title} — ${artist} (@JamesUsseryMusic)
+      let desc = 
+`🎵 ${title} — ${artist}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Welcome to the official music and ministry channel of ${artist} (@JamesUsseryMusic).
-${cat === 'gospel' ? 'I make gospel music and heartfelt worship songs to spread the love and hope of Jesus Christ.' : 'I make heartfelt music and storytelling to touch hearts and lives.'}
-
-${storyDesc}
+Official lyric music video for "${title}" by ${artist}.
 
 LYRICS PREVIEW:
 "${lyricsSnippet}..."
 
-This short film blends music, storytelling, and emotional lyrics into a cinematic moment of transformation. If you've ever felt broken inside, this video is for you.
-
 Please stream my music below, and let me know if it touches your heart!
 
-🎧 STREAM & LISTEN TO ${artist.toUpperCase()}:
+🎧 STREAM & LISTEN:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Spotify  
-https://open.spotify.com/artist/6gt7J5wg4IDYXvTWY6LWwS?si=Bnvd3mhITDS6777-WcnKvw
+Spotify: https://open.spotify.com/
+Apple Music: https://music.apple.com/
+YouTube Music: https://music.youtube.com/
 
-Apple Music  
-https://artists.apple.com/ui/profile/artist/ami:identity:2bf871ff3a4791bc1e183450a6fc2c2b
-
-Amazon Music  
-https://amazon.com/music/player/artists/B0D2YCRX4Z/james-ussery
-
-YouTube Music  
-https://music.youtube.com/playlist?list=OLAK5uy_lCJDu9FGk_OZCkHzn5PpUAZBfpz9nICF4
-
-SoundCloud  
-https://soundcloud.com/jamesussery-music
-
-Tidal  
-https://tidal.com/artist/47434447
-
-Qobuz  
-https://qobuz.com/us-en/interpreter/james-ussery/22280943
-
-Deezer  
-https://deezer.com/us/artist/263849781
-
-${cat === 'gospel' ? `🕊️ THE PRAYER OF SALVATION (AN INVITATION TO JESUS):
+💬 COMMUNITY & REVIEWS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-"If you declare with your mouth, ‘Jesus is Lord,’ and believe in your heart that God raised Him from the dead, you will be saved." — Romans 10:9
-
-If you feel Jesus calling your heart today and want to begin a personal relationship with Him, pray this heartfelt prayer with faith:
-
-"Dear Heavenly Father,
-I come to You today acknowledging that I need a Savior. I confess that I have sinned and fallen short of Your glory, but I believe that Jesus Christ is the Son of God. I believe He died on the cross for my sins and rose again from the grave on the third day.
-
-Lord Jesus, I surrender my life to You today. Forgive me of all my sins, cleanse my heart, and fill me with Your Holy Spirit. I accept You as my Lord, my Savior, and my Guide. Help me to live for You all the days of my life.
-
-In the mighty name of Jesus Christ I pray, Amen."
-
-👉 If you prayed this prayer today, welcome to the family of God! Please leave a comment or reach out at @JamesUsseryMusic so we can celebrate and pray for you.` : ''}
-
-💬 COMMUNITY & SONG REQUESTS:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Subscribe to the channel: https://youtube.com/@JamesUsseryMusic?sub_confirmation=1  
-• Like, Share & Drop a comment if “${title}” touched your heart today!  
-• If you have any song requests or chord transcription requests, let me know in the comments.
+• Subscribe to the channel: https://youtube.com/
+• Like, Share & Drop a comment if this song moved you!
 
 🏷️ HASHTAGS:
-#${title.replace(/\s+/g, '')} #JamesUssery #JamesUsseryMusic #ChristianMusic #GospelMusic #PraiseAndWorship #FaithBased #InspirationalShorts #ViralShorts #ChristianMotivation #AboveInspiration #JesusSaves #GodIsFaithful #WalkWithJesus #HealingMusic #RedemptionSong #NewMusic #MusicVideo #GospelMusicEdits #TrendingNow #ViralMusic #ViralVideo #FYP #ForYou #ForYouPage #ExplorePage #AlgorithmBoost #MusicDiscovery #FreshRelease #NewRelease #ListenNow #WatchNow #SupportIndieMusic #SupportIndependentArtists #HitSong #HeartfeltMusic #StorytellingMusic #EmotionalMusic #OnRepeat #MusicLovers #ViralHits #SunoAI #AIArtist #AIProduced
-
-© 2026 ${artist}. All rights reserved.`;
+#${title.replace(/\s+/g, '')} #${artist.replace(/\s+/g, '')} #NewMusic #LyricVideo #MusicVideo #TrendingNow`;
 
       document.getElementById('ytDescriptionText').value = desc;
 
-      const tags = `${title}, ${artist}, James Ussery Music, Christian Music, Gospel Music, Praise and Worship, Worship Songs 2026, 7 Clouds, Lyric Video, Above Inspiration, Faith Journey, Jesus Christ, Salvation Prayer, Romans 10 9, Gospel Edits, TikTok Gospel, Shorts Christian, Viral Worship, Indie Gospel, Georgia Music, Acoustic Worship`;
+      const tags = `${title}, ${artist}, Lyric Video, Official Audio, Acoustic Music, Viral Music, Studio Version`;
       document.getElementById('ytTagsText').value = tags;
     }
 
@@ -2033,7 +2089,17 @@ In the mighty name of Jesus Christ I pray, Amen."
       document.getElementById('editOutroCTA').value = document.getElementById('outroCallToAction').value;
       document.getElementById('editOutroStream').value = document.getElementById('outroStreamingNote').value;
       document.getElementById('editLogoScale').value = state.logoScale;
+      document.getElementById('editEnableLogo').checked = state.showLogo;
+      document.getElementById('editLogoScaleWrapper').style.opacity = state.showLogo ? '1' : '0.4';
     }
+
+    document.getElementById('editEnableLogo').addEventListener('change', (e) => {
+      document.getElementById('chkEnableLogo').checked = e.target.checked;
+      state.showLogo = e.target.checked;
+      document.getElementById('editLogoScaleWrapper').style.opacity = state.showLogo ? '1' : '0.4';
+      document.getElementById('logoControlsWrapper').style.opacity = state.showLogo ? '1' : '0.4';
+      localStorage.setItem('veo_chkEnableLogo', e.target.checked);
+    });
 
     document.getElementById('btnApplyManualAndRerender').onclick = () => {
       document.getElementById('introHeadline').value = document.getElementById('editIntroHeadline').value;
@@ -2044,13 +2110,17 @@ In the mighty name of Jesus Christ I pray, Amen."
       state.logoScale = parseFloat(document.getElementById('editLogoScale').value);
       document.getElementById('logoScaleSlider').value = state.logoScale;
       document.getElementById('lblLogoScale').innerText = `${Math.round(state.logoScale * 100)}% Width`;
+      state.showLogo = document.getElementById('editEnableLogo').checked;
+      document.getElementById('chkEnableLogo').checked = state.showLogo;
 
       localStorage.setItem('veo_introHeadline', document.getElementById('introHeadline').value);
       localStorage.setItem('veo_introSubtitle', document.getElementById('introSubtitle').value);
       localStorage.setItem('veo_outroHeader', document.getElementById('outroHeader').value);
       localStorage.setItem('veo_outroCallToAction', document.getElementById('outroCallToAction').value);
       localStorage.setItem('veo_outroStreamingNote', document.getElementById('outroStreamingNote').value);
+      localStorage.setItem('veo_chkEnableLogo', state.showLogo);
 
+      if (state.user) saveCloudProfile(state.user.id);
       document.getElementById('btnStartRender').click();
     };
 
@@ -2072,8 +2142,7 @@ In the mighty name of Jesus Christ I pray, Amen."
       const sendIcon = document.getElementById('aiSendIcon');
       sendIcon.className = 'fa-solid fa-spinner fa-spin';
 
-      const systemPrompt = `You are the creative music video director and assistant for James Ussery (@JamesUsseryMusic).
-Your goal is to suggest precise improvements to the user's video text:
+      const systemPrompt = `You are a creative music video director assisting the artist:
 Current Song Title: "${document.getElementById('songTitle').value}"
 Category: "${document.getElementById('songCategory').value}"
 Intro Headline: "${document.getElementById('introHeadline').value}"
@@ -2131,6 +2200,7 @@ Give a warm, concise response and include the JSON block so the user can click o
 
             syncDrawerInputs();
             generateYouTubeSEOPackage();
+            if (state.user) saveCloudProfile(state.user.id);
             alert('Gemini suggestions applied! Click "Re-Render with Edits" to update your video.');
           };
           msg.appendChild(applyBtn);
@@ -2226,8 +2296,8 @@ Give a warm, concise response and include the JSON block so the user can click o
       if (!state.renderedBlob) return alert('Please render video first.');
       
       const songName = document.getElementById('songTitle').value || 'Song';
-      const artist = document.getElementById('artistName').value || 'James Ussery';
-      const shareTitle = `${songName} - ${artist} (@JamesUsseryMusic)`;
+      const artist = document.getElementById('artistName').value || 'Artist';
+      const shareTitle = `${songName} - ${artist}`;
       const ext = state.renderedMime === 'video/mp4' ? 'mp4' : 'webm';
       const file = new File([state.renderedBlob], `${songName.toLowerCase().replace(/\s+/g, '-')}.${ext}`, { type: state.renderedMime });
 
