@@ -3,32 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VeoStudio - Lyrics, Chords & Video Creator</title>
+  <title>VeoStudio Pro - 7 Clouds Director</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    body { background-color: #0b0f17; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
-    .glass-card { background: rgba(18, 24, 38, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .custom-scroll::-webkit-scrollbar { width: 6px; }
+    body { background-color: #060911; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .glass { background: rgba(15, 23, 42, 0.90); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
     .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
+    .custom-scroll::-webkit-scrollbar-track { background: #0b0f19; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- Header -->
-  <header class="h-14 border-b border-slate-800 bg-slate-950/80 px-4 flex items-center justify-between sticky top-0 z-40">
-    <div class="flex items-center gap-2">
-      <i class="fa-solid fa-guitar text-indigo-500 text-xl"></i>
-      <span class="font-black text-lg tracking-wider text-white">Veo<span class="text-indigo-400 font-light">Studio</span></span>
-      <span class="text-[10px] bg-indigo-950 text-indigo-300 border border-indigo-800/60 px-2 py-0.5 rounded-full font-mono uppercase tracking-widest">Pro Chords & Lyrics</span>
+  <!-- Top Navigation Header -->
+  <header class="h-14 border-b border-slate-800 bg-slate-950/95 px-4 flex items-center justify-between sticky top-0 z-40">
+    <div class="flex items-center gap-3">
+      <i class="fa-solid fa-cloud-moon text-sky-400 text-xl"></i>
+      <span class="font-black text-lg tracking-wider text-white">Veo<span class="text-sky-400 font-light">Studio</span></span>
+      <span class="text-[10px] bg-sky-950 text-sky-300 border border-sky-800/60 px-2 py-0.5 rounded-full font-mono uppercase">7 Clouds Director</span>
     </div>
     <div class="flex items-center gap-2">
-      <button id="btnPexelsModal" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-slate-300 transition flex items-center gap-1.5">
-        <i class="fa-solid fa-camera"></i> Pexels Key
+      <button id="btnOpenStoryModal" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-600/50 hover:bg-emerald-900/60 transition flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-clapperboard text-emerald-400"></i> AI Storyboard (10s)
       </button>
-      <button id="btnExportVideo" class="text-xs px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
-        <i class="fa-solid fa-download"></i> Export MP4
+      <button id="btnPexelsModal" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-slate-300 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-key text-sky-400"></i> Pexels Key
+      </button>
+      <button id="btnOpenSEOModal" class="text-xs px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-medium transition flex items-center gap-1.5 shadow-md shadow-red-600/30">
+        <i class="fa-brands fa-youtube"></i> YouTube Package
+      </button>
+      <button id="btnStartRender" class="text-xs px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition flex items-center gap-1.5 shadow-lg shadow-sky-600/30">
+        <i class="fa-solid fa-film"></i> 1. Render Video
       </button>
     </div>
   </header>
@@ -36,251 +42,730 @@
   <!-- Main Workspace -->
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
 
-    <!-- Left Controls Panel -->
-    <aside class="w-full lg:w-[440px] bg-slate-900 border-r border-slate-800 flex flex-col h-[calc(100vh-3.5rem)] overflow-y-auto custom-scroll p-4 space-y-6">
-      
-      <!-- Step 1: Background Video -->
-      <section class="space-y-3">
-        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-          <i class="fa-solid fa-film text-indigo-400"></i> Step 1: Footage & Aspect Ratio
+    <!-- Controls Panel -->
+    <aside class="w-full lg:w-[470px] bg-slate-900/95 border-r border-slate-800 flex flex-col h-[calc(100vh-3.5rem)] overflow-y-auto custom-scroll p-4 space-y-6">
+
+      <!-- AI Engine Keys: Google Gemini + Groq Whisper -->
+      <section class="space-y-3 p-3 bg-gradient-to-br from-blue-950/40 via-indigo-950/30 to-slate-950 rounded-xl border border-blue-500/30 shadow-lg">
+        <h2 class="text-xs font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
+          <i class="fa-solid fa-brain text-blue-400"></i> AI Engines (Gemini & Groq)
         </h2>
         
-        <div class="grid grid-cols-3 gap-2">
-          <button class="ratio-btn px-2 py-1.5 rounded bg-indigo-600 text-white text-xs font-medium" data-w="1080" data-h="1920">9:16 Vertical</button>
-          <button class="ratio-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 text-xs font-medium hover:bg-slate-700" data-w="1920" data-h="1080">16:9 Wide</button>
-          <button class="ratio-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 text-xs font-medium hover:bg-slate-700" data-w="1080" data-h="1080">1:1 Square</button>
-        </div>
+        <div class="space-y-2 text-xs">
+          <!-- Google Gemini Key -->
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-slate-300 font-semibold flex items-center gap-1.5">
+                <i class="fa-brands fa-google text-blue-400"></i> Google Gemini API Key
+              </label>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[10px] text-blue-400 hover:underline">Get Free Key</a>
+            </div>
+            <input type="password" id="geminiApiKey" placeholder="Paste Google Gemini Key (AIzaSy...)" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400" />
+            <span class="text-[10px] text-slate-500 block mt-0.5">Powers 10s Storyboard, SEO & Director Chat</span>
+          </div>
 
-        <div class="flex gap-2">
-          <input type="text" id="pexelsQuery" placeholder="Search stock (e.g. neon city, clouds)..." class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500" />
-          <button id="btnSearchPexels" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs font-medium">Search</button>
+          <!-- Groq Whisper Key -->
+          <div class="pt-1 border-t border-slate-800/80">
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-slate-300 font-semibold flex items-center gap-1.5">
+                <i class="fa-solid fa-bolt text-yellow-400"></i> Groq Whisper Key (Audio Sync)
+              </label>
+              <a href="https://console.groq.com/keys" target="_blank" class="text-[10px] text-yellow-400 hover:underline">Get Groq Key</a>
+            </div>
+            <input type="password" id="groqApiKey" placeholder="Paste Groq Key (gsk_...)" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-yellow-400" />
+            <div class="flex items-center justify-between mt-1">
+              <span class="text-[10px] text-slate-500">Audio timestamping only</span>
+              <button id="btnAiTranscribe" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 rounded text-[11px] font-semibold text-white transition flex items-center gap-1">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Sync Lyrics
+              </button>
+            </div>
+            <div id="aiStatus" class="text-[11px] text-slate-400 min-h-[14px] mt-1"></div>
+          </div>
         </div>
-
-        <div class="flex items-center gap-2">
-          <label class="flex-1 text-center py-2 px-3 border border-dashed border-slate-700 hover:border-indigo-500 rounded-lg cursor-pointer transition text-xs text-slate-400">
-            <i class="fa-solid fa-upload mr-1"></i> Upload Local Video (MP4)
-            <input type="file" id="videoUpload" accept="video/mp4,video/webm" class="hidden" />
-          </label>
-        </div>
-
-        <div id="stockGrid" class="grid grid-cols-3 gap-2 max-h-32 overflow-y-auto custom-scroll p-1 bg-slate-950/50 rounded-lg border border-slate-800"></div>
       </section>
 
       <hr class="border-slate-800" />
 
-      <!-- Step 2: Song Audio & Visualizer -->
+      <!-- Song Audio Section (With Dedicated AI Storyboard Trigger) -->
       <section class="space-y-3">
         <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-          <i class="fa-solid fa-music text-indigo-400"></i> Step 2: Audio & Song Track
+          <i class="fa-solid fa-music text-sky-400"></i> Song Audio & Storyboard
         </h2>
-
-        <label class="flex items-center justify-center gap-2 w-full py-2.5 px-3 border border-indigo-500/40 bg-indigo-950/20 hover:bg-indigo-950/40 rounded-lg cursor-pointer transition text-xs font-medium text-indigo-300">
-          <i class="fa-solid fa-cloud-arrow-up text-indigo-400"></i> Upload Song (.mp3 / .wav)
+        <label class="flex items-center justify-center gap-2 w-full py-2.5 px-3 border border-sky-500/40 bg-sky-950/20 hover:bg-sky-950/40 rounded-lg cursor-pointer transition text-xs font-semibold text-sky-300">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Upload Master Audio (.mp3 / .wav)
           <input type="file" id="audioUpload" accept="audio/*" class="hidden" />
         </label>
         <div id="audioFileName" class="text-xs text-slate-400 truncate text-center hidden"></div>
 
-        <div class="flex items-center justify-between gap-3 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800 text-xs">
-          <span class="text-slate-400">Show Soundwave Visualizer</span>
-          <input type="checkbox" id="chkShowVisualizer" checked class="accent-indigo-600 cursor-pointer" />
+        <!-- Optional Storyboard Button -->
+        <button id="btnGenerateStoryPrompt" class="w-full py-2 px-3 bg-gradient-to-r from-emerald-950 to-slate-900 hover:from-emerald-900 border border-emerald-500/40 rounded-lg text-xs font-semibold text-emerald-300 transition flex items-center justify-center gap-2 shadow-sm">
+          <i class="fa-solid fa-clapperboard text-emerald-400"></i> Open AI 10-Second Music Video Storyboard
+        </button>
+      </section>
+
+      <hr class="border-slate-800" />
+
+      <!-- OPTIONAL: Reference Video Metadata & SEO Spy (Powered by Gemini) -->
+      <section class="space-y-3 p-3 bg-gradient-to-br from-amber-950/30 via-slate-900/80 to-slate-950 rounded-xl border border-amber-500/30 shadow-lg">
+        <div class="flex items-center justify-between cursor-pointer" id="toggleRefSection">
+          <h2 class="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-link text-amber-400"></i> (Optional) Reference Video SEO Spy
+          </h2>
+          <span class="text-[10px] bg-amber-950/80 text-amber-300 border border-amber-700/60 px-2 py-0.5 rounded-full font-mono uppercase">Gemini Powered</span>
+        </div>
+        
+        <p class="text-[11px] text-slate-400">Paste any YouTube or web video link. Gemini extracts its ranking keywords, competitor tags, and hashtags to blend into your template.</p>
+
+        <div class="space-y-2">
+          <div class="flex gap-2">
+            <input type="text" id="refVideoUrl" placeholder="https://www.youtube.com/watch?v=..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400" />
+            <button id="btnFetchRefMeta" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg text-xs transition flex items-center gap-1">
+              <i class="fa-solid fa-magnifying-glass" id="refSearchIcon"></i> Scan Link
+            </button>
+          </div>
+          
+          <div id="refMetaResultBox" class="hidden p-2.5 bg-slate-950/80 border border-slate-800 rounded-lg space-y-2 text-xs">
+            <div>
+              <span class="text-[10px] text-slate-500 block uppercase font-mono">Found Video Title:</span>
+              <p id="refFoundTitle" class="text-amber-200 font-semibold truncate"></p>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 block uppercase font-mono">Gemini Extracted Tags:</span>
+              <p id="refFoundTags" class="text-slate-300 text-[11px] line-clamp-2 font-mono"></p>
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-500 block uppercase font-mono">Gemini Extracted Hashtags:</span>
+              <p id="refFoundHashtags" class="text-sky-400 text-[11px] line-clamp-1 font-mono"></p>
+            </div>
+            <div class="pt-1 flex gap-2">
+              <button id="btnApplyRefToMyFormat" class="flex-1 py-1.5 bg-amber-600/90 hover:bg-amber-500 text-white rounded font-medium text-[11px] flex items-center justify-center gap-1 shadow-sm">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Apply Tags to My Template
+              </button>
+              <button id="btnApplyRefTitle" class="py-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded font-medium text-[11px]">
+                Use Title
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
       <hr class="border-slate-800" />
 
-      <!-- Step 3: Lyrics & Chords System -->
+      <!-- 1. Song Info & Canvas Ratio -->
       <section class="space-y-3">
         <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-          <i class="fa-solid fa-lines-leaning-right text-indigo-400"></i> Step 3: Lyrics & Guitar Chords
+          <i class="fa-solid fa-sliders text-sky-400"></i> 1. Song Info & Canvas Ratio
         </h2>
-
-        <!-- Groq Whisper AI Sync -->
-        <div class="p-3 bg-gradient-to-br from-indigo-950/60 to-purple-950/40 border border-indigo-500/30 rounded-xl space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-              <i class="fa-solid fa-bolt text-yellow-400"></i> Groq Whisper AI Auto-Timing
-            </span>
-          </div>
-          
-          <input type="password" id="groqApiKey" placeholder="Paste Groq API Key (gsk_...)" class="w-full bg-slate-900/90 border border-slate-700 rounded-md px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-400" />
-          
-          <label class="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-pointer">
-            <input type="checkbox" id="chkSaveKey" checked class="accent-indigo-500 rounded" />
-            Remember key in this browser
-          </label>
-
-          <button id="btnAiTranscribe" class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-500 rounded-md text-xs font-semibold text-white transition flex items-center justify-center gap-1.5 shadow-md shadow-indigo-600/30">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Generate Timestamps with AI
-          </button>
-          <div id="aiStatus" class="text-[11px] text-slate-400 min-h-[16px]"></div>
+        <div class="grid grid-cols-2 gap-2">
+          <input type="text" id="songTitle" placeholder="Song Title" class="save-input bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
+          <input type="text" id="artistName" placeholder="Artist Name" class="save-input bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-sky-500" />
         </div>
-
-        <!-- Chord Display Options -->
-        <div class="grid grid-cols-2 gap-2 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800 text-xs">
-          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-            <input type="checkbox" id="chkShowChords" checked class="accent-indigo-600" />
-            <span>Show Chords</span>
-          </label>
-          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
-            <input type="checkbox" id="chkShowFretbox" checked class="accent-indigo-600" />
-            <span>Guitar Fretboard</span>
-          </label>
-        </div>
-
-        <!-- Lyrics & Chords Input -->
-        <div class="space-y-1">
-          <div class="flex items-center justify-between text-xs text-slate-400">
-            <span>Lyrics + [Chord] Format</span>
-            <button id="btnStampLine" class="text-[11px] text-indigo-400 hover:underline">Stamp Line Now</button>
-          </div>
-          <textarea id="lyricsInput" rows="7" placeholder="[00:00.00] [G] First line of song..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-indigo-500 custom-scroll"></textarea>
-          <span class="text-[10px] text-slate-500 block">Tip: Add chords in brackets like <code>[G]</code>, <code>[C]</code>, <code>[D]</code> directly before or inside the lyrics!</span>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-slate-400 mb-1">Karaoke Sweep Style</label>
-            <select id="selLyricStyle" class="w-full bg-slate-800 border border-slate-700 rounded-md p-1.5 text-white">
-              <option value="sweep">Glowing Sweep Wipe</option>
-              <option value="bounce">Bouncing Ball</option>
-              <option value="neon">Neon High Contrast</option>
+            <label class="text-[11px] text-slate-400 mb-1 block">Category</label>
+            <select id="songCategory" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-sky-500">
+              <option value="gospel">Gospel / Worship</option>
+              <option value="love">Love Song</option>
             </select>
           </div>
           <div>
-            <label class="block text-slate-400 mb-1">Position</label>
-            <select id="selLyricPos" class="w-full bg-slate-800 border border-slate-700 rounded-md p-1.5 text-white">
-              <option value="bottom">Bottom (Classic)</option>
-              <option value="center">Center Stage</option>
-              <option value="top">Top Banner</option>
-            </select>
+            <label class="text-[11px] text-slate-400 mb-1 block">Video Ratio</label>
+            <div class="grid grid-cols-2 gap-1">
+              <button id="btnRatio916" class="ratio-btn px-2 py-2 rounded bg-sky-600 text-white text-[11px] font-semibold flex items-center justify-center gap-1 shadow-sm" data-w="1080" data-h="1920">
+                <i class="fa-solid fa-mobile-screen"></i> 9:16
+              </button>
+              <button id="btnRatio169" class="ratio-btn px-2 py-2 rounded bg-slate-800 text-slate-300 text-[11px] font-semibold hover:bg-slate-700 flex items-center justify-center gap-1" data-w="1920" data-h="1080">
+                <i class="fa-solid fa-display"></i> 16:9
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
+      <hr class="border-slate-800" />
+
+      <!-- 2. Logo Watermark (Top Right) -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-stamp text-sky-400"></i> 2. Channel Logo Watermark (Top-Right)
+          </h2>
+          <button id="btnClearSavedLogo" class="text-[10px] text-rose-400 hover:underline hidden">Remove Logo</button>
+        </div>
+        <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-3">
+          <div class="flex items-center gap-3">
+            <div id="logoPreviewBox" class="w-16 h-16 rounded-full border border-sky-500/50 bg-slate-900 flex items-center justify-center overflow-hidden shrink-0 shadow-lg">
+              <i class="fa-solid fa-circle-user text-slate-500 text-3xl" id="logoPlaceholder"></i>
+              <img id="logoImg" class="w-full h-full object-cover hidden" alt="Logo" />
+            </div>
+            <div class="flex-1 space-y-1">
+              <label class="block text-center py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg cursor-pointer text-xs font-semibold text-white transition">
+                <i class="fa-solid fa-upload mr-1 text-sky-400"></i> Upload Logo (Auto-Saved)
+                <input type="file" id="logoUpload" accept="image/*" class="hidden" />
+              </label>
+              <span class="text-[10px] text-slate-400 block text-center">Permanently saved to your device cache</span>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+              <span>Logo Display Size</span>
+              <span id="lblLogoScale" class="font-mono text-sky-400">24% Width</span>
+            </div>
+            <input type="range" id="logoScaleSlider" min="0.10" max="0.34" step="0.01" value="0.24" class="w-full accent-sky-500 cursor-pointer" />
+          </div>
+        </div>
+      </section>
+
+      <hr class="border-slate-800" />
+
+      <!-- 3. Intro Title & Outro CTA Wording -->
+      <section class="space-y-3">
+        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square text-sky-400"></i> 3. Intro Title & Outro CTA Wording
+        </h2>
+
+        <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">9-Second Intro Title Screen</span>
+            <input type="checkbox" id="chkIntro" checked class="save-chk accent-sky-500 scale-110" />
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <input type="text" id="introHeadline" placeholder="Main Title (e.g. WEAK)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
+            <input type="text" id="introSubtitle" placeholder="Artist line (e.g. James Ussery)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
+            <input type="text" id="introExtra" placeholder="Channel / Sub line (e.g. Official Video • @JamesUsseryMusic)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-400 text-[11px]" />
+          </div>
+        </div>
+
+        <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-white">Outro CTA / Thank You Screen</span>
+            <input type="checkbox" id="chkOutro" checked class="save-chk accent-sky-500 scale-110" />
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <input type="text" id="outroHeader" placeholder="Top Line (e.g. THANK YOU FOR LISTENING)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-white" />
+            <input type="text" id="outroCallToAction" placeholder="CTA (e.g. Subscribe • Like • Share the Gospel)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-sky-300" />
+            <input type="text" id="outroStreamingNote" placeholder="Streaming Note (e.g. Stream everywhere on Spotify & Apple Music)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-slate-300" />
+            <input type="text" id="outroChannelHandle" placeholder="Handle (e.g. @JamesUsseryMusic)" class="save-input w-full bg-slate-900 border border-slate-800 rounded p-1.5 text-purple-300 font-mono" />
+          </div>
+        </div>
+
+        <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 space-y-1.5 text-xs">
+          <div class="flex justify-between items-center">
+            <span class="text-white font-medium">Video Length & Smooth Cross-Dissolves</span>
+            <span id="txtDurationMode" class="text-[10px] text-sky-400 font-mono">Full Audio Track</span>
+          </div>
+          <p class="text-[10px] text-slate-400">Total duration is split evenly across clips with seamless 1.2s cross-fades.</p>
+          <div class="flex items-center gap-2">
+            <input type="number" id="customLengthInput" placeholder="Auto (Full Audio)" min="10" max="600" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white" />
+            <button id="btnResetLength" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 rounded text-[11px] text-slate-300">Auto</button>
+          </div>
+        </div>
+      </section>
+
+      <hr class="border-slate-800" />
+
+      <!-- 4. Video Stitcher -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-sky-400"></i> 4. Stitched Video Clips (<span id="clipCount">0</span>)
+          </h2>
+          <button id="btnClearClips" class="text-[10px] text-rose-400 hover:underline">Clear Clips</button>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="flex gap-2">
+            <input type="text" id="pexelsQuery" placeholder="Search any category (clouds, cross, mountains, rain)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500" />
+            <button id="btnSearchPexels" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-medium">Search</button>
+          </div>
+          <div class="flex gap-1.5 overflow-x-auto custom-scroll pb-1 text-[11px]">
+            <button class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 quick-tag">clouds</button>
+            <button class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 quick-tag">cross</button>
+            <button class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 quick-tag">mountains</button>
+            <button class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 quick-tag">rain</button>
+            <button class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 quick-tag">sunset</button>
+          </div>
+        </div>
+
+        <div id="stockGrid" class="grid grid-cols-3 gap-2 max-h-36 overflow-y-auto custom-scroll p-1 bg-slate-950/50 rounded-lg border border-slate-800"></div>
+
+        <label class="block text-center py-2 px-3 border border-dashed border-slate-700 hover:border-sky-500 rounded-lg cursor-pointer transition text-xs text-slate-300 bg-slate-950/40">
+          <i class="fa-solid fa-file-video mr-1 text-sky-400"></i> Upload Your Own Video Clips (+ Add to Playlist)
+          <input type="file" id="localVideoUpload" accept="video/*" multiple class="hidden" />
+        </label>
+
+        <div class="space-y-1">
+          <div class="flex justify-between text-[11px] text-slate-400">
+            <span>Playlist Order (Smooth Crossfade):</span>
+            <span id="lblTimePerClip" class="font-mono text-sky-400">~60s each</span>
+          </div>
+          <div id="stitchedList" class="flex gap-2 overflow-x-auto custom-scroll py-1"></div>
+        </div>
+      </section>
+
+      <hr class="border-slate-800" />
+
+      <!-- 6. Lyrics & Chords -->
+      <section class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <i class="fa-solid fa-font text-sky-400"></i> 6. Lyrics & Chords
+          </h2>
+          <button id="btnAutoFormatLines" class="text-[11px] text-sky-400 hover:underline">Auto-Break Short (7 Clouds)</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 bg-slate-950/40 p-2 rounded-lg border border-slate-800 text-xs">
+          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+            <input type="checkbox" id="chkShowChords" checked class="save-chk accent-sky-500" />
+            <span>Show Chords</span>
+          </label>
+          <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+            <input type="checkbox" id="chkShowFretbox" checked class="save-chk accent-sky-500" />
+            <span>Guitar Fretboard</span>
+          </label>
+        </div>
+
+        <textarea id="lyricsInput" rows="10" class="save-input w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs font-mono text-slate-200 focus:outline-none focus:border-sky-500 custom-scroll"></textarea>
+      </section>
+
     </aside>
 
-    <!-- Center Canvas Stage -->
+    <!-- Canvas Stage -->
     <main class="flex-1 bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      
-      <!-- Video Render Canvas -->
-      <div id="canvasWrapper" class="relative max-h-[78vh] flex items-center justify-center shadow-2xl rounded-xl overflow-hidden border border-slate-800">
+      <div id="canvasWrapper" class="relative max-h-[78vh] flex items-center justify-center shadow-2xl rounded-xl overflow-hidden border border-slate-800 bg-black">
         <canvas id="previewCanvas" class="max-h-[78vh] max-w-full object-contain rounded-xl"></canvas>
       </div>
 
-      <!-- Playback Transport Bar -->
+      <!-- Transport Controls -->
       <div class="w-full max-w-xl mt-4 flex items-center gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur rounded-full border border-slate-800 text-xs">
-        <button id="btnPlayPause" class="w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition">
+        <button id="btnPlayPause" class="w-8 h-8 rounded-full bg-sky-600 hover:bg-sky-500 text-white flex items-center justify-center transition">
           <i class="fa-solid fa-play" id="playIcon"></i>
         </button>
         <span id="timeDisplay" class="font-mono text-slate-400">00:00 / 00:00</span>
-        <input type="range" id="seekSlider" min="0" max="100" value="0" class="flex-1 accent-indigo-500 cursor-pointer" />
+        <input type="range" id="seekSlider" min="0" max="100" value="0" class="flex-1 accent-sky-500 cursor-pointer" />
         <button id="btnRestart" class="text-slate-400 hover:text-white" title="Restart"><i class="fa-solid fa-rotate-left"></i></button>
       </div>
     </main>
   </div>
 
-  <!-- Export Modal -->
-  <div id="exportModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
-    <div class="glass-card p-6 rounded-2xl max-w-sm w-full space-y-4 text-center">
-      <div class="w-12 h-12 rounded-full bg-indigo-600/20 text-indigo-400 flex items-center justify-center mx-auto text-xl">
+  <!-- OPTIONAL DEDICATED MODAL: Gemini AI Music Video Storyboard (10s Sections) -->
+  <div id="storyboardModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center z-50 p-3 sm:p-4">
+    <div class="glass p-5 rounded-2xl max-w-4xl w-full flex flex-col space-y-3 max-h-[94vh] overflow-hidden">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-clapperboard text-emerald-400 text-xl"></i>
+          <div>
+            <h3 class="text-base font-bold text-white">Gemini Music Video Storyboard & Concept Director</h3>
+            <span class="text-[10px] text-slate-400">10-Second Scene Breakdown from Your Audio Timestamps</span>
+          </div>
+        </div>
+        <button id="btnCloseStoryModal" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 flex-1 min-h-0 overflow-hidden">
+        
+        <!-- Left: 10s Timeline Breakdown & Story Script -->
+        <div class="md:col-span-2 flex flex-col space-y-2 overflow-hidden bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-timeline"></i> 10-Second Visual Storyline
+            </span>
+            <button id="btnRegenerateStory" class="text-[11px] px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-medium transition flex items-center gap-1">
+              <i class="fa-solid fa-arrows-rotate" id="storySpinIcon"></i> Generate from Timestamps
+            </button>
+          </div>
+
+          <div id="storyTimelineList" class="flex-1 overflow-y-auto custom-scroll space-y-2 pr-1 text-xs">
+            <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-400 text-center">
+              Click <strong>"Generate from Timestamps"</strong> to have Gemini analyze your lyrics timing and design a cinematic 10-second scene-by-scene script with shot ideas and moods.
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1 border-t border-slate-800 text-[11px]">
+            <button id="btnCopyStory" class="text-emerald-400 hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-copy"></i> Copy Entire Storyline
+            </button>
+            <span class="text-slate-500 text-[10px]">Independent & Optional</span>
+          </div>
+        </div>
+
+        <!-- Right: Story Chat & Director Assistant -->
+        <div class="flex flex-col bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden p-3 space-y-2">
+          <span class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800 pb-1.5">
+            <i class="fa-solid fa-comments text-emerald-400"></i> Story Chat & Edits
+          </span>
+
+          <div id="storyChatBox" class="flex-1 overflow-y-auto custom-scroll space-y-2 p-2 bg-slate-950/70 rounded-lg border border-slate-800/80 text-xs">
+            <div class="p-2 rounded bg-slate-900 text-slate-300">
+              <span class="font-bold text-emerald-400 block mb-0.5">Gemini Director</span>
+              Ask me to add your own plot twists, change locations (e.g. from church to desert), or enhance characters.
+            </div>
+          </div>
+
+          <div class="flex gap-1.5">
+            <input type="text" id="storyChatInput" placeholder="Add ideas (e.g. 'Add a scene with an old Bible')..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500" />
+            <button id="btnSendStoryChat" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold flex items-center justify-center">
+              <i class="fa-solid fa-paper-plane" id="storySendIcon"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Video Preview & Pre-Save Director Studio Modal -->
+  <div id="previewExportModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center z-50 p-3 sm:p-4">
+    <div class="glass p-4 sm:p-5 rounded-2xl max-w-4xl w-full flex flex-col space-y-3 max-h-[95vh] overflow-hidden">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-wand-magic-sparkles text-blue-400 text-lg"></i>
+          <h3 class="text-base font-bold text-white">Review & Gemini AI Director</h3>
+          <span class="text-[10px] bg-blue-950 text-blue-300 border border-blue-800 px-2 py-0.5 rounded-full">Google AI Connected</span>
+        </div>
+        <button id="btnClosePreviewModal" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 flex-1 min-h-0 overflow-hidden">
+        
+        <!-- Left: Rendered Player -->
+        <div class="flex flex-col space-y-2">
+          <div class="flex-1 flex items-center justify-center bg-black rounded-xl overflow-hidden border border-slate-800 relative max-h-[46vh] md:max-h-[52vh]">
+            <video id="renderedPlayer" controls playsinline class="max-h-full max-w-full object-contain"></video>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button id="btnDownloadRendered" class="py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/30 transition">
+              <i class="fa-solid fa-download"></i> Download MP4
+            </button>
+            <button id="btnDirectShare" class="py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/30 transition">
+              <i class="fa-solid fa-share-nodes"></i> Share to YouTube
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Pre-Save Quick Edit & Gemini AI Director Tabs -->
+        <div class="flex flex-col bg-slate-900/80 border border-slate-800 rounded-xl overflow-hidden">
+          
+          <div class="flex border-b border-slate-800 bg-slate-950/60 text-xs">
+            <button id="tabBtnAiAssistant" class="flex-1 py-2 px-3 text-center font-semibold text-blue-400 border-b-2 border-blue-400 flex items-center justify-center gap-1.5">
+              <i class="fa-brands fa-google"></i> Gemini Director Chat
+            </button>
+            <button id="tabBtnManualEdits" class="flex-1 py-2 px-3 text-center font-semibold text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-pen"></i> Quick Edits
+            </button>
+          </div>
+
+          <!-- Tab 1: Gemini Director Chat Interface -->
+          <div id="tabPaneAiAssistant" class="flex-1 flex flex-col p-3 space-y-2 overflow-hidden text-xs">
+            <div id="aiChatBox" class="flex-1 overflow-y-auto custom-scroll space-y-2.5 p-2 bg-slate-950/50 rounded-lg border border-slate-800/80">
+              <div class="p-2.5 rounded-lg bg-slate-900 text-slate-300 space-y-1">
+                <span class="font-bold text-blue-400 block flex items-center gap-1.5">
+                  <i class="fa-solid fa-sparkles"></i> Google Gemini AI Director Ready
+                </span>
+                <p class="text-[11px] text-slate-300">Ask Gemini to rewrite your intro, craft a deeper gospel salvation invitation, create emotional worship hooks, or fix lyrics phrasing.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-1.5 overflow-x-auto custom-scroll py-0.5 text-[10px]">
+              <button class="ai-chip px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap">"Make outro CTA more inspiring"</button>
+              <button class="ai-chip px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap">"Give intro title a cinematic punch"</button>
+              <button class="ai-chip px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 whitespace-nowrap">"Blend reference keywords into outro"</button>
+            </div>
+
+            <div class="flex gap-1.5">
+              <input type="text" id="aiPromptInput" placeholder="Ask Gemini to polish video text..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-400" />
+              <button id="btnSendAiPrompt" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold flex items-center justify-center gap-1">
+                <i class="fa-solid fa-paper-plane" id="aiSendIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tab 2: Manual Direct Edit Drawer -->
+          <div id="tabPaneManualEdits" class="flex-1 hidden flex-col p-3 space-y-2.5 overflow-y-auto custom-scroll text-xs">
+            <div class="space-y-1">
+              <label class="text-slate-400 text-[11px] font-semibold">Intro Main Headline & Subtitle</label>
+              <div class="grid grid-cols-2 gap-1.5">
+                <input type="text" id="editIntroHeadline" class="bg-slate-950 border border-slate-800 rounded p-1.5 text-white" placeholder="Intro Title" />
+                <input type="text" id="editIntroSubtitle" class="bg-slate-950 border border-slate-800 rounded p-1.5 text-sky-300" placeholder="Artist" />
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <label class="text-slate-400 text-[11px] font-semibold">Ending Outro Call-To-Action (CTA)</label>
+              <input type="text" id="editOutroHeader" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-white" placeholder="Outro Header" />
+              <input type="text" id="editOutroCTA" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-sky-300" placeholder="Subscribe & Share message" />
+              <input type="text" id="editOutroStream" class="w-full bg-slate-950 border border-slate-800 rounded p-1.5 text-slate-300" placeholder="Streaming Platforms" />
+            </div>
+
+            <div class="space-y-1 pt-1">
+              <label class="text-slate-400 text-[11px] font-semibold">Logo Watermark Size (% of canvas)</label>
+              <input type="range" id="editLogoScale" min="0.10" max="0.34" step="0.01" value="0.24" class="w-full accent-sky-500" />
+            </div>
+
+            <button id="btnApplyManualAndRerender" class="w-full py-2 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-md shadow-sky-600/30 transition mt-auto">
+              <i class="fa-solid fa-arrows-rotate"></i> Re-Render with Edits
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="flex items-center justify-between pt-1 border-t border-slate-800 text-[11px] text-slate-400">
+        <span>Ready to upload?</span>
+        <button id="btnQuickYouTubeUpload" class="text-red-400 hover:text-red-300 font-medium flex items-center gap-1">
+          <i class="fa-brands fa-youtube"></i> Open YouTube Upload & Copy Info
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- YouTube Package Modal -->
+  <div id="seoModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center z-50 p-4">
+    <div class="glass p-6 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+          <h3 class="text-base font-bold text-white">Ready-to-Copy YouTube Package</h3>
+        </div>
+        <button id="btnCloseSEOModal" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="space-y-3 flex-1 overflow-y-auto custom-scroll pr-1 text-xs">
+        <div>
+          <label class="text-slate-400 font-semibold mb-1 block">Optimized YouTube Video Title</label>
+          <div class="flex gap-2">
+            <input type="text" id="ytVideoTitle" class="w-full bg-slate-900 border border-slate-800 rounded px-3 py-2 text-white font-mono" />
+            <button id="btnCopyTitle" class="px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded whitespace-nowrap"><i class="fa-solid fa-copy"></i> Copy</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="text-slate-400 font-semibold">SEO Description (Streaming, Prayer & Story)</label>
+            <button id="btnCopyDesc" class="text-sky-400 hover:underline"><i class="fa-solid fa-copy mr-1"></i> Copy Full Description</button>
+          </div>
+          <textarea id="ytDescriptionText" rows="11" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-slate-200 font-mono text-[11px] custom-scroll"></textarea>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="text-slate-400 font-semibold">Comma-Separated YouTube Tags</label>
+            <button id="btnCopyTags" class="text-sky-400 hover:underline"><i class="fa-solid fa-copy mr-1"></i> Copy Tags</button>
+          </div>
+          <textarea id="ytTagsText" rows="3" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-slate-300 font-mono text-[11px]"></textarea>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-800 pt-3 flex items-center justify-between">
+        <a href="https://studio.youtube.com" target="_blank" class="text-xs px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg font-semibold flex items-center gap-2">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open YouTube Studio
+        </a>
+        <button id="btnGenerateSEO" class="text-xs px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-semibold">
+          <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh SEO
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encoding / Rendering Progress Modal -->
+  <div id="exportModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
+    <div class="glass p-6 rounded-2xl max-w-sm w-full space-y-4 text-center">
+      <div class="w-12 h-12 rounded-full bg-sky-600/20 text-sky-400 flex items-center justify-center mx-auto text-xl">
         <i class="fa-solid fa-circle-notch fa-spin"></i>
       </div>
-      <h3 class="text-base font-bold text-white">Rendering MP4 Video</h3>
-      <p class="text-xs text-slate-400">Merging video, synchronized chords, lyrics, and audio track...</p>
+      <h3 class="text-base font-bold text-white">Rendering Video</h3>
+      <p id="renderStatusText" class="text-xs text-slate-400">Pre-buffering stitched video clips...</p>
       <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
-        <div id="exportProgressBar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
+        <div id="exportProgressBar" class="bg-sky-500 h-full w-0 transition-all duration-300"></div>
       </div>
       <button id="btnCancelExport" class="text-xs text-slate-400 hover:text-rose-400">Cancel</button>
     </div>
   </div>
 
   <!-- Pexels Key Modal -->
-  <div id="pexelsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
-    <div class="glass-card p-5 rounded-2xl max-w-md w-full space-y-3">
+  <div id="pexelsModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
+    <div class="glass p-5 rounded-2xl max-w-md w-full space-y-3">
       <h3 class="text-sm font-bold text-white flex items-center gap-2">
-        <i class="fa-solid fa-key text-indigo-400"></i> Pexels API Key
+        <i class="fa-solid fa-key text-sky-400"></i> Pexels API Key
       </h3>
-      <p class="text-xs text-slate-400">Enter your key from pexels.com/api to search millions of free vertical & wide clips.</p>
+      <p class="text-xs text-slate-400">Your key is stored permanently in your browser.</p>
       <input type="password" id="pexelsKeyInput" placeholder="Paste Pexels API Key..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white" />
       <div class="flex justify-end gap-2 pt-2">
         <button id="btnClosePexelsModal" class="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white">Cancel</button>
-        <button id="btnSavePexelsKey" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-semibold text-white">Save Key</button>
+        <button id="btnSavePexelsKey" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 rounded-lg text-xs font-semibold text-white">Save Key</button>
       </div>
     </div>
   </div>
 
-  <!-- Media Elements -->
-  <video id="bgVideo" loop playsinline muted crossorigin="anonymous" class="hidden"></video>
+  <!-- Dual Video Engines for Flawless Cross-Dissolve Transitions -->
+  <video id="bgVideoA" loop playsinline muted crossorigin="anonymous" class="hidden"></video>
+  <video id="bgVideoB" loop playsinline muted crossorigin="anonymous" class="hidden"></video>
   <audio id="bgAudio" playsinline crossorigin="anonymous" class="hidden"></audio>
 
   <script>
-    // Guitar Chord Fingerings: [E, A, D, G, B, e] (-1 = mute, 0 = open, 1-4 = fret)
     const CHORD_LIBRARY = {
-      'G':  { frets: [3, 2, 0, 0, 0, 3], base: 1 },
-      'C':  { frets: [-1, 3, 2, 0, 1, 0], base: 1 },
-      'D':  { frets: [-1, -1, 0, 2, 3, 2], base: 1 },
-      'EM': { frets: [0, 2, 2, 0, 0, 0], base: 1 },
-      'AM': { frets: [-1, 0, 2, 2, 1, 0], base: 1 },
-      'F':  { frets: [1, 3, 3, 2, 1, 1], base: 1 },
-      'A':  { frets: [-1, 0, 2, 2, 2, 0], base: 1 },
-      'E':  { frets: [0, 2, 2, 1, 0, 0], base: 1 },
-      'DM': { frets: [-1, -1, 0, 2, 3, 1], base: 1 }
+      'G':  { frets: [3, 2, 0, 0, 0, 3] },
+      'C':  { frets: [-1, 3, 2, 0, 1, 0] },
+      'D':  { frets: [-1, -1, 0, 2, 3, 2] },
+      'EM': { frets: [0, 2, 2, 0, 0, 0] },
+      'AM': { frets: [-1, 0, 2, 2, 1, 0] },
+      'F':  { frets: [1, 3, 3, 2, 1, 1] },
+      'A':  { frets: [-1, 0, 2, 2, 2, 0] },
+      'E':  { frets: [0, 2, 2, 1, 0, 0] }
     };
 
     const state = {
       canvasWidth: 1080,
       canvasHeight: 1920,
+      videoPlaylist: [],
+      currentVideoIdx: 0,
+      nextVideoIdx: 1,
+      crossfadeProgress: 0, // 0 = 100% current, 1 = 100% next
+      isCrossfading: false,
+      logoImage: null,
+      logoScale: 0.24,
       lyrics: [],
-      currentLineIndex: -1,
       currentChord: 'G',
-      groqKey: localStorage.getItem('groq_whisper_key') || '',
-      pexelsKey: localStorage.getItem('pexels_api_key') || '',
+      pexelsKey: localStorage.getItem('veo_pexels_key') || '',
+      groqKey: localStorage.getItem('veo_groqApiKey') || '',
+      geminiKey: localStorage.getItem('veo_geminiApiKey') || '',
       isPlaying: false,
-      audioDuration: 0,
-      currentTime: 0
+      introDuration: 9.0,
+      outroDuration: 8.0,
+      totalVideoDuration: 60,
+      currentTime: 0,
+      customLength: null,
+      renderedBlob: null,
+      renderedUrl: null,
+      renderedMime: 'video/mp4',
+      refMetaData: null
     };
-
-    const curatedVideos = [
-      { name: 'Neon City Night', url: 'https://assets.mixkit.co/videos/preview/mixkit-vertical-view-of-neon-city-lights-at-night-42240-large.mp4', thumb: 'https://images.pexels.com/photos/1519088/pexels-photo-1519088.jpeg?auto=compress&cs=tinysrgb&w=300' },
-      { name: 'Lo-Fi Sunset Clouds', url: 'https://assets.mixkit.co/videos/preview/mixkit-flying-above-clouds-at-sunset-1002-large.mp4', thumb: 'https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=300' },
-      { name: 'Moody Ocean Waves', url: 'https://assets.mixkit.co/videos/preview/mixkit-sea-waves-crashing-on-the-shore-41375-large.mp4', thumb: 'https://images.pexels.com/photos/1001682/pexels-photo-1001682.jpeg?auto=compress&cs=tinysrgb&w=300' }
-    ];
 
     const canvas = document.getElementById('previewCanvas');
     const ctx = canvas.getContext('2d');
-    const bgVideo = document.getElementById('bgVideo');
+    const bgVideoA = document.getElementById('bgVideoA');
+    const bgVideoB = document.getElementById('bgVideoB');
     const bgAudio = document.getElementById('bgAudio');
+    const renderedPlayer = document.getElementById('renderedPlayer');
 
-    // Web Audio Setup
-    let audioCtx, analyser, audioSource, audioDest;
+    let audioCtx, audioSource, audioDest;
+
     function initAudioContext() {
       if (audioCtx) return;
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 64;
       audioSource = audioCtx.createMediaElementSource(bgAudio);
       audioDest = audioCtx.createMediaStreamDestination();
-      audioSource.connect(analyser);
-      analyser.connect(audioCtx.destination);
-      analyser.connect(audioDest);
+      audioSource.connect(audioCtx.destination);
+      audioSource.connect(audioDest);
     }
 
-    // --- Init App ---
     window.addEventListener('DOMContentLoaded', () => {
       setCanvasSize(1080, 1920);
-      populateStockVideos(curatedVideos);
-      loadVideo(curatedVideos[0].url);
+      loadSavedSettings();
 
-      if (state.groqKey) document.getElementById('groqApiKey').value = state.groqKey;
+      const savedLogoData = localStorage.getItem('veo_saved_logo_data');
+      if (savedLogoData) {
+        const img = new Image();
+        img.onload = () => {
+          state.logoImage = img;
+          document.getElementById('logoImg').src = savedLogoData;
+          document.getElementById('logoImg').classList.remove('hidden');
+          document.getElementById('logoPlaceholder').classList.add('hidden');
+          document.getElementById('btnClearSavedLogo').classList.remove('hidden');
+        };
+        img.src = savedLogoData;
+      }
 
-      const demoSongData = 
-`[00:00.00] [G] Broken in the [C] neon glow
-[00:03.50] [D] Walking down a [G] lonely road
-[00:07.00] [Em] Guitar weeping in the [C] night
-[00:10.50] [D] Waiting for the morning [G] light`;
-      document.getElementById('lyricsInput').value = demoSongData;
-      parseLyricsAndChords();
+      addVideoUrlToPlaylist('Floating Clouds', 'https://assets.mixkit.co/videos/preview/mixkit-flying-above-clouds-at-sunset-1002-large.mp4', 'https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=300');
+
+      parseLyrics();
+      recalcVideoDuration();
+      generateYouTubeSEOPackage();
     });
+
+    function loadSavedSettings() {
+      const defaults = {
+        songTitle: 'Weak',
+        artistName: 'James Ussery',
+        songCategory: 'gospel',
+        introHeadline: 'WEAK',
+        introSubtitle: 'James Ussery',
+        introExtra: 'Official Praise & Worship Video • @JamesUsseryMusic',
+        outroHeader: 'THANK YOU FOR LISTENING',
+        outroCallToAction: 'Subscribe • Like • Share the Gospel',
+        outroStreamingNote: 'Stream everywhere on Spotify, Apple Music & YouTube',
+        outroChannelHandle: '@JamesUsseryMusic',
+        geminiApiKey: '',
+        groqApiKey: '',
+        lyricsInput: 
+`[00:00.00] [G] My spirit is
+[00:03.50] With you
+[00:08.69] [G] I've been running
+[00:11.50] From the shadows
+[00:14.71] [C] I've built in my
+[00:16.50] Own mind
+[00:17.60] [G] Trying to carry
+[00:19.50] Every burden
+[00:20.87] Like I ain't running
+[00:22.50] Out of time
+[00:23.82] [D] Some nights
+[00:25.50] I talk to Jesus
+[00:27.01] Like he's sitting
+[00:28.50] In the passenger seat
+[00:29.87] Telling him everything
+[00:32.00] I'm scared to say out loud
+[00:33.97] To anybody else
+[00:35.50] But me
+[00:36.32] [C] I've been broken
+[00:38.20] I've been tired
+[00:40.23] Walking through the fire
+[00:41.79] But somehow grace
+[00:44.00] Keeps pulling me back on my feet
+[00:46.10] [G] When my spirit is weak
+[00:48.57] [D] His love is strong
+[00:51.97] When I'm losing the fight
+[00:55.37] He's been there all along
+[00:58.28] [C] I fall apart
+[01:01.00] He picks up every piece
+[01:04.43] [G] He makes me better
+[01:07.50] Than I thought I'd be`
+      };
+
+      document.querySelectorAll('.save-input').forEach(input => {
+        const saved = localStorage.getItem(`veo_${input.id}`);
+        input.value = (saved !== null) ? saved : (defaults[input.id] || '');
+        input.addEventListener('input', () => {
+          localStorage.setItem(`veo_${input.id}`, input.value);
+          if (input.id === 'geminiApiKey') state.geminiKey = input.value.trim();
+          if (input.id === 'groqApiKey') state.groqKey = input.value.trim();
+          if (['songTitle', 'artistName', 'songCategory'].includes(input.id)) {
+            generateYouTubeSEOPackage();
+          }
+        });
+      });
+
+      state.geminiKey = document.getElementById('geminiApiKey').value.trim();
+      state.groqKey = document.getElementById('groqApiKey').value.trim();
+
+      document.querySelectorAll('.save-chk').forEach(chk => {
+        const saved = localStorage.getItem(`veo_${chk.id}`);
+        if (saved !== null) chk.checked = (saved === 'true');
+        chk.addEventListener('change', () => {
+          localStorage.setItem(`veo_${chk.id}`, chk.checked);
+          recalcVideoDuration();
+        });
+      });
+
+      if (state.pexelsKey) {
+        document.getElementById('pexelsKeyInput').value = state.pexelsKey;
+      }
+    }
 
     function setCanvasSize(w, h) {
       state.canvasWidth = w;
@@ -290,12 +775,403 @@
       canvas.style.aspectRatio = `${w} / ${h}`;
     }
 
-    // Ratio Switchers
     document.querySelectorAll('.ratio-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.ratio-btn').forEach(b => b.className = 'ratio-btn px-2 py-1.5 rounded bg-slate-800 text-slate-300 text-xs font-medium hover:bg-slate-700');
-        btn.className = 'ratio-btn px-2 py-1.5 rounded bg-indigo-600 text-white text-xs font-medium';
+        document.querySelectorAll('.ratio-btn').forEach(b => {
+          b.className = 'ratio-btn px-2 py-2 rounded bg-slate-800 text-slate-300 text-[11px] font-semibold hover:bg-slate-700 flex items-center justify-center gap-1';
+        });
+        btn.className = 'ratio-btn px-2 py-2 rounded bg-sky-600 text-white text-[11px] font-semibold flex items-center justify-center gap-1 shadow-sm';
         setCanvasSize(parseInt(btn.dataset.w), parseInt(btn.dataset.h));
+      });
+    });
+
+    // --- GOOGLE GEMINI API CALLER ---
+    async function callGemini(promptText, systemInstruction = '') {
+      const apiKey = state.geminiKey || document.getElementById('geminiApiKey').value.trim();
+      if (!apiKey) throw new Error('Please enter your Google Gemini API key.');
+
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [
+          { role: 'user', parts: [{ text: promptText }] }
+        ]
+      };
+
+      if (systemInstruction) {
+        payload.systemInstruction = {
+          parts: [{ text: systemInstruction }]
+        };
+      }
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error?.message || 'Gemini API call failed');
+      }
+
+      const data = await res.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    // --- DEDICATED 10-SECOND STORYBOARD GENERATOR ---
+    const storyboardModal = document.getElementById('storyboardModal');
+    document.getElementById('btnOpenStoryModal').onclick = () => storyboardModal.classList.remove('hidden');
+    document.getElementById('btnGenerateStoryPrompt').onclick = () => {
+      storyboardModal.classList.remove('hidden');
+      document.getElementById('btnRegenerateStory').click();
+    };
+    document.getElementById('btnCloseStoryModal').onclick = () => storyboardModal.classList.add('hidden');
+
+    document.getElementById('btnRegenerateStory').onclick = async () => {
+      const key = state.geminiKey || document.getElementById('geminiApiKey').value.trim();
+      if (!key) return alert('Please enter your Google Gemini API key first.');
+
+      const spinIcon = document.getElementById('storySpinIcon');
+      spinIcon.className = 'fa-solid fa-arrows-rotate fa-spin';
+
+      const lyricsWithTimestamps = document.getElementById('lyricsInput').value.trim();
+      const songTitle = document.getElementById('songTitle').value || 'Song';
+      const category = document.getElementById('songCategory').value;
+      const totalLen = Math.round(state.totalVideoDuration || 60);
+
+      const prompt = `Analyze this song's timestamped lyrics and produce an emotional music video storyboard.
+Song Title: "${songTitle}"
+Artist: "${document.getElementById('artistName').value}"
+Category: "${category}" (Gospel/Worship or Love Song)
+Total Duration: ~${totalLen} seconds.
+
+Timestamps & Lyrics:
+${lyricsWithTimestamps}
+
+REQUIREMENTS:
+1. Divide the song into sequential 10-SECOND SECTIONS from 00:00 to the end.
+2. For each 10s section, provide:
+   - Timestamp Range (e.g. 00:00 - 00:10)
+   - Current Lyric Phrase
+   - Cinematic Visual Scene (Camera angle, actor/artist action, lighting, emotional mood)
+   - Stock Video Search Keywords (e.g. "foggy forest sunrise", "hands praying neon light")
+3. Return STRICTLY a valid JSON array of objects with this schema:
+[
+  {
+    "range": "00:00 - 00:10",
+    "lyrics": "My spirit is with you",
+    "scene": "Slow motion close-up of weary hands gripping steering wheel at night rain.",
+    "keywords": "rain night car interior dashboard glow"
+  }
+]`;
+
+      try {
+        const reply = await callGemini(prompt, 'You are an award-winning cinematic music video director.');
+        const jsonMatch = /\[\s*\{[\s\S]*\}\s*\]/.exec(reply);
+        if (!jsonMatch) throw new Error('Could not parse storyboard JSON');
+
+        const scenes = JSON.parse(jsonMatch[0]);
+        renderStoryboardUI(scenes);
+      } catch (err) {
+        alert('Storyboard generation error: ' + err.message);
+      } finally {
+        spinIcon.className = 'fa-solid fa-arrows-rotate';
+      }
+    };
+
+    function renderStoryboardUI(scenes) {
+      const container = document.getElementById('storyTimelineList');
+      container.innerHTML = '';
+
+      scenes.forEach(s => {
+        const item = document.createElement('div');
+        item.className = 'p-2.5 rounded-lg bg-slate-900 border border-slate-800 space-y-1 hover:border-emerald-500/50 transition';
+        item.innerHTML = `
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-700/60">${s.range}</span>
+            <span class="text-slate-400 italic truncate max-w-[200px]">"${s.lyrics}"</span>
+          </div>
+          <p class="text-slate-200 text-xs mt-1 leading-snug">${s.scene}</p>
+          <div class="text-[10px] text-slate-400 flex items-center gap-1 pt-0.5">
+            <span class="text-slate-500 font-mono">Stock Keywords:</span>
+            <span class="text-sky-300 font-mono">${s.keywords}</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    document.getElementById('btnCopyStory').onclick = () => {
+      const list = document.getElementById('storyTimelineList').innerText;
+      navigator.clipboard.writeText(list);
+      alert('10-Second Storyboard copied to clipboard!');
+    };
+
+    document.getElementById('btnSendStoryChat').onclick = async () => {
+      const prompt = document.getElementById('storyChatInput').value.trim();
+      if (!prompt) return;
+
+      const key = state.geminiKey || document.getElementById('geminiApiKey').value.trim();
+      if (!key) return alert('Please enter your Google Gemini API key first.');
+
+      appendStoryChatMessage('user', prompt);
+      document.getElementById('storyChatInput').value = '';
+
+      const sendIcon = document.getElementById('storySendIcon');
+      sendIcon.className = 'fa-solid fa-spinner fa-spin';
+
+      const currentStoryboard = document.getElementById('storyTimelineList').innerText;
+
+      const sysPrompt = `You are a music video director collaborating with James Ussery.
+You have the current 10-second scene storyboard:
+${currentStoryboard}
+
+The artist wants to modify, refine, or add ideas to the story. Answer helpfully and if you propose an updated 10s breakdown, format it cleanly so they can use it.`;
+
+      try {
+        const reply = await callGemini(prompt, sysPrompt);
+        appendStoryChatMessage('ai', reply);
+      } catch (err) {
+        appendStoryChatMessage('ai', 'Error: ' + err.message);
+      } finally {
+        sendIcon.className = 'fa-solid fa-paper-plane';
+      }
+    };
+
+    function appendStoryChatMessage(role, text) {
+      const box = document.getElementById('storyChatBox');
+      const msg = document.createElement('div');
+      msg.className = role === 'user' 
+        ? 'p-2 rounded-lg bg-emerald-950/80 border border-emerald-800/60 text-emerald-200 ml-4 self-end' 
+        : 'p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 mr-2 space-y-1';
+      msg.innerHTML = `<p class="whitespace-pre-wrap">${text}</p>`;
+      box.appendChild(msg);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    // --- REFERENCE VIDEO METADATA (POWERED BY GEMINI) ---
+    document.getElementById('btnFetchRefMeta').addEventListener('click', async () => {
+      const url = document.getElementById('refVideoUrl').value.trim();
+      const resultBox = document.getElementById('refMetaResultBox');
+      const searchIcon = document.getElementById('refSearchIcon');
+
+      if (!url) return alert('Please paste a YouTube or video URL.');
+      searchIcon.className = 'fa-solid fa-spinner fa-spin';
+
+      try {
+        let extractedTitle = '';
+        let extractedAuthor = '';
+
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+          const oembedRes = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(url)}`);
+          const oembedData = await oembedRes.json();
+          extractedTitle = oembedData.title || '';
+          extractedAuthor = oembedData.author_name || '';
+        } else {
+          extractedTitle = url.split('/').pop().replace(/[-_]/g, ' ') || 'Reference Video';
+        }
+
+        let tagsList = [];
+        let hashtagsList = [];
+
+        try {
+          const prompt = `Inspect this video title and artist:
+Title: "${extractedTitle}"
+Author: "${extractedAuthor}"
+Category: "${document.getElementById('songCategory').value}"
+
+Extract the 15 highest-traffic YouTube search tags and 8 trending hashtags.
+Return your answer strictly as a JSON object:
+{
+  "tags": ["tag1", "tag2", "tag3"],
+  "hashtags": ["#tag1", "#tag2", "#tag3"]
+}`;
+
+          const geminiReply = await callGemini(prompt, 'You are an elite YouTube SEO strategist.');
+          const jsonMatch = /\{[\s\S]*\}/.exec(geminiReply);
+          if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            tagsList = parsed.tags || [];
+            hashtagsList = parsed.hashtags || [];
+          }
+        } catch (aiErr) {
+          console.warn('Gemini tag extraction fallback:', aiErr);
+        }
+
+        if (tagsList.length === 0) {
+          tagsList = [extractedTitle, extractedAuthor, 'Christian Music', 'Gospel Video', 'Official Lyrics', 'Praise', 'Worship 2026'];
+          hashtagsList = [`#${extractedTitle.replace(/[^a-zA-Z0-9]/g, '')}`, '#Worship', '#ChristianMusic', '#Gospel'];
+        }
+
+        state.refMetaData = {
+          title: extractedTitle,
+          author: extractedAuthor,
+          tags: tagsList,
+          hashtags: hashtagsList
+        };
+
+        document.getElementById('refFoundTitle').innerText = `${extractedTitle} ${extractedAuthor ? `(${extractedAuthor})` : ''}`;
+        document.getElementById('refFoundTags').innerText = tagsList.join(', ');
+        document.getElementById('refFoundHashtags').innerText = hashtagsList.join(' ');
+        resultBox.classList.remove('hidden');
+
+      } catch (err) {
+        alert('Could not inspect video metadata: ' + err.message);
+      } finally {
+        searchIcon.className = 'fa-solid fa-magnifying-glass';
+      }
+    });
+
+    document.getElementById('btnApplyRefToMyFormat').onclick = () => {
+      if (!state.refMetaData) return;
+      const currentTags = document.getElementById('ytTagsText').value;
+      const newMergedTags = `${state.refMetaData.tags.join(', ')}, ${currentTags}`;
+      document.getElementById('ytTagsText').value = newMergedTags;
+
+      let desc = document.getElementById('ytDescriptionText').value;
+      const cleanHashtags = state.refMetaData.hashtags.join(' ');
+      desc = desc.replace('🏷️ HASHTAGS:\n', `🏷️ HASHTAGS:\n${cleanHashtags} `);
+      document.getElementById('ytDescriptionText').value = desc;
+
+      alert('Reference tags and keywords successfully merged into your YouTube Package!');
+    };
+
+    document.getElementById('btnApplyRefTitle').onclick = () => {
+      if (!state.refMetaData || !state.refMetaData.title) return;
+      const cleaned = state.refMetaData.title.replace(/(\(|\[).*?(\)|\])/g, '').trim();
+      document.getElementById('songTitle').value = cleaned;
+      document.getElementById('introHeadline').value = cleaned.toUpperCase();
+      localStorage.setItem('veo_songTitle', cleaned);
+      localStorage.setItem('veo_introHeadline', cleaned.toUpperCase());
+      generateYouTubeSEOPackage();
+      alert(`Applied "${cleaned}" as your active title!`);
+    };
+
+    // --- Logo Watermark ---
+    const logoUpload = document.getElementById('logoUpload');
+    const logoScaleSlider = document.getElementById('logoScaleSlider');
+    const lblLogoScale = document.getElementById('lblLogoScale');
+
+    logoUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const base64 = event.target.result;
+          localStorage.setItem('veo_saved_logo_data', base64);
+          const img = new Image();
+          img.onload = () => {
+            state.logoImage = img;
+            document.getElementById('logoImg').src = base64;
+            document.getElementById('logoImg').classList.remove('hidden');
+            document.getElementById('logoPlaceholder').classList.add('hidden');
+            document.getElementById('btnClearSavedLogo').classList.remove('hidden');
+          };
+          img.src = base64;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('btnClearSavedLogo').onclick = () => {
+      localStorage.removeItem('veo_saved_logo_data');
+      state.logoImage = null;
+      document.getElementById('logoImg').classList.add('hidden');
+      document.getElementById('logoPlaceholder').classList.remove('hidden');
+      document.getElementById('btnClearSavedLogo').classList.add('hidden');
+    };
+
+    logoScaleSlider.addEventListener('input', (e) => {
+      state.logoScale = parseFloat(e.target.value);
+      lblLogoScale.innerText = `${Math.round(state.logoScale * 100)}% Width`;
+    });
+
+    // --- Safe Blob & Crossfade Player Setup ---
+    async function convertToSafeBlob(url) {
+      if (url.startsWith('blob:')) return url;
+      try {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        return URL.createObjectURL(blob);
+      } catch (err) {
+        return url;
+      }
+    }
+
+    async function addVideoUrlToPlaylist(name, rawUrl, thumb) {
+      const safeUrl = await convertToSafeBlob(rawUrl);
+      state.videoPlaylist.push({ name, url: safeUrl, rawUrl, thumb });
+      renderPlaylistUI();
+      recalcVideoDuration();
+      setupDualPlayers();
+    }
+
+    function renderPlaylistUI() {
+      document.getElementById('clipCount').innerText = state.videoPlaylist.length;
+      const listEl = document.getElementById('stitchedList');
+      listEl.innerHTML = '';
+      state.videoPlaylist.forEach((clip, idx) => {
+        const d = document.createElement('div');
+        d.className = `shrink-0 relative w-16 h-20 rounded border ${idx === state.currentVideoIdx ? 'border-sky-400 ring-2 ring-sky-500/40' : 'border-slate-800'} overflow-hidden group`;
+        d.innerHTML = `
+          <img src="${clip.thumb}" class="w-full h-full object-cover" />
+          <span class="absolute bottom-0 inset-x-0 text-[9px] bg-black/80 text-center truncate px-0.5">${idx + 1}</span>
+          <button class="absolute top-0 right-0 bg-rose-600 text-white text-[10px] w-4 h-4 flex items-center justify-center opacity-0 group-hover:opacity-100 transition" onclick="removeClip(${idx})">&times;</button>
+        `;
+        listEl.appendChild(d);
+      });
+    }
+
+    window.removeClip = function(idx) {
+      if (state.videoPlaylist.length <= 1) return alert('Keep at least 1 video clip in the playlist.');
+      state.videoPlaylist.splice(idx, 1);
+      if (state.currentVideoIdx >= state.videoPlaylist.length) state.currentVideoIdx = 0;
+      renderPlaylistUI();
+      recalcVideoDuration();
+      setupDualPlayers();
+    };
+
+    document.getElementById('btnClearClips').onclick = () => {
+      state.videoPlaylist = [];
+      addVideoUrlToPlaylist('Floating Clouds', 'https://assets.mixkit.co/videos/preview/mixkit-flying-above-clouds-at-sunset-1002-large.mp4', 'https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=300');
+    };
+
+    function setupDualPlayers() {
+      if (state.videoPlaylist.length === 0) return;
+      const curClip = state.videoPlaylist[state.currentVideoIdx] || state.videoPlaylist[0];
+      const nextIdx = (state.currentVideoIdx + 1) % state.videoPlaylist.length;
+      const nextClip = state.videoPlaylist[nextIdx] || curClip;
+
+      bgVideoA.src = curClip.url;
+      bgVideoA.load();
+
+      if (state.videoPlaylist.length > 1) {
+        bgVideoB.src = nextClip.url;
+        bgVideoB.load();
+      }
+    }
+
+    document.getElementById('localVideoUpload').addEventListener('change', (e) => {
+      const files = Array.from(e.target.files);
+      files.forEach(file => {
+        const url = URL.createObjectURL(file);
+        state.videoPlaylist.push({
+          name: file.name,
+          url: url,
+          rawUrl: url,
+          thumb: 'https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg?auto=compress&cs=tinysrgb&w=300'
+        });
+      });
+      renderPlaylistUI();
+      recalcVideoDuration();
+      setupDualPlayers();
+    });
+
+    document.querySelectorAll('.quick-tag').forEach(tagBtn => {
+      tagBtn.addEventListener('click', () => {
+        document.getElementById('pexelsQuery').value = tagBtn.innerText;
+        document.getElementById('btnSearchPexels').click();
       });
     });
 
@@ -304,26 +1180,22 @@
       grid.innerHTML = '';
       videos.forEach(v => {
         const item = document.createElement('div');
-        item.className = 'relative aspect-[9/16] rounded-md overflow-hidden cursor-pointer group border border-slate-800 hover:border-indigo-500';
+        item.className = 'relative aspect-[9/16] rounded-md overflow-hidden group border border-slate-800 hover:border-sky-500';
         item.innerHTML = `
-          <img src="${v.thumb}" class="w-full h-full object-cover group-hover:scale-105 transition" />
-          <span class="absolute bottom-0 inset-x-0 p-1 bg-gradient-to-t from-black text-[10px] truncate text-center">${v.name}</span>
+          <img src="${v.thumb}" class="w-full h-full object-cover" />
+          <button class="absolute inset-0 bg-sky-600/70 text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-1">
+            <i class="fa-solid fa-plus"></i> Add Clip
+          </button>
+          <span class="absolute bottom-0 inset-x-0 p-1 bg-gradient-to-t from-black text-[9px] truncate text-center">${v.name}</span>
         `;
-        item.onclick = () => loadVideo(v.url);
+        item.onclick = async () => {
+          item.innerHTML += `<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-sky-400 text-xs"><i class="fa-solid fa-spinner fa-spin"></i></div>`;
+          await addVideoUrlToPlaylist(v.name, v.url, v.thumb);
+          item.lastElementChild.remove();
+        };
         grid.appendChild(item);
       });
     }
-
-    function loadVideo(url) {
-      bgVideo.src = url;
-      bgVideo.load();
-    }
-
-    // Video & Audio Uploads
-    document.getElementById('videoUpload').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) loadVideo(URL.createObjectURL(file));
-    });
 
     document.getElementById('audioUpload').addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -334,67 +1206,117 @@
         nameEl.innerText = file.name;
         nameEl.classList.remove('hidden');
         bgAudio.onloadedmetadata = () => {
-          state.audioDuration = bgAudio.duration;
+          recalcVideoDuration();
           updateTimeDisplay();
         };
       }
     });
 
-    // --- Parser for Timestamps, Chords & Words ---
-    function parseLyricsAndChords() {
-      const lines = document.getElementById('lyricsInput').value.split('\n');
+    function recalcVideoDuration() {
+      const intro = document.getElementById('chkIntro').checked ? state.introDuration : 0;
+      const outro = document.getElementById('chkOutro').checked ? state.outroDuration : 0;
+      const audioLen = bgAudio.duration || 60;
+      const effectiveAudio = state.customLength ? Math.min(state.customLength, audioLen) : audioLen;
+      state.totalVideoDuration = intro + effectiveAudio + outro;
+
+      const numClips = Math.max(state.videoPlaylist.length, 1);
+      const timePerClip = Math.round(state.totalVideoDuration / numClips);
+      document.getElementById('lblTimePerClip').innerText = `~${timePerClip}s per clip (${numClips} total)`;
+    }
+
+    document.getElementById('customLengthInput').addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      state.customLength = (val && val > 0) ? val : null;
+      document.getElementById('txtDurationMode').innerText = state.customLength ? `${state.customLength}s Custom` : 'Full Audio Track';
+      recalcVideoDuration();
+    });
+
+    document.getElementById('btnResetLength').onclick = () => {
+      document.getElementById('customLengthInput').value = '';
+      state.customLength = null;
+      document.getElementById('txtDurationMode').innerText = 'Full Audio Track';
+      recalcVideoDuration();
+    };
+
+    document.getElementById('btnAutoFormatLines').onclick = () => {
+      const lines = state.lyrics;
+      if (lines.length === 0) return;
+      let newText = '';
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const nextTime = lines[i+1] ? lines[i+1].time : (line.time + 3.8);
+        const words = line.text.split(' ');
+        const chordPrefix = line.chord ? `[${line.chord}] ` : '';
+        if (words.length > 4) {
+          const mid = Math.ceil(words.length / 2);
+          const part1 = words.slice(0, mid).join(' ');
+          const part2 = words.slice(mid).join(' ');
+          const t1 = line.time;
+          const t2 = line.time + (nextTime - line.time) / 2;
+          newText += `${formatTimestamp(t1)} ${chordPrefix}${part1}\n${formatTimestamp(t2)} ${part2}\n`;
+        } else {
+          newText += `${formatTimestamp(line.time)} ${chordPrefix}${line.text}\n`;
+        }
+      }
+      document.getElementById('lyricsInput').value = newText.trim();
+      localStorage.setItem('veo_lyricsInput', newText.trim());
+      parseLyrics();
+    };
+
+    function formatTimestamp(secs) {
+      const m = String(Math.floor(secs / 60)).padStart(2, '0');
+      const s = String(Math.floor(secs % 60)).padStart(2, '0');
+      const ms = String(Math.floor((secs % 1) * 100)).padStart(2, '0');
+      return `[${m}:${s}.${ms}]`;
+    }
+
+    function parseLyrics() {
+      const raw = document.getElementById('lyricsInput').value.split('\n');
       const timeRegex = /\[(\d{2}):(\d{2})\.?(\d{0,3})\]/;
-      const chordRegex = /\[([A-G][b#]?(?:m\vert{}maj\vert{}min\vert{}dim\vert{}aug\vert{}sus\vert{}7\vert{}9)?)\]/g;
+      const chordRegex = /\[([A-G][b#]?(?:m|maj|min|dim|aug|sus|7|9)?)\]/g;
       state.lyrics = [];
 
-      lines.forEach(rawLine => {
-        const timeMatch = timeRegex.exec(rawLine);
-        if (timeMatch) {
-          const min = parseInt(timeMatch[1]);
-          const sec = parseInt(timeMatch[2]);
-          const ms = timeMatch[3] ? parseInt(timeMatch[3].padEnd(3, '0').slice(0, 3)) : 0;
+      raw.forEach(line => {
+        const m = timeRegex.exec(line);
+        if (m) {
+          const min = parseInt(m[1]);
+          const sec = parseInt(m[2]);
+          const ms = m[3] ? parseInt(m[3].padEnd(3, '0').slice(0, 3)) : 0;
           const time = min * 60 + sec + ms / 1000;
           
-          let lineTextWithChords = rawLine.replace(timeRegex, '').trim();
-          
-          // Extract chords and plain text
-          let chordsInLine = [];
+          let lineNoTime = line.replace(timeRegex, '').trim();
+          let chords = [];
           let match;
-          while ((match = chordRegex.exec(lineTextWithChords)) !== null) {
-            chordsInLine.push({ chord: match[1].toUpperCase(), index: match.index });
+          while ((match = chordRegex.exec(lineNoTime)) !== null) {
+            chords.push(match[1].toUpperCase());
           }
-          
-          let plainText = lineTextWithChords.replace(/\[[A-G][b#]?(?:m\vert{}maj\vert{}min\vert{}dim\vert{}aug\vert{}sus\vert{}7\vert{}9)?\]/g, '').replace(/\s+/g, ' ').trim();
 
-          if (plainText || chordsInLine.length > 0) {
+          let plainText = lineNoTime.replace(/\[[A-G][b#]?(?:m|maj|min|dim|aug|sus|7|9)?\]/g, '').replace(/\s+/g, ' ').trim();
+          if (plainText || chords.length > 0) {
             state.lyrics.push({
               time,
               text: plainText,
-              rawChords: chordsInLine,
-              firstChord: chordsInLine.length > 0 ? chordsInLine[0].chord : null
+              chords: chords,
+              chord: chords.length > 0 ? chords[0] : null
             });
           }
         }
       });
       state.lyrics.sort((a, b) => a.time - b.time);
     }
-    document.getElementById('lyricsInput').addEventListener('input', parseLyricsAndChords);
+    document.getElementById('lyricsInput').addEventListener('input', parseLyrics);
 
-    // --- Groq Whisper AI Sync ---
+    // Groq Whisper Transcription
     document.getElementById('btnAiTranscribe').addEventListener('click', async () => {
-      const key = document.getElementById('groqApiKey').value.trim();
+      const key = state.groqKey || document.getElementById('groqApiKey').value.trim();
       const statusEl = document.getElementById('aiStatus');
       const audioInput = document.getElementById('audioUpload');
       const lyricsArea = document.getElementById('lyricsInput');
 
-      if (!key) return alert('Please enter your Groq API key (starts with gsk_).');
-      if (!audioInput.files || !audioInput.files[0]) return alert('Please upload a song first in Step 2.');
+      if (!key) return alert('Please enter your Groq API key.');
+      if (!audioInput.files || !audioInput.files[0]) return alert('Upload a song audio file in Step 5 first.');
 
-      if (document.getElementById('chkSaveKey').checked) {
-        localStorage.setItem('groq_whisper_key', key);
-      }
-
-      statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Transcribing audio via Groq Whisper LPU...';
+      statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Transcribing with Groq Whisper Large v3...';
       statusEl.className = 'text-[11px] text-indigo-400 min-h-[16px]';
 
       try {
@@ -414,7 +1336,7 @@
 
         if (!res.ok) {
           const err = await res.json();
-          throw new Error(err.error?.message || 'Transcription error');
+          throw new Error(err.error?.message || 'Transcription error.');
         }
 
         const data = await res.json();
@@ -426,8 +1348,10 @@
         }).join('\n');
 
         lyricsArea.value = lrcFormatted;
-        parseLyricsAndChords();
-        statusEl.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Timestamps generated! Add or tweak your [Chords].';
+        localStorage.setItem('veo_lyricsInput', lrcFormatted);
+        parseLyrics();
+        document.getElementById('btnAutoFormatLines').click();
+        statusEl.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Formatted into 7 Clouds short lines!';
         statusEl.className = 'text-[11px] text-emerald-400 min-h-[16px]';
       } catch (err) {
         statusEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> ${err.message}`;
@@ -435,134 +1359,262 @@
       }
     });
 
-    // Stamp Line Button
-    document.getElementById('btnStampLine').addEventListener('click', () => {
-      const cur = bgAudio.currentTime || 0;
-      const m = String(Math.floor(cur / 60)).padStart(2, '0');
-      const s = String(Math.floor(cur % 60)).padStart(2, '0');
-      const ms = String(Math.floor((cur % 1) * 100)).padStart(2, '0');
-      const stamp = `[${m}:${s}.${ms}] [G] `;
-      
-      const area = document.getElementById('lyricsInput');
-      const start = area.selectionStart;
-      area.value = area.value.substring(0, start) + stamp + area.value.substring(start);
-      parseLyricsAndChords();
-    });
-
-    // --- Playback Bar ---
     const btnPlayPause = document.getElementById('btnPlayPause');
     const playIcon = document.getElementById('playIcon');
     const seekSlider = document.getElementById('seekSlider');
 
     btnPlayPause.addEventListener('click', () => {
       initAudioContext();
-      if (bgAudio.paused) {
-        bgAudio.play();
-        bgVideo.play();
-        state.isPlaying = true;
-        playIcon.className = 'fa-solid fa-pause';
-      } else {
-        bgAudio.pause();
-        bgVideo.pause();
-        state.isPlaying = false;
-        playIcon.className = 'fa-solid fa-play';
-      }
-    });
-
-    document.getElementById('btnRestart').addEventListener('click', () => {
-      bgAudio.currentTime = 0;
-      bgVideo.currentTime = 0;
       if (state.isPlaying) {
-        bgAudio.play();
-        bgVideo.play();
+        pauseAll();
+      } else {
+        playAll();
       }
     });
 
-    bgAudio.addEventListener('timeupdate', () => {
-      state.currentTime = bgAudio.currentTime;
-      seekSlider.value = (state.currentTime / (state.audioDuration || 1)) * 100;
+    function playAll() {
+      state.isPlaying = true;
+      playIcon.className = 'fa-solid fa-pause';
+      bgVideoA.play().catch(() => {});
+      if (state.videoPlaylist.length > 1) bgVideoB.play().catch(() => {});
+      const intro = document.getElementById('chkIntro').checked ? state.introDuration : 0;
+      if (state.currentTime >= intro) {
+        bgAudio.currentTime = state.currentTime - intro;
+        bgAudio.play().catch(() => {});
+      }
+    }
+
+    function pauseAll() {
+      state.isPlaying = false;
+      playIcon.className = 'fa-solid fa-play';
+      bgVideoA.pause();
+      bgVideoB.pause();
+      bgAudio.pause();
+    }
+
+    document.getElementById('btnRestart').onclick = () => {
+      state.currentTime = 0;
+      bgAudio.currentTime = 0;
+      seekSlider.value = 0;
+      updateTimeDisplay();
+      if (state.isPlaying) playAll();
+    };
+
+    seekSlider.addEventListener('input', () => {
+      recalcVideoDuration();
+      state.currentTime = (seekSlider.value / 100) * (state.totalVideoDuration || 1);
+      const intro = document.getElementById('chkIntro').checked ? state.introDuration : 0;
+      if (state.currentTime >= intro) {
+        bgAudio.currentTime = state.currentTime - intro;
+      } else {
+        bgAudio.currentTime = 0;
+        bgAudio.pause();
+      }
       updateTimeDisplay();
     });
 
-    seekSlider.addEventListener('input', () => {
-      const targetTime = (seekSlider.value / 100) * (state.audioDuration || 1);
-      bgAudio.currentTime = targetTime;
-      bgVideo.currentTime = targetTime;
-    });
-
     function updateTimeDisplay() {
-      const cur = formatTime(state.currentTime);
-      const total = formatTime(state.audioDuration || 0);
-      document.getElementById('timeDisplay').innerText = `${cur} / ${total}`;
+      const cur = formatClock(state.currentTime);
+      const tot = formatClock(state.totalVideoDuration || 60);
+      document.getElementById('timeDisplay').innerText = `${cur} / ${tot}`;
     }
 
-    function formatTime(secs) {
-      const m = String(Math.floor(secs / 60)).padStart(2, '0');
-      const s = String(Math.floor(secs % 60)).padStart(2, '0');
+    function formatClock(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, '0');
+      const s = String(Math.floor(sec % 60)).padStart(2, '0');
       return `${m}:${s}`;
     }
 
-    // --- Canvas Main Drawing Loop ---
-    function renderFrame() {
+    // --- Master Render Engine (With Professional Crossfade & No Black Spots) ---
+    let lastTick = Date.now();
+    function render() {
+      const now = Date.now();
+      const delta = (now - lastTick) / 1000;
+      lastTick = now;
+
+      if (state.isPlaying) {
+        state.currentTime += delta;
+        recalcVideoDuration();
+
+        const intro = document.getElementById('chkIntro').checked ? state.introDuration : 0;
+
+        if (state.currentTime >= intro && bgAudio.paused && (state.currentTime - intro) < (bgAudio.duration || 999)) {
+          bgAudio.currentTime = state.currentTime - intro;
+          bgAudio.play().catch(() => {});
+        }
+
+        if (state.currentTime >= state.totalVideoDuration && state.totalVideoDuration > 0) {
+          state.currentTime = 0;
+          bgAudio.currentTime = 0;
+          pauseAll();
+        }
+
+        seekSlider.value = (state.currentTime / (state.totalVideoDuration || 1)) * 100;
+        updateTimeDisplay();
+      }
+
+      // Smooth Cinema Cross-Dissolve Calculations
+      const numClips = state.videoPlaylist.length;
+      if (numClips > 1 && state.totalVideoDuration > 0) {
+        const timePerClip = state.totalVideoDuration / numClips;
+        const clipIdx = Math.min(Math.floor(state.currentTime / timePerClip), numClips - 1);
+        const clipElapsed = state.currentTime - (clipIdx * timePerClip);
+        const transitionDuration = 1.2; // 1.2s smooth dissolve window
+
+        if (clipIdx !== state.currentVideoIdx) {
+          state.currentVideoIdx = clipIdx;
+          renderPlaylistUI();
+          // Prime upcoming video in buffer
+          const nextIdx = (clipIdx + 1) % numClips;
+          bgVideoA.src = state.videoPlaylist[clipIdx].url;
+          bgVideoA.play().catch(() => {});
+          bgVideoB.src = state.videoPlaylist[nextIdx].url;
+          bgVideoB.play().catch(() => {});
+        }
+
+        // Compute crossfade blend factor
+        if (clipElapsed >= (timePerClip - transitionDuration)) {
+          state.isCrossfading = true;
+          state.crossfadeProgress = (clipElapsed - (timePerClip - transitionDuration)) / transitionDuration;
+        } else {
+          state.isCrossfading = false;
+          state.crossfadeProgress = 0;
+        }
+      } else {
+        state.isCrossfading = false;
+        state.crossfadeProgress = 0;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 1. Draw Background Video
-      if (bgVideo.readyState >= 2) {
-        const vRatio = bgVideo.videoWidth / bgVideo.videoHeight;
-        const cRatio = canvas.width / canvas.height;
-        let dw, dh, dx, dy;
-        if (vRatio > cRatio) {
-          dh = canvas.height;
-          dw = canvas.height * vRatio;
-          dx = (canvas.width - dw) / 2;
-          dy = 0;
-        } else {
-          dw = canvas.width;
-          dh = canvas.width / vRatio;
-          dx = 0;
-          dy = (canvas.height - dh) / 2;
-        }
-        ctx.drawImage(bgVideo, dx, dy, dw, dh);
+      // Render Primary Active Video (Video A)
+      if (bgVideoA.readyState >= 2) {
+        ctx.save();
+        drawCoverVideo(bgVideoA);
+        ctx.restore();
       } else {
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = '#060a12';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
 
-      // Vignette Dimmer
-      const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width*0.2, canvas.width/2, canvas.height/2, canvas.width*0.8);
-      grad.addColorStop(0, 'rgba(0,0,0,0.2)');
-      grad.addColorStop(1, 'rgba(0,0,0,0.65)');
+      // Render Secondary Fading Video (Video B) for Seamless Cross-Dissolve
+      if (state.isCrossfading && bgVideoB.readyState >= 2 && state.crossfadeProgress > 0) {
+        ctx.save();
+        ctx.globalAlpha = Math.min(Math.max(state.crossfadeProgress, 0), 1);
+        drawCoverVideo(bgVideoB);
+        ctx.restore();
+      }
+
+      // Contrast Vignette Overlay
+      const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.width*0.18, canvas.width/2, canvas.height/2, canvas.width*0.80);
+      grad.addColorStop(0, 'rgba(0,0,0,0.20)');
+      grad.addColorStop(1, 'rgba(0,0,0,0.75)');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // 2. Audio Spectrum Visualizer
-      if (document.getElementById('chkShowVisualizer').checked && analyser) {
-        const dataArr = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(dataArr);
-        const barWidth = (canvas.width / dataArr.length) * 1.5;
-        let bx = 0;
-        for (let i = 0; i < dataArr.length; i++) {
-          const barH = (dataArr[i] / 255) * (canvas.height * 0.12);
-          ctx.fillStyle = `rgba(99, 102, 241, ${0.3 + (dataArr[i]/255) * 0.6})`;
-          ctx.fillRect(bx, canvas.height - barH - 20, barWidth - 2, barH);
-          bx += barWidth;
-        }
+      // Timeline Visuals
+      const intro = document.getElementById('chkIntro').checked ? state.introDuration : 0;
+      const outro = document.getElementById('chkOutro').checked ? state.outroDuration : 0;
+      const outroStart = state.totalVideoDuration - outro;
+
+      if (intro > 0 && state.currentTime < intro) {
+        drawCustomIntroTitle(state.currentTime, intro);
+      } else if (outro > 0 && state.currentTime >= outroStart) {
+        drawCustomOutroCTA();
+      } else {
+        const lyricAudioTime = state.currentTime - intro;
+        draw7CloudsWrappedLyrics(lyricAudioTime);
       }
 
-      // 3. Render Chords & Lyrics
-      renderChordsAndLyrics();
+      drawTopRightBigLogo();
 
-      requestAnimationFrame(renderFrame);
+      requestAnimationFrame(render);
     }
-    requestAnimationFrame(renderFrame);
+    requestAnimationFrame(render);
 
-    // --- Lyric & Chord Rendering Engine ---
-    function renderChordsAndLyrics() {
-      const curTime = bgAudio.currentTime || 0;
+    function drawCoverVideo(vidEl) {
+      const vRatio = vidEl.videoWidth / vidEl.videoHeight;
+      const cRatio = canvas.width / canvas.height;
+      let dw, dh, dx, dy;
+      if (vRatio > cRatio) {
+        dh = canvas.height; dw = canvas.height * vRatio;
+        dx = (canvas.width - dw) / 2; dy = 0;
+      } else {
+        dw = canvas.width; dh = canvas.width / vRatio;
+        dx = 0; dy = (canvas.height - dh) / 2;
+      }
+      ctx.drawImage(vidEl, dx, dy, dw, dh);
+    }
+
+    function drawTopRightBigLogo() {
+      const margin = Math.round(canvas.width * 0.04);
+      const size = Math.round(canvas.width * state.logoScale);
+
+      const x = Math.max(margin, canvas.width - margin - size);
+      const y = Math.max(margin, margin);
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+      ctx.shadowBlur = 16;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 4;
+
+      if (state.logoImage) {
+        ctx.beginPath();
+        ctx.arc(x + size/2, y + size/2, size/2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(state.logoImage, x, y, size, size);
+      } else {
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.arc(x + size/2, y + size/2, size/2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `bold ${Math.floor(size * 0.38)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('JU', x + size/2, y + size/2);
+      }
+      ctx.restore();
+    }
+
+    function drawCustomIntroTitle(time, duration) {
+      const alpha = time < 1.5 ? (time / 1.5) : (time > duration - 1.5 ? (duration - time) / 1.5 : 1);
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+      ctx.textAlign = 'center';
+
+      const headline = document.getElementById('introHeadline').value || document.getElementById('songTitle').value || 'WEAK';
+      const subtitle = document.getElementById('introSubtitle').value || document.getElementById('artistName').value || 'James Ussery';
+      const extra = document.getElementById('introExtra').value || 'Official Praise & Worship Video';
+
+      const titleSize = Math.floor(canvas.width * 0.115);
+      ctx.font = `900 ${titleSize}px system-ui, sans-serif`;
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+      ctx.shadowBlur = 25;
+      ctx.fillText(headline.toUpperCase(), canvas.width / 2, canvas.height * 0.45);
+
+      const subSize = Math.floor(canvas.width * 0.046);
+      ctx.font = `600 ${subSize}px system-ui, sans-serif`;
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(subtitle, canvas.width / 2, canvas.height * 0.52);
+
+      ctx.font = `400 ${Math.floor(subSize * 0.75)}px system-ui, sans-serif`;
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText(extra, canvas.width / 2, canvas.height * 0.57);
+
+      ctx.restore();
+    }
+
+    function draw7CloudsWrappedLyrics(audioTime) {
       let activeIdx = -1;
-
       for (let i = 0; i < state.lyrics.length; i++) {
-        if (curTime >= state.lyrics[i].time) {
+        if (audioTime >= state.lyrics[i].time) {
           activeIdx = i;
         } else {
           break;
@@ -572,119 +1624,158 @@
       if (activeIdx === -1 && state.lyrics.length > 0) activeIdx = 0;
       if (activeIdx === -1) return;
 
-      const activeLine = state.lyrics[activeIdx];
-      const nextLine = state.lyrics[activeIdx + 1];
-      const lineDuration = nextLine ? (nextLine.time - activeLine.time) : 3.5;
-      const progress = Math.min(Math.max((curTime - activeLine.time) / lineDuration, 0), 1);
+      const active = state.lyrics[activeIdx];
+      const next = state.lyrics[activeIdx + 1];
+      const duration = next ? (next.time - active.time) : 3.2;
+      const progress = Math.min(Math.max((audioTime - active.time) / duration, 0), 1);
 
-      if (activeLine.firstChord) state.currentChord = activeLine.firstChord;
+      if (active.chord) state.currentChord = active.chord;
 
-      const pos = document.getElementById('selLyricPos').value;
-      const style = document.getElementById('selLyricStyle').value;
       const showChords = document.getElementById('chkShowChords').checked;
       const showFretbox = document.getElementById('chkShowFretbox').checked;
 
-      let yPos = canvas.height * 0.78;
-      if (pos === 'center') yPos = canvas.height * 0.5;
-      if (pos === 'top') yPos = canvas.height * 0.22;
-
       ctx.save();
       ctx.textAlign = 'center';
-      const fontSize = Math.floor(canvas.width * 0.055);
-      ctx.font = `bold ${fontSize}px sans-serif`;
 
-      // Draw Floating Chords Track above Lyrics
-      if (showChords && activeLine.rawChords && activeLine.rawChords.length > 0) {
-        const chordFontSize = Math.floor(fontSize * 0.68);
+      const fontSize = Math.floor(canvas.width * 0.075);
+      const lineHeight = fontSize * 1.35;
+      ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
+
+      const maxLineWidth = canvas.width * 0.85;
+      const lines = wrapTextLines(ctx, active.text, maxLineWidth);
+
+      const totalBlockHeight = lines.length * lineHeight;
+      const startY = (canvas.height * 0.50) - (totalBlockHeight / 2) + (fontSize * 0.8);
+
+      if (showChords && active.chords && active.chords.length > 0) {
+        const chordText = active.chords.join('  —  ');
+        const chordFontSize = Math.floor(fontSize * 0.56);
         ctx.font = `bold ${chordFontSize}px sans-serif`;
-        const chordY = yPos - fontSize * 1.25;
+        const chordY = startY - fontSize * 1.1;
 
-        // Render Active Chord Pill
-        const chordText = activeLine.rawChords.map(c => c.chord).join('  —  ');
         const chordMetrics = ctx.measureText(chordText);
-        const pillPad = 14;
-
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-        ctx.strokeStyle = '#6366f1';
+        const pad = 14;
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+        ctx.strokeStyle = '#38bdf8';
         ctx.lineWidth = 2;
-        roundRect(ctx, (canvas.width - chordMetrics.width)/2 - pillPad, chordY - chordFontSize, chordMetrics.width + (pillPad * 2), chordFontSize * 1.5, 8, true, true);
+        roundRect(ctx, (canvas.width - chordMetrics.width)/2 - pad, chordY - chordFontSize, chordMetrics.width + (pad*2), chordFontSize * 1.5, 8, true, true);
 
-        ctx.fillStyle = '#a5b4fc';
+        ctx.fillStyle = '#7dd3fc';
         ctx.fillText(chordText, canvas.width / 2, chordY);
       }
 
-      // Draw Lyrics
-      ctx.font = `bold ${fontSize}px sans-serif`;
+      ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
+      lines.forEach((lineText, lIdx) => {
+        const lineY = startY + (lIdx * lineHeight);
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 9;
+        ctx.strokeText(lineText, canvas.width / 2, lineY);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.40)';
+        ctx.fillText(lineText, canvas.width / 2, lineY);
+      });
 
-      if (style === 'sweep') {
-        // Unsung Base Text
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-        ctx.fillText(activeLine.text, canvas.width / 2, yPos);
+      const numLines = lines.length;
+      lines.forEach((lineText, lIdx) => {
+        const lineY = startY + (lIdx * lineHeight);
+        const lineW = ctx.measureText(lineText).width;
+        const lineStartX = (canvas.width - lineW) / 2;
 
-        // Glowing Wipe
-        ctx.save();
-        const textMetrics = ctx.measureText(activeLine.text);
-        const startX = (canvas.width - textMetrics.width) / 2;
-        ctx.beginPath();
-        ctx.rect(startX, yPos - fontSize, textMetrics.width * progress, fontSize * 1.6);
-        ctx.clip();
-        ctx.fillStyle = '#67e8f9';
-        ctx.shadowColor = '#06b6d4';
-        ctx.shadowBlur = 18;
-        ctx.fillText(activeLine.text, canvas.width / 2, yPos);
-        ctx.restore();
-      } else if (style === 'bounce') {
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(activeLine.text, canvas.width / 2, yPos);
+        const lineStartProgress = lIdx / numLines;
+        const lineEndProgress = (lIdx + 1) / numLines;
+        const lineProg = Math.min(Math.max((progress - lineStartProgress) / (lineEndProgress - lineStartProgress), 0), 1);
 
-        // Bouncing Tracker Dot
-        const textMetrics = ctx.measureText(activeLine.text);
-        const ballX = (canvas.width - textMetrics.width) / 2 + (textMetrics.width * progress);
-        const bounceH = Math.abs(Math.sin(progress * Math.PI * 4)) * (fontSize * 0.75);
-        ctx.beginPath();
-        ctx.arc(ballX, yPos - fontSize - bounceH, fontSize * 0.22, 0, Math.PI * 2);
-        ctx.fillStyle = '#f43f5e';
-        ctx.shadowColor = '#f43f5e';
-        ctx.shadowBlur = 12;
-        ctx.fill();
-      } else {
-        // High Contrast Neon
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = '#6366f1';
-        ctx.shadowBlur = 16;
-        ctx.fillText(activeLine.text, canvas.width / 2, yPos);
-      }
+        if (lineProg > 0) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(lineStartX - 15, lineY - fontSize - 6, (lineW + 30) * lineProg, lineHeight + 12);
+          ctx.clip();
+
+          ctx.strokeStyle = '#000000';
+          ctx.lineWidth = 9;
+          ctx.strokeText(lineText, canvas.width / 2, lineY);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = '#38bdf8';
+          ctx.shadowBlur = 24;
+          ctx.fillText(lineText, canvas.width / 2, lineY);
+          ctx.restore();
+        }
+      });
 
       ctx.restore();
 
-      // 4. Draw Guitar Chord Fretboard Diagram
       if (showFretbox && state.currentChord) {
-        drawGuitarFretbox(state.currentChord, canvas.width * 0.08, canvas.height * 0.06);
+        drawGuitarFretbox(state.currentChord, canvas.width * 0.05, canvas.height * 0.04);
       }
     }
 
-    // --- Render Guitar Chord Box ---
+    function wrapTextLines(ctx, text, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let currentLine = words[0] || '';
+
+      for (let i = 1; i < words.length; i++) {
+        const testLine = currentLine + ' ' + words[i];
+        if (ctx.measureText(testLine).width < maxWidth) {
+          currentLine = testLine;
+        } else {
+          lines.push(currentLine);
+          currentLine = words[i];
+        }
+      }
+      if (currentLine) lines.push(currentLine);
+      return lines;
+    }
+
+    function drawCustomOutroCTA() {
+      ctx.save();
+      ctx.textAlign = 'center';
+
+      const header = document.getElementById('outroHeader').value || 'THANK YOU FOR LISTENING';
+      const cta = document.getElementById('outroCallToAction').value || 'Subscribe • Like • Share the Gospel';
+      const streaming = document.getElementById('outroStreamingNote').value || 'Stream everywhere on Spotify & Apple Music';
+      const handle = document.getElementById('outroChannelHandle').value || '@JamesUsseryMusic';
+
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
+      ctx.fillRect(canvas.width * 0.07, canvas.height * 0.28, canvas.width * 0.86, canvas.height * 0.44);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `900 ${Math.floor(canvas.width * 0.065)}px sans-serif`;
+      ctx.fillText(header, canvas.width / 2, canvas.height * 0.38);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = `600 ${Math.floor(canvas.width * 0.045)}px sans-serif`;
+      ctx.fillText(cta, canvas.width / 2, canvas.height * 0.46);
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = `400 ${Math.floor(canvas.width * 0.038)}px sans-serif`;
+      ctx.fillText(streaming, canvas.width / 2, canvas.height * 0.53);
+
+      ctx.fillStyle = '#c084fc';
+      ctx.font = `bold ${Math.floor(canvas.width * 0.044)}px sans-serif`;
+      ctx.fillText(handle, canvas.width / 2, canvas.height * 0.62);
+
+      ctx.restore();
+    }
+
     function drawGuitarFretbox(chordName, x, y) {
       const chord = CHORD_LIBRARY[chordName] || CHORD_LIBRARY['G'];
-      const w = canvas.width * 0.18;
-      const h = canvas.height * 0.14;
+      const w = canvas.width * 0.17;
+      const h = canvas.height * 0.13;
       const numStrings = 6;
       const numFrets = 4;
 
       ctx.save();
-      // Background Box
       ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
       ctx.lineWidth = 1.5;
-      roundRect(ctx, x, y, w, h, 12, true, true);
+      roundRect(ctx, x, y, w, h, 10, true, true);
 
-      // Chord Name Header
       ctx.textAlign = 'center';
       ctx.fillStyle = '#38bdf8';
       ctx.font = `bold ${Math.floor(w * 0.24)}px sans-serif`;
       ctx.fillText(chordName, x + w / 2, y + h * 0.26);
 
-      // Fretboard Grid
       const gridX = x + w * 0.18;
       const gridY = y + h * 0.36;
       const gridW = w * 0.64;
@@ -692,7 +1783,6 @@
       const stringSpacing = gridW / (numStrings - 1);
       const fretSpacing = gridH / numFrets;
 
-      // Nut Line
       ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -700,7 +1790,6 @@
       ctx.lineTo(gridX + gridW, gridY);
       ctx.stroke();
 
-      // Frets (Horizontal)
       ctx.strokeStyle = 'rgba(255,255,255,0.3)';
       ctx.lineWidth = 1;
       for (let i = 1; i <= numFrets; i++) {
@@ -710,7 +1799,6 @@
         ctx.stroke();
       }
 
-      // Strings (Vertical)
       for (let i = 0; i < numStrings; i++) {
         ctx.beginPath();
         ctx.moveTo(gridX + i * stringSpacing, gridY);
@@ -718,31 +1806,26 @@
         ctx.stroke();
       }
 
-      // Finger Dots & Mutes
-      chord.frets.forEach((fret, stringIdx) => {
-        const sx = gridX + stringIdx * stringSpacing;
+      chord.frets.forEach((fret, idx) => {
+        const sx = gridX + idx * stringSpacing;
         if (fret === -1) {
-          // Mute (X)
           ctx.fillStyle = '#ef4444';
           ctx.font = `bold ${Math.floor(w * 0.12)}px sans-serif`;
           ctx.fillText('×', sx, gridY - 4);
         } else if (fret === 0) {
-          // Open (O)
-          ctx.fillStyle = '#a5b4fc';
+          ctx.fillStyle = '#7dd3fc';
           ctx.font = `bold ${Math.floor(w * 0.11)}px sans-serif`;
           ctx.fillText('○', sx, gridY - 4);
         } else {
-          // Fret Dot
           const fy = gridY + (fret - 0.5) * fretSpacing;
           ctx.beginPath();
           ctx.arc(sx, fy, w * 0.045, 0, Math.PI * 2);
-          ctx.fillStyle = '#6366f1';
-          ctx.shadowColor = '#6366f1';
+          ctx.fillStyle = '#38bdf8';
+          ctx.shadowColor = '#38bdf8';
           ctx.shadowBlur = 8;
           ctx.fill();
         }
       });
-
       ctx.restore();
     }
 
@@ -762,17 +1845,322 @@
       if (stroke) ctx.stroke();
     }
 
-    // --- MP4 Export Engine ---
-    document.getElementById('btnExportVideo').addEventListener('click', async () => {
+    function generateYouTubeSEOPackage() {
+      const title = document.getElementById('songTitle').value || 'Weak';
+      const artist = document.getElementById('artistName').value || 'James Ussery';
+      const cat = document.getElementById('songCategory').value;
+
+      const ytTitle = cat === 'gospel'
+        ? `🎵 ${title} — ${artist} (@JamesUsseryMusic) | Official Gospel & Worship Lyric Video`
+        : `🎵 ${title} — ${artist} (@JamesUsseryMusic) | Official Lyric Video`;
+      document.getElementById('ytVideoTitle').value = ytTitle;
+
+      const lyricsSnippet = state.lyrics.slice(0, 8).map(l => l.text).join(' ... ');
+
+      let storyDesc = '';
+      if (cat === 'gospel') {
+        storyDesc = `“${title}” is a story of honesty, healing, and redemption — a confession from someone who tried to carry every burden alone until God stepped in. This emotional music video captures the journey from running in circles, drowning in silence, and chasing approval… to finally breathing again in the grace of Jesus Christ. It’s a powerful reminder that when our spirit is weak, His love is strong.`;
+      } else {
+        storyDesc = `“${title}” is a heartfelt song exploring real vulnerability, devotion, and love. It captures the moments where you open up completely to the one who holds your heart.`;
+      }
+
+      const desc = 
+`🎵 ${title} — ${artist} (@JamesUsseryMusic)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Welcome to the official music and ministry channel of ${artist} (@JamesUsseryMusic).
+${cat === 'gospel' ? 'I make gospel music and heartfelt worship songs to spread the love and hope of Jesus Christ.' : 'I make heartfelt music and storytelling to touch hearts and lives.'}
+
+${storyDesc}
+
+LYRICS PREVIEW:
+"${lyricsSnippet}..."
+
+This short film blends music, storytelling, and emotional lyrics into a cinematic moment of transformation. If you've ever felt broken inside, this video is for you.
+
+Please stream my music below, and let me know if it touches your heart!
+
+🎧 STREAM & LISTEN TO ${artist.toUpperCase()}:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Spotify  
+https://open.spotify.com/artist/6gt7J5wg4IDYXvTWY6LWwS?si=Bnvd3mhITDS6777-WcnKvw
+
+Apple Music  
+https://artists.apple.com/ui/profile/artist/ami:identity:2bf871ff3a4791bc1e183450a6fc2c2b
+
+Amazon Music  
+https://amazon.com/music/player/artists/B0D2YCRX4Z/james-ussery
+
+YouTube Music  
+https://music.youtube.com/playlist?list=OLAK5uy_lCJDu9FGk_OZCkHzn5PpUAZBfpz9nICF4
+
+SoundCloud  
+https://soundcloud.com/jamesussery-music
+
+Tidal  
+https://tidal.com/artist/47434447
+
+Qobuz  
+https://qobuz.com/us-en/interpreter/james-ussery/22280943
+
+Deezer  
+https://deezer.com/us/artist/263849781
+
+${cat === 'gospel' ? `🕊️ THE PRAYER OF SALVATION (AN INVITATION TO JESUS):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"If you declare with your mouth, ‘Jesus is Lord,’ and believe in your heart that God raised Him from the dead, you will be saved." — Romans 10:9
+
+If you feel Jesus calling your heart today and want to begin a personal relationship with Him, pray this heartfelt prayer with faith:
+
+"Dear Heavenly Father,
+I come to You today acknowledging that I need a Savior. I confess that I have sinned and fallen short of Your glory, but I believe that Jesus Christ is the Son of God. I believe He died on the cross for my sins and rose again from the grave on the third day.
+
+Lord Jesus, I surrender my life to You today. Forgive me of all my sins, cleanse my heart, and fill me with Your Holy Spirit. I accept You as my Lord, my Savior, and my Guide. Help me to live for You all the days of my life.
+
+In the mighty name of Jesus Christ I pray, Amen."
+
+👉 If you prayed this prayer today, welcome to the family of God! Please leave a comment or reach out at @JamesUsseryMusic so we can celebrate and pray for you.` : ''}
+
+💬 COMMUNITY & SONG REQUESTS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Subscribe to the channel: https://youtube.com/@JamesUsseryMusic?sub_confirmation=1  
+• Like, Share & Drop a comment if “${title}” touched your heart today!  
+• If you have any song requests or chord transcription requests, let me know in the comments.
+
+🏷️ HASHTAGS:
+#${title.replace(/\s+/g, '')} #JamesUssery #JamesUsseryMusic #ChristianMusic #GospelMusic #PraiseAndWorship #FaithBased #InspirationalShorts #ViralShorts #ChristianMotivation #AboveInspiration #JesusSaves #GodIsFaithful #WalkWithJesus #HealingMusic #RedemptionSong #NewMusic #MusicVideo #GospelMusicEdits #TrendingNow #ViralMusic #ViralVideo #FYP #ForYou #ForYouPage #ExplorePage #AlgorithmBoost #MusicDiscovery #FreshRelease #NewRelease #ListenNow #WatchNow #SupportIndieMusic #SupportIndependentArtists #HitSong #HeartfeltMusic #StorytellingMusic #EmotionalMusic #OnRepeat #MusicLovers #ViralHits #SunoAI #AIArtist #AIProduced
+
+© 2026 ${artist}. All rights reserved.`;
+
+      document.getElementById('ytDescriptionText').value = desc;
+
+      const tags = `${title}, ${artist}, James Ussery Music, Christian Music, Gospel Music, Praise and Worship, Worship Songs 2026, 7 Clouds, Lyric Video, Above Inspiration, Faith Journey, Jesus Christ, Salvation Prayer, Romans 10 9, Gospel Edits, TikTok Gospel, Shorts Christian, Viral Worship, Indie Gospel, Georgia Music, Acoustic Worship`;
+      document.getElementById('ytTagsText').value = tags;
+    }
+
+    const seoModal = document.getElementById('seoModal');
+    document.getElementById('btnOpenSEOModal').onclick = () => {
+      generateYouTubeSEOPackage();
+      seoModal.classList.remove('hidden');
+    };
+    document.getElementById('btnCloseSEOModal').onclick = () => seoModal.classList.add('hidden');
+
+    document.getElementById('btnCopyTitle').onclick = () => copyText('ytVideoTitle', 'Title Copied!');
+    document.getElementById('btnCopyDesc').onclick = () => copyText('ytDescriptionText', 'Description Copied!');
+    document.getElementById('btnCopyTags').onclick = () => copyText('ytTagsText', 'Tags Copied!');
+
+    function copyText(id, msg) {
+      const el = document.getElementById(id);
+      navigator.clipboard.writeText(el.value);
+      alert(msg);
+    }
+
+    const pexelsModal = document.getElementById('pexelsModal');
+    document.getElementById('btnPexelsModal').onclick = () => pexelsModal.classList.remove('hidden');
+    document.getElementById('btnClosePexelsModal').onclick = () => pexelsModal.classList.add('hidden');
+    document.getElementById('btnSavePexelsKey').onclick = () => {
+      const k = document.getElementById('pexelsKeyInput').value.trim();
+      if (k) {
+        state.pexelsKey = k;
+        localStorage.setItem('veo_pexels_key', k);
+      }
+      pexelsModal.classList.add('hidden');
+    };
+
+    document.getElementById('btnSearchPexels').onclick = async () => {
+      const q = document.getElementById('pexelsQuery').value.trim();
+      if (!q) return;
+      if (!state.pexelsKey) {
+        pexelsModal.classList.remove('hidden');
+        return;
+      }
+      try {
+        const res = await fetch(`https://api.pexels.com/videos/search?query=${encodeURIComponent(q)}&per_page=6`, {
+          headers: { Authorization: state.pexelsKey }
+        });
+        const data = await res.json();
+        if (data.videos && data.videos.length > 0) {
+          const mapped = data.videos.map(v => {
+            const sortedFiles = (v.video_files || []).filter(f => f.link && f.file_type === 'video/mp4');
+            sortedFiles.sort((a, b) => (b.width * b.height) - (a.width * a.height));
+            const bestFile = sortedFiles[0] || v.video_files[0];
+
+            return {
+              name: v.user.name || q,
+              url: bestFile.link,
+              thumb: v.image
+            };
+          });
+          populateStockVideos(mapped);
+        } else {
+          alert('No stock videos found for that search.');
+        }
+      } catch (err) {
+        alert('Error contacting Pexels API. Check your key.');
+      }
+    };
+
+    // Pre-Save Director Studio Modal Pipeline
+    const previewExportModal = document.getElementById('previewExportModal');
+    document.getElementById('btnClosePreviewModal').onclick = () => {
+      previewExportModal.classList.add('hidden');
+      renderedPlayer.pause();
+    };
+
+    const tabBtnAiAssistant = document.getElementById('tabBtnAiAssistant');
+    const tabBtnManualEdits = document.getElementById('tabBtnManualEdits');
+    const tabPaneAiAssistant = document.getElementById('tabPaneAiAssistant');
+    const tabPaneManualEdits = document.getElementById('tabPaneManualEdits');
+
+    tabBtnAiAssistant.onclick = () => {
+      tabBtnAiAssistant.className = 'flex-1 py-2 px-3 text-center font-semibold text-blue-400 border-b-2 border-blue-400 flex items-center justify-center gap-1.5';
+      tabBtnManualEdits.className = 'flex-1 py-2 px-3 text-center font-semibold text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+      tabPaneAiAssistant.classList.remove('hidden');
+      tabPaneManualEdits.classList.add('hidden');
+    };
+
+    tabBtnManualEdits.onclick = () => {
+      tabBtnManualEdits.className = 'flex-1 py-2 px-3 text-center font-semibold text-blue-400 border-b-2 border-blue-400 flex items-center justify-center gap-1.5';
+      tabBtnAiAssistant.className = 'flex-1 py-2 px-3 text-center font-semibold text-slate-400 hover:text-white flex items-center justify-center gap-1.5';
+      tabPaneManualEdits.classList.remove('hidden');
+      tabPaneAiAssistant.classList.add('hidden');
+      syncDrawerInputs();
+    };
+
+    function syncDrawerInputs() {
+      document.getElementById('editIntroHeadline').value = document.getElementById('introHeadline').value;
+      document.getElementById('editIntroSubtitle').value = document.getElementById('introSubtitle').value;
+      document.getElementById('editOutroHeader').value = document.getElementById('outroHeader').value;
+      document.getElementById('editOutroCTA').value = document.getElementById('outroCallToAction').value;
+      document.getElementById('editOutroStream').value = document.getElementById('outroStreamingNote').value;
+      document.getElementById('editLogoScale').value = state.logoScale;
+    }
+
+    document.getElementById('btnApplyManualAndRerender').onclick = () => {
+      document.getElementById('introHeadline').value = document.getElementById('editIntroHeadline').value;
+      document.getElementById('introSubtitle').value = document.getElementById('editIntroSubtitle').value;
+      document.getElementById('outroHeader').value = document.getElementById('editOutroHeader').value;
+      document.getElementById('outroCallToAction').value = document.getElementById('editOutroCTA').value;
+      document.getElementById('outroStreamingNote').value = document.getElementById('editOutroStream').value;
+      state.logoScale = parseFloat(document.getElementById('editLogoScale').value);
+      document.getElementById('logoScaleSlider').value = state.logoScale;
+      document.getElementById('lblLogoScale').innerText = `${Math.round(state.logoScale * 100)}% Width`;
+
+      localStorage.setItem('veo_introHeadline', document.getElementById('introHeadline').value);
+      localStorage.setItem('veo_introSubtitle', document.getElementById('introSubtitle').value);
+      localStorage.setItem('veo_outroHeader', document.getElementById('outroHeader').value);
+      localStorage.setItem('veo_outroCallToAction', document.getElementById('outroCallToAction').value);
+      localStorage.setItem('veo_outroStreamingNote', document.getElementById('outroStreamingNote').value);
+
+      document.getElementById('btnStartRender').click();
+    };
+
+    document.querySelectorAll('.ai-chip').forEach(chip => {
+      chip.onclick = () => {
+        document.getElementById('aiPromptInput').value = chip.innerText.replace(/"/g, '');
+        document.getElementById('btnSendAiPrompt').click();
+      };
+    });
+
+    // --- INTERACTIVE GEMINI DIRECTOR CHAT ---
+    document.getElementById('btnSendAiPrompt').onclick = async () => {
+      const prompt = document.getElementById('aiPromptInput').value.trim();
+      if (!prompt) return;
+
+      appendAiMessage('user', prompt);
+      document.getElementById('aiPromptInput').value = '';
+
+      const sendIcon = document.getElementById('aiSendIcon');
+      sendIcon.className = 'fa-solid fa-spinner fa-spin';
+
+      const systemPrompt = `You are the creative music video director and assistant for James Ussery (@JamesUsseryMusic).
+Your goal is to suggest precise improvements to the user's video text:
+Current Song Title: "${document.getElementById('songTitle').value}"
+Category: "${document.getElementById('songCategory').value}"
+Intro Headline: "${document.getElementById('introHeadline').value}"
+Intro Subtitle: "${document.getElementById('introSubtitle').value}"
+Outro Header: "${document.getElementById('outroHeader').value}"
+Outro CTA: "${document.getElementById('outroCallToAction').value}"
+Streaming: "${document.getElementById('outroStreamingNote').value}"
+
+When recommending changes to the video wording, ALWAYS format the proposed values strictly in a JSON block at the end of your response like this:
+\`\`\`json
+{
+  "introHeadline": "new headline",
+  "introSubtitle": "new subtitle",
+  "outroHeader": "new outro header",
+  "outroCallToAction": "new cta line",
+  "outroStreamingNote": "new stream note"
+}
+\`\`\`
+Give a warm, concise response and include the JSON block so the user can click one button to apply your changes directly to their video.`;
+
+      try {
+        const reply = await callGemini(prompt, systemPrompt);
+        appendAiMessage('ai', reply);
+      } catch (err) {
+        appendAiMessage('ai', `Error contacting Gemini AI: ${err.message}`);
+      } finally {
+        sendIcon.className = 'fa-solid fa-paper-plane';
+      }
+    };
+
+    function appendAiMessage(role, text) {
+      const box = document.getElementById('aiChatBox');
+      const msg = document.createElement('div');
+      msg.className = role === 'user' 
+        ? 'p-2 rounded-lg bg-sky-950/70 border border-sky-800/60 text-sky-200 self-end ml-4' 
+        : 'p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 mr-2 space-y-2';
+
+      const jsonMatch = /```json\s*([\s\S]*?)\s*```/.exec(text);
+      let cleanText = text.replace(/```json[\s\S]*?```/, '').trim();
+
+      msg.innerHTML = `<p class="whitespace-pre-wrap">${cleanText}</p>`;
+
+      if (jsonMatch) {
+        try {
+          const parsed = JSON.parse(jsonMatch[1]);
+          const applyBtn = document.createElement('button');
+          applyBtn.className = 'px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] font-semibold flex items-center gap-1.5 shadow-md shadow-emerald-600/30';
+          applyBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> Apply Suggested Changes to Video';
+          applyBtn.onclick = () => {
+            if (parsed.introHeadline) document.getElementById('introHeadline').value = parsed.introHeadline;
+            if (parsed.introSubtitle) document.getElementById('introSubtitle').value = parsed.introSubtitle;
+            if (parsed.outroHeader) document.getElementById('outroHeader').value = parsed.outroHeader;
+            if (parsed.outroCallToAction) document.getElementById('outroCallToAction').value = parsed.outroCallToAction;
+            if (parsed.outroStreamingNote) document.getElementById('outroStreamingNote').value = parsed.outroStreamingNote;
+
+            syncDrawerInputs();
+            generateYouTubeSEOPackage();
+            alert('Gemini suggestions applied! Click "Re-Render with Edits" to update your video.');
+          };
+          msg.appendChild(applyBtn);
+        } catch(e) {}
+      }
+
+      box.appendChild(msg);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    // Master Render Pipeline
+    document.getElementById('btnStartRender').addEventListener('click', async () => {
+      if (state.videoPlaylist.length === 0) {
+        return alert('Please select or upload at least 1 video clip first.');
+      }
+
       initAudioContext();
+      recalcVideoDuration();
+
       const exportModal = document.getElementById('exportModal');
       const progressBar = document.getElementById('exportProgressBar');
+      const statusText = document.getElementById('renderStatusText');
       exportModal.classList.remove('hidden');
 
+      statusText.innerText = 'Pre-buffering stitched video clips with smooth crossfade...';
+
+      setupDualPlayers();
+      state.currentTime = 0;
       bgAudio.currentTime = 0;
-      bgVideo.currentTime = 0;
-      bgAudio.play();
-      bgVideo.play();
+      playAll();
 
       const canvasStream = canvas.captureStream(30);
       const combinedTracks = [...canvasStream.getVideoTracks(), ...audioDest.stream.getAudioTracks()];
@@ -781,38 +2169,42 @@
       const mimeType = MediaRecorder.isTypeSupported('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')
         ? 'video/mp4'
         : 'video/webm';
+      state.renderedMime = mimeType;
 
       const recorder = new MediaRecorder(combinedStream, { mimeType });
       const chunks = [];
 
       recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
       recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: mimeType });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `veostudio-chords.${mimeType === 'video/mp4' ? 'mp4' : 'webm'}`;
-        a.click();
+        state.renderedBlob = new Blob(chunks, { type: mimeType });
+        if (state.renderedUrl) URL.revokeObjectURL(state.renderedUrl);
+        state.renderedUrl = URL.createObjectURL(state.renderedBlob);
+        
+        renderedPlayer.src = state.renderedUrl;
         exportModal.classList.add('hidden');
-        bgAudio.pause();
-        bgVideo.pause();
+        pauseAll();
+        
+        syncDrawerInputs();
+        previewExportModal.classList.remove('hidden');
+        renderedPlayer.play();
       };
 
       recorder.start();
 
-      const duration = Math.min(bgAudio.duration || 15, 30);
+      const targetDuration = state.totalVideoDuration || 30;
       const startTime = Date.now();
 
       const progressInterval = setInterval(() => {
         const elapsed = (Date.now() - startTime) / 1000;
-        const p = Math.min((elapsed / duration) * 100, 100);
+        const p = Math.min((elapsed / targetDuration) * 100, 100);
         progressBar.style.width = `${p}%`;
+        statusText.innerText = `Rendering Video: ${Math.round(elapsed)}s / ${Math.round(targetDuration)}s`;
 
-        if (elapsed >= duration) {
+        if (elapsed >= targetDuration) {
           clearInterval(progressInterval);
           recorder.stop();
         }
-      }, 200);
+      }, 250);
 
       document.getElementById('btnCancelExport').onclick = () => {
         clearInterval(progressInterval);
@@ -821,46 +2213,46 @@
       };
     });
 
-    // --- Pexels Modal Handlers ---
-    const pexelsModal = document.getElementById('pexelsModal');
-    document.getElementById('btnPexelsModal').onclick = () => pexelsModal.classList.remove('hidden');
-    document.getElementById('btnClosePexelsModal').onclick = () => pexelsModal.classList.add('hidden');
-    document.getElementById('btnSavePexelsKey').onclick = () => {
-      const k = document.getElementById('pexelsKeyInput').value.trim();
-      if (k) {
-        state.pexelsKey = k;
-        localStorage.setItem('pexels_api_key', k);
-      }
-      pexelsModal.classList.add('hidden');
+    document.getElementById('btnDownloadRendered').onclick = () => {
+      if (!state.renderedBlob) return alert('Please render video first.');
+      const a = document.createElement('a');
+      a.href = state.renderedUrl;
+      const songName = (document.getElementById('songTitle').value || 'lyric-video').toLowerCase().replace(/\s+/g, '-');
+      a.download = `${songName}.${state.renderedMime === 'video/mp4' ? 'mp4' : 'webm'}`;
+      a.click();
     };
 
-    document.getElementById('btnSearchPexels').addEventListener('click', async () => {
-      const q = document.getElementById('pexelsQuery').value.trim();
-      if (!q) return;
-      if (!state.pexelsKey) {
-        pexelsModal.classList.remove('hidden');
-        return;
-      }
+    document.getElementById('btnDirectShare').onclick = async () => {
+      if (!state.renderedBlob) return alert('Please render video first.');
+      
+      const songName = document.getElementById('songTitle').value || 'Song';
+      const artist = document.getElementById('artistName').value || 'James Ussery';
+      const shareTitle = `${songName} - ${artist} (@JamesUsseryMusic)`;
+      const ext = state.renderedMime === 'video/mp4' ? 'mp4' : 'webm';
+      const file = new File([state.renderedBlob], `${songName.toLowerCase().replace(/\s+/g, '-')}.${ext}`, { type: state.renderedMime });
 
-      try {
-        const res = await fetch(`https://api.pexels.com/videos/search?query=${encodeURIComponent(q)}&per_page=6`, {
-          headers: { Authorization: state.pexelsKey }
-        });
-        const data = await res.json();
-        if (data.videos && data.videos.length > 0) {
-          const mapped = data.videos.map(v => ({
-            name: v.user.name || 'Stock Video',
-            url: v.video_files[0].link,
-            thumb: v.image
-          }));
-          populateStockVideos(mapped);
-        } else {
-          alert('No videos found.');
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: shareTitle,
+            text: document.getElementById('ytDescriptionText').value
+          });
+        } catch (err) {
+          if (err.name !== 'AbortError') alert('Share error: ' + err.message);
         }
-      } catch (err) {
-        alert('Pexels search error. Please verify your key.');
+      } else {
+        navigator.clipboard.writeText(document.getElementById('ytDescriptionText').value);
+        alert('Direct sharing is not supported on this browser version. Your YouTube description has been copied to your clipboard and your video is now downloading!');
+        document.getElementById('btnDownloadRendered').click();
       }
-    });
+    };
+
+    document.getElementById('btnQuickYouTubeUpload').onclick = () => {
+      navigator.clipboard.writeText(document.getElementById('ytDescriptionText').value);
+      alert('YouTube description copied! Opening YouTube Studio...');
+      window.open('https://studio.youtube.com/channel/UC/videos/upload?d=ud', '_blank');
+    };
   </script>
 </body>
 </html>
